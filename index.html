@@ -305,47 +305,51 @@ window.__csSoundOn = true;
     width: 161px;
     height: auto;
     display: block;
+    flex: 0 0 auto;
+    object-fit: contain;
   }
   .cs-footer {
-    background: rgba(13, 16, 38, 0.72);
-    color: #c9c3b0 !important;
-    flex-direction: column;
+    min-height: 128px;
+    box-sizing: border-box;
+    background: #131730;
+    color: #f4f2f1 !important;
     align-items: center !important;
-    justify-content: center !important;
-    text-align: center;
-    gap: 18px !important;
+    justify-content: space-between !important;
+    gap: 40px !important;
+  }
+  .cs-footer-right {
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-end;
+    padding-right: 64px;
+    text-align: right;
+  }
+  .cs-footer-copy {
+    color: #d8d4d2;
+    font-size: 11px;
+    line-height: 1.45;
+    white-space: nowrap;
   }
   .cs-tree-stage {
     position: relative;
     z-index: 3;
     width: 100%;
     min-height: clamp(740px, 104vw, 1640px);
-    padding-bottom: 100px;
-    box-sizing: border-box;
-    overflow: hidden;
+    overflow: visible;
     isolation: isolate;
-  }
-  .cs-tree-stage::after {
-    content: "";
-    position: absolute;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    z-index: 0;
-    height: 100px;
-    background: rgba(13, 16, 38, 0.72);
-    pointer-events: none;
   }
   .cs-polo-tree-bg {
     position: absolute;
     left: 50%;
-    bottom: 100px;
+    bottom: 0;
     z-index: 1;
     width: max(720px, 100vw);
     max-width: 1600px;
     height: auto;
     display: block;
-    transform: translate(-50%, 10px);
+    transform: translate(-50%, 0);
     filter: brightness(.5) saturate(.8);
     opacity: .78;
     pointer-events: none;
@@ -353,8 +357,9 @@ window.__csSoundOn = true;
   .cs-tree-stage > section {
     position: relative;
     z-index: 2;
-    transform: translateY(100px);
   }
+  .cs-tree-stage > .cs-trailer { transform: translateY(100px); }
+  .cs-tree-stage > .cs-bottom-download { transform: translateY(100px); }
   .cs-bottom-download {
     position: relative;
     z-index: 3;
@@ -383,7 +388,6 @@ window.__csSoundOn = true;
     gap: 12px;
     flex-wrap: wrap;
   }
-  .cs-footer .cs-footlink { color: #c9c3b0; }
   .yt-cover iframe { position: absolute; top: 50%; left: 50%; width: 100vw; height: 56.25vw; min-height: 100%; min-width: 177.78vh; transform: translate(-50%,-50%); pointer-events: none; }
   .cs-hero { min-height: 100vh !important; min-height: 100dvh !important; }
   .cs-story-pin { height: 100vh !important; height: 100dvh !important; }
@@ -509,7 +513,6 @@ window.__csSoundOn = true;
   .cs-ytlink { padding: 12px 16px; font-size: 16px; }
   .cs-coupon { padding: 12px 16px; }
   .cs-footlink { padding: 12px 14px; }
-  .cs-footer-links { display: flex; flex-wrap: wrap; align-items: center; gap: 4px; }
   .cs-menubtn { display: none; }
   .cs-menu-scrim { display: none; }
   .cs-topbar {
@@ -679,16 +682,27 @@ window.__csSoundOn = true;
     .cs-hero-stage,
     .cs-hero-cats { width: calc(100vw - 24px) !important; max-width: calc(100vw - 24px) !important; }
     .cs-polo-hero { padding-top: 26px; }
-    .cs-hero-cat { width: 70vw !important; max-width: 400px !important; }
+    .cs-hero-cat { width: 82vw !important; max-width: 460px !important; }
     .cs-hero-brand { width: 56.43vw !important; max-width: 609px; }
     .cs-event-copy { width: 100%; box-sizing: border-box; margin-top: 20px; }
-    .cs-event-line1 { font-size: clamp(22px, 6.4vw, 28px); margin-bottom: 8px; }
-    .cs-event-line2 { font-size: clamp(30px, 8.5vw, 36px); white-space: normal; }
+    .cs-event-line1 { font-size: clamp(20px, 5.6vw, 24px); margin-bottom: 8px; }
+    .cs-event-line2 { font-size: clamp(26px, 7.2vw, 31px); white-space: normal; }
     .cs-event-copy, .cs-about { padding: 0 20px; }
     .cs-about { margin-top: 62px; }
     .cs-about-title { font-size: 21px; margin-bottom: 20px; }
     .cs-about p { font-size: 15px; line-height: 1.68; }
-    .cs-landing-stores { margin-top: 32px; }
+    .cs-landing-stores { margin-top: 46px; }
+    .cs-polo-tree-bg {
+      width: min(720px, calc(100vw + 240px));
+      max-width: none;
+    }
+    .cs-tree-stage > .cs-trailer { transform: translateY(-40px); }
+    .cs-tree-stage > .cs-bottom-download { transform: translateY(-24px); }
+    .cs-tree-stage .cs-ytlink { display: none !important; }
+    .cs-bottom-download-actions > img {
+      width: 96px !important;
+      height: auto !important;
+    }
     .cs-invite { padding: 8vh 20px 10vh !important; }
     .cs-invite .cs-moregate-title { font-size: 24px !important; }
     .cs-invite .cs-moregate-hint { font-size: 15px !important; }
@@ -711,8 +725,21 @@ window.__csSoundOn = true;
     .cs-footer {
       flex-direction: column !important;
       align-items: center !important;
+      justify-content: center !important;
+      min-height: 0;
+      gap: 14px !important;
       padding: 32px 20px 40px !important;
       padding-bottom: max(40px, calc(20px + env(safe-area-inset-bottom))) !important;
+    }
+    .cs-footer-right {
+      width: 100%;
+      align-items: center;
+      padding-right: 0;
+      text-align: center;
+    }
+    .cs-footer-copy {
+      white-space: normal;
+      overflow-wrap: anywhere;
     }
     .cs-moon { width: 76px !important; height: 76px !important; top: 9vh !important; right: 8vw !important; }
     .cs-const { opacity: .16 !important; width: min(190px, 40vw) !important; }
@@ -740,7 +767,7 @@ window.__csSoundOn = true;
     .cs-spark { width: min(260px, 62vw) !important; }
     .cs-soup { width: min(208px, 52.8vw) !important; }
     .cs-catback { width: min(83px, 19.2vw) !important; }
-    .cs-restcat { width: min(240px, 62vw) !important; }
+    .cs-restcat { width: min(168px, 43.4vw) !important; }
     .cs-shop { width: min(240px, 62vw) !important; }
     .cs-chefcat { width: min(54px, 12vw) !important; }
     .cs-camping { width: min(240px, 68vw) !important; max-width: 68vw !important; aspect-ratio: 600 / 581; }
@@ -794,7 +821,7 @@ window.__csSoundOn = true;
     <div style="width: 180px; height: 3px; background: rgba(154,163,209,.25); border-radius: 2px; overflow: hidden;">
       <div ref="{{ loaderBarRef }}" style="width: 0%; height: 100%; background: #f0b95c; transition: width .3s ease;"></div>
     </div>
-    <div style="position: absolute; right: max(16px, env(safe-area-inset-right)); bottom: max(14px, env(safe-area-inset-bottom)); font-family: 'Gowun Dodum', sans-serif; font-size: 11px; letter-spacing: 0.5px; color: #fff; pointer-events: none;">ver 0.54</div>
+    <div style="position: absolute; right: max(16px, env(safe-area-inset-right)); bottom: max(14px, env(safe-area-inset-bottom)); font-family: 'Gowun Dodum', sans-serif; font-size: 11px; letter-spacing: 0.5px; color: #fff; pointer-events: none;">ver 0.55</div>
   </div>
 
   <!-- fixed backgrounds -->
@@ -900,7 +927,7 @@ window.__csSoundOn = true;
   <!-- LANDING : polo event head + game intro -->
   <div ref="{{ mainContentRef }}" style="visibility: {{ mainUiVisibility }};">
   <section id="top" class="cs-landing" data-screen-label="1 폴로 헤드">
-    <img class="cs-event-ci" src="assets/bi_neowiz.webp" alt="NEOWIZ" width="161" height="27">
+    <img class="cs-event-ci" src="assets/bi_neowiz.webp?v=071" alt="NEOWIZ" width="161" height="27">
     <div class="cs-event-copy">
       <p class="cs-event-line1">{{ t.eventLine1 }}</p>
       <p class="cs-event-line2">{{ t.eventLine2 }}</p>
@@ -1033,7 +1060,7 @@ window.__csSoundOn = true;
       <div class="cs-story-eyebrow" style="font-size: 18px; letter-spacing: 5px; color: #9aa3d1; margin-bottom: 18px;">{{ t.s4Eyebrow }}</div>
       <p class="cs-story-main" style="font-family: var(--cs-cjk, 'Gowun Batang'), 'Gowun Batang', serif; letter-spacing: var(--cs-track, 0px); font-feature-settings: var(--cs-jp-palt, normal); font-kerning: var(--cs-jp-kern, auto); direction: var(--cs-dir, ltr); font-weight: var(--cs-weight, 700); font-size: 50px; line-height: var(--cs-lead, 1.85); margin: 0 auto; text-align: center; text-wrap: pretty; word-break: var(--cs-wb, keep-all); overflow-wrap: break-word; white-space: pre-line;">{{ t.s4Main }}</p>
     </div>
-    <img ref="{{ catOtherRef }}" class="cs-meowcat" src="assets/cat_other.webp" alt="별고양이들" style="width: min(200px, 45vw); display: block; margin: 28px auto 0; filter: drop-shadow(0 6px 24px rgba(255,220,150,.2)); opacity: 0; transform: translate(46vw, -38vh) rotate(14deg); transition: opacity 2.4s ease, transform 4.2s cubic-bezier(.42,0,.72,1);">
+    <img ref="{{ catOtherRef }}" class="cs-meowcat" src="assets/cat_other.webp" alt="별고양이들" style="width: min(180px, 40.5vw); display: block; margin: 28px auto 0; filter: drop-shadow(0 6px 24px rgba(255,220,150,.2)); opacity: 0; transform: translate(46vw, -38vh) rotate(14deg); transition: opacity 2.4s ease, transform 4.2s cubic-bezier(.42,0,.72,1);">
     <img ref="{{ catsSurroundRef }}" class="cs-audience cs-meowcat" src="assets/cats_surround.webp" alt="구경하는 고양이들" style="width: min(620px, 88vw); display: block; margin: -10px auto 0; opacity: 0; transform: translateY(24px); transition: opacity 2.2s ease, transform 2.2s ease;">
     <div class="cs-reveal"><div class="cs-morestar" aria-hidden="true"></div></div>
   </section>
@@ -1052,7 +1079,7 @@ window.__csSoundOn = true;
         <span style="position: absolute; left: 70%; bottom: 0; width: 10px; height: 10px; border-radius: 50%; background: #ffe0a0; opacity: 0; animation: csEmber 3.2s ease-out infinite 2.1s;"></span>
       </div>
     </div>
-    <div class="cs-reveal cs-restcat" style="position: relative; width: min(340px, 61vw); margin: 0 auto; will-change: opacity, transform;">
+    <div class="cs-reveal cs-restcat" style="position: relative; left: min(180px, 20vw); width: min(238px, 42.7vw); margin: -110px auto 0; will-change: opacity, transform;">
       <img class="cs-meowcat" src="assets/cat_rest.webp" alt="해먹에서 잠든 고양이" style="width: 100%; display: block; cursor: pointer; filter: drop-shadow(0 8px 26px rgba(0,0,0,.3));">
       <span style="position: absolute; left: 72%; top: 42%; font-family: 'Gowun Batang', serif; font-size: 30px; color: #cfd6f5; opacity: 0; animation: csZzz 4.2s ease-out infinite;">z</span>
       <span style="position: absolute; left: 72%; top: 42%; font-family: 'Gowun Batang', serif; font-size: 38px; color: #cfd6f5; opacity: 0; animation: csZzz 4.2s ease-out infinite 1.05s;">z</span>
@@ -1091,7 +1118,6 @@ window.__csSoundOn = true;
         </div>
       </div>
     </div>
-    <a class="cs-ytlink" href="https://www.youtube.com/watch?v=Y7GAFRahuNc" target="_blank" rel="noopener" style="margin-top: 10px; color: #9aa3d1;">▶ {{ t.trailerYoutube }}</a>
   </section>
 
   <section id="download" class="cs-bottom-download" data-screen-label="5 다운로드" ref="{{ scene5Ref }}">
@@ -1116,13 +1142,11 @@ window.__csSoundOn = true;
   </button>
 
   <!-- footer -->
-  <footer data-screen-label="푸터" class="cs-footer" style="position: relative; z-index: 3; padding: 40px 36px 48px; display: flex; flex-wrap: wrap; font-size: 13px;">
-    <img class="cs-ci" src="assets/bi_neowiz.webp" alt="NEOWIZ" width="161" height="27">
-    <div class="cs-footer-links">
-      <a class="cs-footlink" href="https://www.neonapi.com/api/mobile/global/terms?app_id=5063&amp;nation_cd=US">{{ t.ftTerms }}</a>
-      <a class="cs-footlink" href="https://www.neonapi.com/www/mobile/global/privacy?popup=Y&amp;app_id=5063&amp;nation_cd=US">{{ t.ftPrivacy }}</a>
+  <footer ref="{{ footerRef }}" data-screen-label="푸터" class="cs-footer" style="position: relative; z-index: 3; padding: 28px 58px; display: flex; flex-wrap: nowrap; font-size: 13px;">
+    <img class="cs-ci" src="assets/bi_neowiz.webp?v=071" alt="NEOWIZ" width="161" height="27">
+    <div class="cs-footer-right">
+      <div class="cs-footer-copy">© NEOWIZ All rights reserved.</div>
     </div>
-    <div>© NEOWIZ All rights reserved.</div>
   </footer>
 </div>
 </div></x-dc>
@@ -1727,7 +1751,7 @@ class Component extends DCLogic {
       'assets/soup_pot.webp', 'assets/cat_back.webp', 'assets/forrest_pattern_s.webp?v=085',
       'assets/cat_other.webp', 'assets/cats_surround.webp', 'assets/guitar_show.webp',
       'assets/camping_cat.webp', 'assets/cat_rest.webp', 'assets/cats_polo.webp',
-      'assets/bi_neowiz.webp', 'assets/logo_kr_trim.webp',
+      'assets/bi_neowiz.webp?v=071', 'assets/logo_kr_trim.webp',
       'assets/googleplay.webp', 'assets/appstore.webp', 'assets/cat_paw.webp',
       'assets/bgm.mp3', 'assets/guitar.mp3'
     ];
@@ -1884,8 +1908,9 @@ class Component extends DCLogic {
     const loop = (t) => {
       if (document.hidden) { this.rafId = 0; return; }
       this.rafId = requestAnimationFrame(loop);
-      const idle = this.dayAlpha > 0.92 && !this.magicShots.length && !this.shooters.length;
-      if (t - last < (idle ? 80 : 33)) return;
+      const activeFx = this.shooters.length || this.magicShots.length || (this._s3Vis || 0) > 0.05;
+      const frameGap = activeFx ? (this.compactUi() ? 50 : 40) : 100;
+      if (t - last < frameGap) return;
       last = t;
       this.draw(t / 1000);
     };
@@ -1922,7 +1947,14 @@ class Component extends DCLogic {
     this.shootTimer = setInterval(() => {
       if (document.hidden || this.shooters.length) return;
       if (this.dayAlpha < 0.6 && Math.random() < 0.6) {
-        this.shooters.push({ x: Math.random() * 0.8 + 0.1, y: Math.random() * 0.35, life: 0, dx: 0.28 + Math.random() * 0.15, dy: 0.12 + Math.random() * 0.08 });
+        this.shooters.push({
+          x: Math.random() * 0.8 + 0.1,
+          y: Math.random() * 0.35,
+          life: 0,
+          dx: 0.28 + Math.random() * 0.15,
+          dy: 0.12 + Math.random() * 0.08,
+          curve: (Math.random() - 0.5) * 8
+        });
       }
     }, 3800);
     this._onMeowClick = (e) => {
@@ -1960,7 +1992,9 @@ class Component extends DCLogic {
   sizeCanvas() {
     const c = this.refs2.canvas;
     if (!c) return;
-    const dpr = Math.min(1.5, window.devicePixelRatio || 1);
+    const dpr = this.compactUi()
+      ? Math.min(1.15, window.devicePixelRatio || 1)
+      : Math.min(1.5, window.devicePixelRatio || 1);
     this._dpr = dpr;
     c.width = Math.floor(window.innerWidth * dpr);
     c.height = Math.floor(window.innerHeight * dpr);
@@ -2091,7 +2125,11 @@ class Component extends DCLogic {
       }
     }
     this.updateAudioZones(h);
-    if (this.refs2.topBtn) this.refs2.topBtn.classList.toggle('is-on', window.scrollY > 360);
+    if (this.refs2.topBtn) {
+      const footer = this.refs2.footer;
+      const beforeFooter = !footer || footer.getBoundingClientRect().top >= h;
+      this.refs2.topBtn.classList.toggle('is-on', window.scrollY > 360 && beforeFooter);
+    }
     const s3 = this.refs2.scene3;
     if (s3) {
       const r3 = s3.getBoundingClientRect();
@@ -2188,18 +2226,62 @@ class Component extends DCLogic {
           this.glowT = 0;
         }
       }
-      ctx.strokeStyle = 'rgba(255,224,150,0.9)';
       for (let i = this.shooters.length - 1; i >= 0; i--) {
         const sh = this.shooters[i];
         sh.life += 0.02;
         if (sh.life > 1) { this.shooters.splice(i, 1); continue; }
         const x = (sh.x + sh.dx * sh.life) * w, y = (sh.y + sh.dy * sh.life) * h;
-        ctx.globalAlpha = night * Math.sin(sh.life * Math.PI);
-        ctx.lineWidth = 2 * dpr;
+        const vx = sh.dx * w, vy = sh.dy * h;
+        const vl = Math.max(1, Math.hypot(vx, vy));
+        const ux = vx / vl, uy = vy / vl;
+        const nx = -uy, ny = ux;
+        const tail = Math.min(180 * dpr, vl * 0.5);
+        const tx = x - vx / vl * tail, ty = y - vy / vl * tail;
+        const alpha = night * Math.sin(sh.life * Math.PI);
+        const trail = ctx.createLinearGradient(tx, ty, x, y);
+        trail.addColorStop(0, 'rgba(255,166,45,0)');
+        trail.addColorStop(0.5, 'rgba(255,176,48,.16)');
+        trail.addColorStop(0.84, 'rgba(255,202,78,.68)');
+        trail.addColorStop(1, 'rgba(255,234,143,.96)');
+        const bend = (sh.curve || 0) * dpr;
+        const cx = (tx + x) * 0.5 + nx * bend;
+        const cy = (ty + y) * 0.5 + ny * bend;
+
+        ctx.save();
+        ctx.globalCompositeOperation = 'lighter';
+        ctx.globalAlpha = alpha * 0.9;
+        ctx.fillStyle = trail;
         ctx.beginPath();
-        ctx.moveTo(x - 90 * dpr, y - 40 * dpr);
-        ctx.lineTo(x, y);
+        ctx.moveTo(tx, ty);
+        ctx.quadraticCurveTo(cx + nx * 1.8 * dpr, cy + ny * 1.8 * dpr, x + nx * 1.25 * dpr, y + ny * 1.25 * dpr);
+        ctx.lineTo(x - nx * 1.25 * dpr, y - ny * 1.25 * dpr);
+        ctx.quadraticCurveTo(cx - nx * 1.2 * dpr, cy - ny * 1.2 * dpr, tx, ty);
+        ctx.closePath();
+        ctx.fill();
+
+        ctx.globalAlpha = alpha * 0.82;
+        ctx.strokeStyle = 'rgba(255,222,116,.9)';
+        ctx.lineWidth = 0.72 * dpr;
+        ctx.lineCap = 'round';
+        ctx.beginPath();
+        ctx.moveTo(tx + ux * tail * 0.28, ty + uy * tail * 0.28);
+        ctx.quadraticCurveTo(cx, cy, x, y);
         ctx.stroke();
+
+        const head = ctx.createRadialGradient(x, y, 0, x, y, 4.5 * dpr);
+        head.addColorStop(0, 'rgba(255,242,164,1)');
+        head.addColorStop(0.3, 'rgba(255,205,82,.96)');
+        head.addColorStop(1, 'rgba(255,170,42,0)');
+        ctx.fillStyle = head;
+        ctx.globalAlpha = alpha;
+        ctx.beginPath();
+        ctx.arc(x, y, 4.5 * dpr, 0, Math.PI * 2);
+        ctx.fill();
+        ctx.fillStyle = 'rgba(255,226,112,.95)';
+        ctx.beginPath();
+        ctx.arc(x, y, 1.15 * dpr, 0, Math.PI * 2);
+        ctx.fill();
+        ctx.restore();
       }
       const vis = this._s3Vis || 0;
       if (vis > 0.05) {
@@ -2418,8 +2500,7 @@ class Component extends DCLogic {
         navStory: '이야기', navUpdate: '업데이트', navCoupon: '쿠폰 코드', navRecipe: '마법 레시피', navSocial: '소셜', navCats: '고양이들', navDownload: '다운로드', navMenu: '메뉴', navClose: '닫기',
         btnGoogle: 'Google Play에서 받기', btnApple: 'App Store에서 받기', btnCoupon: '쿠폰 코드 입력',
         bgmOn: '배경음 켜기', bgmOff: '배경음 끄기',
-        ftTerms: '이용약관', ftPrivacy: '개인정보처리방침',
-        trailerMain: '별빛 숲의 하루를 영상으로 만나 보세요.', trailerYoutube: 'YouTube에서 보기'
+        trailerMain: '별빛 숲의 하루를 영상으로 만나 보세요.'
       };
     this._T = T;
     this._meowText = T.meowText || '야옹 ~';
@@ -2435,6 +2516,7 @@ class Component extends DCLogic {
         window.scrollTo({ top: 0, behavior: 'smooth' });
       },
       topBtnRef: (el) => { this.refs2.topBtn = el; },
+      footerRef: this.ref('footer'),
       loaderRef: this.ref2('loader'),
       loaderStarsRef: (el) => { this.refs2.loaderStars = el; if (el) requestAnimationFrame(() => this.startLoaderStars(el)); },
       loaderBarRef: this.ref2('loaderBar'),
