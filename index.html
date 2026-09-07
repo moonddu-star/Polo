@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="ko">
+<html lang="ko" class="cs-hamburger">
 <head>
 <meta charset="utf-8">
 <meta name="referrer" content="origin">
@@ -115,7 +115,7 @@
     text-align: center;
     color: #f3efe2;
     background: transparent;
-    padding: 220px 20px 0;
+    padding: 120px 20px 0;
   }
   .cs-polo-hero {
     width: 100%;
@@ -151,7 +151,7 @@
     align-items: center;
     width: min(56.43vw, 609px) !important;
     max-width: 609px;
-    margin-top: 10px;
+    margin-top: 0;
   }
   .cs-hero-logo {
     width: 100% !important;
@@ -232,7 +232,7 @@
     filter: drop-shadow(0 0 4px rgba(255, 215, 126, .25));
   }
   .cs-landing-stores {
-    margin: 54px 0 8px;
+    margin: 28px 0 8px;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -635,7 +635,7 @@
   html.cs-hamburger .cs-social-icon { width: 26px; height: 26px; }
   /* phones, plus short landscape (iPhone 14 landscape is 844×390) */
   @media (max-width: 720px), (max-height: 540px) and (hover: none) {
-    .cs-landing { padding: calc(124px + env(safe-area-inset-top, 0px)) 12px 0 !important; }
+    .cs-landing { padding: calc(92px + env(safe-area-inset-top, 0px)) 12px 0 !important; }
     .cs-polo-hero,
     .cs-hero-stage,
     .cs-hero-cats { width: calc(100vw - 24px) !important; max-width: calc(100vw - 24px) !important; }
@@ -650,7 +650,7 @@
     .cs-about-title { font-size: 21px; margin-bottom: 20px; }
     .cs-about p { font-size: 15px; line-height: 1.68; }
     .cs-about-paw { width: 24px; height: 24px; margin: 0 auto 18px; }
-    .cs-landing-stores { margin-top: 54px; }
+    .cs-landing-stores { margin-top: 24px; }
     .cs-invite { padding: 8vh 20px 10vh !important; }
     .cs-invite .cs-moregate-title { font-size: 24px !important; }
     .cs-invite .cs-moregate-hint { font-size: 15px !important; }
@@ -681,7 +681,7 @@
     .cs-const-horse { width: min(285px, 60vw) !important; }
     .cs-const-fish { display: none !important; }
     .cs-dipper { top: 11vh !important; left: 4vw !important; width: min(285px, 62vw) !important; opacity: .18 !important; }
-    .cs-catstar { top: 92px !important; right: 16px !important; z-index: 4 !important; transform: scale(.7); transform-origin: 100% 0; }
+    .cs-catstar { top: 64px !important; right: 12px !important; z-index: 4 !important; transform: scale(.7); transform-origin: 100% 0; }
     .cs-cook { width: min(276px, 74vw) !important; height: min(276px, 74vw) !important; }
     .cs-scene3, .cs-interlude, .cs-cats, .cs-tall {
       min-height: auto !important;
@@ -757,13 +757,13 @@
     <div style="width: 180px; height: 3px; background: rgba(154,163,209,.25); border-radius: 2px; overflow: hidden;">
       <div ref="{{ loaderBarRef }}" style="width: 0%; height: 100%; background: #f0b95c; transition: width .3s ease;"></div>
     </div>
-    <div style="position: absolute; right: max(16px, env(safe-area-inset-right)); bottom: max(14px, env(safe-area-inset-bottom)); font-family: 'Gowun Dodum', sans-serif; font-size: 11px; letter-spacing: 0.5px; color: #fff; pointer-events: none;">ver 0.52</div>
+    <div style="position: absolute; right: max(16px, env(safe-area-inset-right)); bottom: max(14px, env(safe-area-inset-bottom)); font-family: 'Gowun Dodum', sans-serif; font-size: 11px; letter-spacing: 0.5px; color: #fff; pointer-events: none;">ver 0.53</div>
   </div>
 
   <!-- fixed backgrounds -->
   <div style="position: fixed; inset: 0; z-index: 0; background: linear-gradient(180deg, #0d1026 0%, #171c3d 40%, #232a55 75%, #2e3763 100%);"></div>
   <!-- the warm yellow cat star -->
-  <div class="cs-catstar" style="position: fixed; top: 15vh; right: 15vw; z-index: 1; pointer-events: none;">
+  <div class="cs-catstar" style="position: fixed; top: 8vh; right: 4vw; z-index: 1; pointer-events: none;">
     <img src="assets/cat_star.webp" alt="" style="width: 67px; display: block; filter: drop-shadow(0 0 12px rgba(255, 215, 126, .4));">
   </div>
   <!-- the Big Dipper, sitting quietly in the night sky -->
@@ -880,12 +880,6 @@
         </div>
       </div>
     </div>
-    <div class="cs-about">
-      <div class="cs-about-paw" aria-hidden="true"></div>
-      <h1 class="cs-about-title">{{ t.aboutTitle }}</h1>
-      <p>{{ t.aboutP1 }}</p>
-      <p>{{ t.aboutP2 }}</p>
-    </div>
     <div class="cs-landing-stores">
       <div style="display: flex; gap: 12px; flex-wrap: wrap; justify-content: center; align-items: center;">
         <a class="cs-storebadge-link" href="https://play.google.com/store/apps/details?id=com.hidea.cat">
@@ -895,6 +889,12 @@
           <img class="cs-storebadge" src="assets/appstore.webp" alt="{{ t.btnApple }}" width="308" height="102">
         </a>
       </div>
+    </div>
+    <div class="cs-about">
+      <div class="cs-about-paw" aria-hidden="true"></div>
+      <h1 class="cs-about-title">{{ t.aboutTitle }}</h1>
+      <p>{{ t.aboutP1 }}</p>
+      <p>{{ t.aboutP2 }}</p>
     </div>
     <div class="cs-invite">
       <p class="cs-moregate-title">{{ t.moreStory }}</p>
@@ -1247,7 +1247,7 @@ class Component extends DCLogic {
   }
 
   updateNavMode() {
-    this.setHamburger(this.compactUi() || this.navCollides());
+    this.setHamburger(true);
   }
 
   hardAudioCut() {
@@ -1779,9 +1779,7 @@ class Component extends DCLogic {
   hideLoader() {
     if (this._hideQueued) return;
     this._hideQueued = true;
-    const elapsed = Date.now() - (this._loadStart || 0);
-    const wait = Math.max(0, 4000 - elapsed);
-    setTimeout(() => {
+    requestAnimationFrame(() => {
       const el = this.refs2.loader;
       if (!el) return;
       this._loaderStarsStop = true;
@@ -1802,7 +1800,7 @@ class Component extends DCLogic {
           this.silenceAll();
         }
       }, 850);
-    }, wait);
+    });
   }
 
   // a remount must silence whatever the previous instance left running
