@@ -677,7 +677,21 @@ window.__csSoundOn = true;
   html.cs-hamburger .cs-social-icon { width: 26px; height: 26px; }
   /* phones, plus short landscape (iPhone 14 landscape is 844×390) */
   @media (max-width: 720px), (max-height: 540px) and (hover: none) {
-    .cs-landing { padding: calc(92px + env(safe-area-inset-top, 0px)) 12px 0 !important; }
+    html.cs-hamburger .cs-topbar {
+      padding: 6px 10px !important;
+      padding-top: max(6px, env(safe-area-inset-top)) !important;
+      padding-left: max(10px, env(safe-area-inset-left)) !important;
+      padding-right: max(10px, env(safe-area-inset-right)) !important;
+    }
+    html.cs-hamburger .cs-topbar-left,
+    html.cs-hamburger .cs-sound,
+    html.cs-hamburger .cs-menubtn { height: 50px; }
+    html.cs-hamburger .cs-sound-icon-on { width: 50px !important; height: 50px !important; }
+    html.cs-hamburger .cs-sound-icon-off { width: 49px !important; height: 49px !important; }
+    html.cs-hamburger .cs-menubtn { width: 44px; min-width: 44px; min-height: 44px; }
+    html.cs-hamburger .cs-menu-icon-open { width: 40px; height: auto; }
+    html.cs-hamburger .cs-menu-icon-close { width: 20px; height: 20px; }
+    .cs-landing { padding: calc(76px + env(safe-area-inset-top, 0px)) 12px 0 !important; }
     .cs-polo-hero,
     .cs-hero-stage,
     .cs-hero-cats { width: calc(100vw - 24px) !important; max-width: calc(100vw - 24px) !important; }
@@ -696,8 +710,8 @@ window.__csSoundOn = true;
       width: min(720px, calc(100vw + 240px));
       max-width: none;
     }
-    .cs-tree-stage > .cs-trailer { transform: translateY(-40px); }
-    .cs-tree-stage > .cs-bottom-download { transform: translateY(-24px); }
+    .cs-tree-stage > .cs-trailer { transform: translateY(-60px); }
+    .cs-tree-stage > .cs-bottom-download { transform: translateY(-44px); }
     .cs-tree-stage .cs-ytlink { display: none !important; }
     .cs-bottom-download-actions > img {
       width: 96px !important;
@@ -821,13 +835,13 @@ window.__csSoundOn = true;
     <div style="width: 180px; height: 3px; background: rgba(154,163,209,.25); border-radius: 2px; overflow: hidden;">
       <div ref="{{ loaderBarRef }}" style="width: 0%; height: 100%; background: #f0b95c; transition: width .3s ease;"></div>
     </div>
-    <div style="position: absolute; right: max(16px, env(safe-area-inset-right)); bottom: max(14px, env(safe-area-inset-bottom)); font-family: 'Gowun Dodum', sans-serif; font-size: 11px; letter-spacing: 0.5px; color: #fff; pointer-events: none;">ver 0.55</div>
+    <div style="position: absolute; right: max(16px, env(safe-area-inset-right)); bottom: max(14px, env(safe-area-inset-bottom)); font-family: 'Gowun Dodum', sans-serif; font-size: 11px; letter-spacing: 0.5px; color: #fff; pointer-events: none;">ver 0.56</div>
   </div>
 
   <!-- fixed backgrounds -->
   <div style="position: fixed; inset: 0; z-index: 0; background: linear-gradient(180deg, #0d1026 0%, #171c3d 40%, #232a55 75%, #2e3763 100%);"></div>
   <!-- the warm yellow cat star -->
-  <div class="cs-catstar" style="position: fixed; top: 8vh; right: 4vw; z-index: 1; pointer-events: none;">
+  <div class="cs-catstar" style="position: absolute; top: 8vh; right: 4vw; z-index: 1; pointer-events: none;">
     <img src="assets/cat_star.webp" alt="" style="width: 67px; display: block; filter: drop-shadow(0 0 12px rgba(255, 215, 126, .4));">
   </div>
   <!-- the Big Dipper, sitting quietly in the night sky -->
@@ -1908,9 +1922,8 @@ class Component extends DCLogic {
     const loop = (t) => {
       if (document.hidden) { this.rafId = 0; return; }
       this.rafId = requestAnimationFrame(loop);
-      const activeFx = this.shooters.length || this.magicShots.length || (this._s3Vis || 0) > 0.05;
-      const frameGap = activeFx ? (this.compactUi() ? 50 : 40) : 100;
-      if (t - last < frameGap) return;
+      const idle = this.dayAlpha > 0.92 && !this.magicShots.length && !this.shooters.length;
+      if (t - last < (idle ? 80 : 33)) return;
       last = t;
       this.draw(t / 1000);
     };
@@ -1952,8 +1965,7 @@ class Component extends DCLogic {
           y: Math.random() * 0.35,
           life: 0,
           dx: 0.28 + Math.random() * 0.15,
-          dy: 0.12 + Math.random() * 0.08,
-          curve: (Math.random() - 0.5) * 8
+          dy: 0.12 + Math.random() * 0.08
         });
       }
     }, 3800);
@@ -1992,9 +2004,7 @@ class Component extends DCLogic {
   sizeCanvas() {
     const c = this.refs2.canvas;
     if (!c) return;
-    const dpr = this.compactUi()
-      ? Math.min(1.15, window.devicePixelRatio || 1)
-      : Math.min(1.5, window.devicePixelRatio || 1);
+    const dpr = Math.min(1.5, window.devicePixelRatio || 1);
     this._dpr = dpr;
     c.width = Math.floor(window.innerWidth * dpr);
     c.height = Math.floor(window.innerHeight * dpr);
@@ -2228,58 +2238,47 @@ class Component extends DCLogic {
       }
       for (let i = this.shooters.length - 1; i >= 0; i--) {
         const sh = this.shooters[i];
-        sh.life += 0.02;
+        if (sh.lastT == null) sh.lastT = t;
+        const step = Math.min(0.1, Math.max(0, t - sh.lastT));
+        sh.lastT = t;
+        sh.life += step / 1.4;
         if (sh.life > 1) { this.shooters.splice(i, 1); continue; }
         const x = (sh.x + sh.dx * sh.life) * w, y = (sh.y + sh.dy * sh.life) * h;
         const vx = sh.dx * w, vy = sh.dy * h;
         const vl = Math.max(1, Math.hypot(vx, vy));
         const ux = vx / vl, uy = vy / vl;
-        const nx = -uy, ny = ux;
-        const tail = Math.min(180 * dpr, vl * 0.5);
+        const tail = Math.min(130 * dpr, vl * 0.38);
         const tx = x - vx / vl * tail, ty = y - vy / vl * tail;
         const alpha = night * Math.sin(sh.life * Math.PI);
-        const trail = ctx.createLinearGradient(tx, ty, x, y);
-        trail.addColorStop(0, 'rgba(255,166,45,0)');
-        trail.addColorStop(0.5, 'rgba(255,176,48,.16)');
-        trail.addColorStop(0.84, 'rgba(255,202,78,.68)');
-        trail.addColorStop(1, 'rgba(255,234,143,.96)');
-        const bend = (sh.curve || 0) * dpr;
-        const cx = (tx + x) * 0.5 + nx * bend;
-        const cy = (ty + y) * 0.5 + ny * bend;
 
         ctx.save();
-        ctx.globalCompositeOperation = 'lighter';
-        ctx.globalAlpha = alpha * 0.9;
-        ctx.fillStyle = trail;
+        ctx.lineCap = 'round';
+        ctx.strokeStyle = '#ffc95e';
+        ctx.globalAlpha = alpha * 0.18;
+        ctx.lineWidth = 0.55 * dpr;
         ctx.beginPath();
         ctx.moveTo(tx, ty);
-        ctx.quadraticCurveTo(cx + nx * 1.8 * dpr, cy + ny * 1.8 * dpr, x + nx * 1.25 * dpr, y + ny * 1.25 * dpr);
-        ctx.lineTo(x - nx * 1.25 * dpr, y - ny * 1.25 * dpr);
-        ctx.quadraticCurveTo(cx - nx * 1.2 * dpr, cy - ny * 1.2 * dpr, tx, ty);
-        ctx.closePath();
-        ctx.fill();
-
-        ctx.globalAlpha = alpha * 0.82;
-        ctx.strokeStyle = 'rgba(255,222,116,.9)';
-        ctx.lineWidth = 0.72 * dpr;
-        ctx.lineCap = 'round';
-        ctx.beginPath();
-        ctx.moveTo(tx + ux * tail * 0.28, ty + uy * tail * 0.28);
-        ctx.quadraticCurveTo(cx, cy, x, y);
+        ctx.lineTo(x - ux * tail * 0.48, y - uy * tail * 0.48);
         ctx.stroke();
 
-        const head = ctx.createRadialGradient(x, y, 0, x, y, 4.5 * dpr);
-        head.addColorStop(0, 'rgba(255,242,164,1)');
-        head.addColorStop(0.3, 'rgba(255,205,82,.96)');
-        head.addColorStop(1, 'rgba(255,170,42,0)');
-        ctx.fillStyle = head;
-        ctx.globalAlpha = alpha;
+        ctx.globalAlpha = alpha * 0.42;
+        ctx.lineWidth = 0.82 * dpr;
         ctx.beginPath();
-        ctx.arc(x, y, 4.5 * dpr, 0, Math.PI * 2);
-        ctx.fill();
-        ctx.fillStyle = 'rgba(255,226,112,.95)';
+        ctx.moveTo(x - ux * tail * 0.52, y - uy * tail * 0.52);
+        ctx.lineTo(x - ux * tail * 0.18, y - uy * tail * 0.18);
+        ctx.stroke();
+
+        ctx.globalAlpha = alpha * 0.82;
+        ctx.lineWidth = 1.05 * dpr;
         ctx.beginPath();
-        ctx.arc(x, y, 1.15 * dpr, 0, Math.PI * 2);
+        ctx.moveTo(x - ux * tail * 0.2, y - uy * tail * 0.2);
+        ctx.lineTo(x, y);
+        ctx.stroke();
+
+        ctx.fillStyle = '#ffe08a';
+        ctx.globalAlpha = alpha * 0.9;
+        ctx.beginPath();
+        ctx.arc(x, y, 1.55 * dpr, 0, Math.PI * 2);
         ctx.fill();
         ctx.restore();
       }
