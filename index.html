@@ -24,6 +24,12 @@
 <meta name="twitter:title" content="고양이와 스프 · 제2회 제주폴로연맹회장배 폴로대회">
 <meta name="twitter:description" content="제2회 제주폴로연맹회장배 폴로대회와 함께하는 고양이와 스프. 전세계 8000만 유저에게 사랑받는 힐링 방치형 모바일 게임.">
 <meta name="twitter:image" content="https://moonddu-star.github.io/catandsoup/assets/og-share.png">
+<script>
+try {
+  localStorage.removeItem('cs-sound');
+} catch (e) {}
+window.__csSoundOn = true;
+</script>
 <script src="./support.js"></script>
 </head>
 <body>
@@ -35,7 +41,13 @@
 <link href="https://fonts.googleapis.com/css2?family=Gowun+Batang:wght@400;700&amp;family=Gowun+Dodum&amp;family=ZCOOL+KuaiLe&amp;family=Zen+Maru+Gothic:wght@500;700&amp;family=Baloo+2:wght@500;700&amp;display=swap" rel="stylesheet">
 <style>
   html, body { margin: 0; padding: 0; background: #131730; }
-  body { font-family: 'Gowun Dodum', sans-serif; }
+  body {
+    font-family: 'Gowun Dodum', sans-serif;
+    cursor: default;
+    -webkit-user-select: none;
+    user-select: none;
+  }
+  a, button { cursor: pointer; }
   a { color: #f0b95c; text-decoration: none; }
   a:hover { color: #ffd48a; }
   @keyframes csTwinkle { 0%,100% { opacity: .3; } 50% { opacity: 1; } }
@@ -169,7 +181,7 @@
     max-width: 161px;
     height: auto !important;
     display: block;
-    margin: 14px auto 0;
+    margin: 20px auto 0;
   }
   .cs-event-copy {
     width: min(720px, 92vw);
@@ -222,17 +234,11 @@
   }
   .cs-event-line1,
   .cs-event-line2 {
+    letter-spacing: -0.05em;
     white-space: pre-line;
   }
-  .cs-about-paw {
-    width: 26px;
-    height: 26px;
-    margin: 0 auto 20px;
-    background: url('assets/cat_paw.webp') center / contain no-repeat;
-    filter: drop-shadow(0 0 4px rgba(255, 215, 126, .25));
-  }
   .cs-landing-stores {
-    margin: 28px 0 8px;
+    margin: 34px 0 8px;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -284,15 +290,14 @@
     width: 64px;
     padding: 8px 6px 7px;
     border: 0;
-    border-radius: 14px;
-    background: #f3efe2;
-    color: #5a4630;
+    background: transparent;
+    color: #fff;
     cursor: pointer;
     font-family: 'Gowun Dodum', sans-serif;
     font-size: 11px;
     letter-spacing: 1px;
     line-height: 1;
-    box-shadow: 0 6px 18px rgba(0,0,0,.28);
+    text-shadow: 0 1px 5px rgba(0,0,0,.85);
   }
   .cs-topbtn.is-on { display: flex; }
   .cs-topbtn img { width: 34px; height: 34px; display: block; }
@@ -309,6 +314,74 @@
     justify-content: center !important;
     text-align: center;
     gap: 18px !important;
+  }
+  .cs-tree-stage {
+    position: relative;
+    z-index: 3;
+    width: 100%;
+    min-height: clamp(740px, 104vw, 1640px);
+    padding-bottom: 100px;
+    box-sizing: border-box;
+    overflow: hidden;
+    isolation: isolate;
+  }
+  .cs-tree-stage::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 0;
+    height: 100px;
+    background: rgba(13, 16, 38, 0.72);
+    pointer-events: none;
+  }
+  .cs-polo-tree-bg {
+    position: absolute;
+    left: 50%;
+    bottom: 100px;
+    z-index: 1;
+    width: max(720px, 100vw);
+    max-width: 1600px;
+    height: auto;
+    display: block;
+    transform: translate(-50%, 10px);
+    filter: brightness(.5) saturate(.8);
+    opacity: .78;
+    pointer-events: none;
+  }
+  .cs-tree-stage > section {
+    position: relative;
+    z-index: 2;
+    transform: translateY(100px);
+  }
+  .cs-bottom-download {
+    position: relative;
+    z-index: 3;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    padding: 16px 20px 40px;
+  }
+  .cs-trailer {
+    min-height: auto !important;
+    padding-bottom: 16px !important;
+  }
+  .cs-bottom-download-actions,
+  .cs-bottom-download-badges {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .cs-bottom-download-actions {
+    flex-direction: column;
+    gap: 24px;
+  }
+  .cs-bottom-download-badges {
+    gap: 12px;
+    flex-wrap: wrap;
   }
   .cs-footer .cs-footlink { color: #c9c3b0; }
   .yt-cover iframe { position: absolute; top: 50%; left: 50%; width: 100vw; height: 56.25vw; min-height: 100%; min-width: 177.78vh; transform: translate(-50%,-50%); pointer-events: none; }
@@ -340,6 +413,8 @@
   .cs-sound-icon-off { width: 76px; height: 76px; display: none; }
   .cs-sound.is-off .cs-sound-icon-on { display: none; }
   .cs-sound.is-off .cs-sound-icon-off { display: block; }
+  html.cs-sound-off .cs-sound-icon-on { display: none; }
+  html.cs-sound-off .cs-sound-icon-off { display: block; }
   .cs-sound:hover { opacity: .82; }
   .cs-lang-btn, .cs-sound, .cs-nav a, .cs-menubtn, .cs-ytlink, .cs-coupon, .cs-footlink, .cs-social { touch-action: manipulation; }
   .cs-social-icon {
@@ -445,47 +520,11 @@
   .cs-story-main,
   .cs-origin-quote,
   .cs-origin-note,
-  .cs-s5main,
   .cs-heroline,
   .cs-herotag {
     text-align: center !important;
     text-align-last: center;
     text-wrap: balance;
-  }
-  html[lang="th"] .cs-story-main,
-  html[lang="th"] .cs-origin-quote,
-  html[lang="th"] .cs-origin-note,
-  html[lang="th"] .cs-s5main,
-  html[lang="th"] .cs-heroline,
-  html[lang="th"] .cs-herotag {
-    word-break: break-word !important;
-    overflow-wrap: anywhere;
-  }
-  html[lang="zh-Hans"] .cs-story-main,
-  html[lang="zh-Hans"] .cs-origin-quote,
-  html[lang="zh-Hans"] .cs-origin-note,
-  html[lang="zh-Hans"] .cs-s5main,
-  html[lang="zh-Hans"] .cs-heroline,
-  html[lang="zh-Hans"] .cs-herotag,
-  html[lang="zh-Hans"] .cs-nav {
-    font-feature-settings: "palt" 1, "kern" 1;
-    font-kerning: normal;
-    font-variant-east-asian: proportional-width;
-    text-spacing-trim: trim-both;
-  }
-  html[lang="zh-Hans"] .cs-cn-punct {
-    display: inline-block;
-    letter-spacing: 0;
-    vertical-align: baseline;
-  }
-  html[lang="zh-Hans"] .cs-cn-punct[data-p="comma"] {
-    margin-left: -0.4em;
-    margin-right: 0;
-  }
-  html[lang="zh-Hans"] .cs-cn-punct[data-p="bang"],
-  html[lang="zh-Hans"] .cs-cn-punct[data-p="ask"] {
-    margin-left: -0.22em;
-    margin-right: 0;
   }
   /* hamburger chrome: phones, and desktop when nav collides with the sound control */
   html.cs-hamburger .cs-topbar {
@@ -649,8 +688,7 @@
     .cs-about { margin-top: 62px; }
     .cs-about-title { font-size: 21px; margin-bottom: 20px; }
     .cs-about p { font-size: 15px; line-height: 1.68; }
-    .cs-about-paw { width: 24px; height: 24px; margin: 0 auto 18px; }
-    .cs-landing-stores { margin-top: 24px; }
+    .cs-landing-stores { margin-top: 32px; }
     .cs-invite { padding: 8vh 20px 10vh !important; }
     .cs-invite .cs-moregate-title { font-size: 24px !important; }
     .cs-invite .cs-moregate-hint { font-size: 15px !important; }
@@ -681,17 +719,16 @@
     .cs-const-horse { width: min(285px, 60vw) !important; }
     .cs-const-fish { display: none !important; }
     .cs-dipper { top: 11vh !important; left: 4vw !important; width: min(285px, 62vw) !important; opacity: .18 !important; }
-    .cs-catstar { top: 64px !important; right: 12px !important; z-index: 4 !important; transform: scale(.7); transform-origin: 100% 0; }
+    .cs-catstar { top: 90px !important; right: 12px !important; z-index: 21 !important; transform: scale(.7); transform-origin: 100% 0; }
     .cs-cook { width: min(276px, 74vw) !important; height: min(276px, 74vw) !important; }
     .cs-scene3, .cs-interlude, .cs-cats, .cs-tall {
       min-height: auto !important;
       padding: 9vh 20px !important;
       gap: 30px !important;
     }
+    .cs-trailer { padding-bottom: 16px !important; }
     .cs-download { min-height: auto !important; padding: 12vh 20px 6vh !important; }
     .cs-download-copy { min-height: 0 !important; }
-    .cs-s5eyebrow { font-size: 16px !important; letter-spacing: 2px !important; }
-    .cs-s5main { font-size: 18px !important; }
     .cs-hero { padding: 82px 20px 28px !important; }
     .cs-story-beat { padding: 0 20px !important; }
     .cs-story-beat > div { max-width: 100% !important; }
@@ -757,7 +794,7 @@
     <div style="width: 180px; height: 3px; background: rgba(154,163,209,.25); border-radius: 2px; overflow: hidden;">
       <div ref="{{ loaderBarRef }}" style="width: 0%; height: 100%; background: #f0b95c; transition: width .3s ease;"></div>
     </div>
-    <div style="position: absolute; right: max(16px, env(safe-area-inset-right)); bottom: max(14px, env(safe-area-inset-bottom)); font-family: 'Gowun Dodum', sans-serif; font-size: 11px; letter-spacing: 0.5px; color: #fff; pointer-events: none;">ver 0.53</div>
+    <div style="position: absolute; right: max(16px, env(safe-area-inset-right)); bottom: max(14px, env(safe-area-inset-bottom)); font-family: 'Gowun Dodum', sans-serif; font-size: 11px; letter-spacing: 0.5px; color: #fff; pointer-events: none;">ver 0.54</div>
   </div>
 
   <!-- fixed backgrounds -->
@@ -828,8 +865,6 @@
   </div>
   <div ref="{{ dayBgRef }}" style="position: fixed; inset: 0; z-index: 1; opacity: 0; background: linear-gradient(180deg, #bfdde8 0%, #e8ecd9 45%, #f6ead6 100%); transition: opacity 0.2s linear;"></div>
   <canvas ref="{{ canvasRef }}" style="position: fixed; inset: 0; z-index: 2; width: 100%; height: 100%; pointer-events: none; contain: strict;"></canvas>
-  <!-- the fire the story keeps feeding: one warmth that grows from the soup pot to the morning -->
-  <div ref="{{ warmthRef }}" style="position: fixed; inset: 0; z-index: 2; opacity: 0; pointer-events: none; background: radial-gradient(120% 62% at 50% 108%, rgba(255,186,92,.42) 0%, rgba(255,150,70,.20) 34%, rgba(255,140,60,0) 70%);"></div>
 
 
   <!-- top bar -->
@@ -865,6 +900,7 @@
   <!-- LANDING : polo event head + game intro -->
   <div ref="{{ mainContentRef }}" style="visibility: {{ mainUiVisibility }};">
   <section id="top" class="cs-landing" data-screen-label="1 폴로 헤드">
+    <img class="cs-event-ci" src="assets/bi_neowiz.webp" alt="NEOWIZ" width="161" height="27">
     <div class="cs-event-copy">
       <p class="cs-event-line1">{{ t.eventLine1 }}</p>
       <p class="cs-event-line2">{{ t.eventLine2 }}</p>
@@ -876,7 +912,6 @@
         </div>
         <div class="cs-hero-brand">
           <img class="cs-hero-logo" src="assets/logo_kr_trim.webp" alt="고양이와 스프" width="554" height="157">
-          <img class="cs-event-ci" src="assets/bi_neowiz.webp" alt="NEOWIZ" width="161" height="27">
         </div>
       </div>
     </div>
@@ -891,7 +926,6 @@
       </div>
     </div>
     <div class="cs-about">
-      <div class="cs-about-paw" aria-hidden="true"></div>
       <h1 class="cs-about-title">{{ t.aboutTitle }}</h1>
       <p>{{ t.aboutP1 }}</p>
       <p>{{ t.aboutP2 }}</p>
@@ -903,13 +937,24 @@
     </div>
   </section>
 
+  <!-- PROLOGUE : where the story came from -->
+  <section class="cs-tall" data-screen-label="1.9 이야기의 시작" style="position: relative; z-index: 3; min-height: 110vh; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 10vh 24px;">
+    <div class="cs-reveal" style="max-width: 660px; margin: 0 auto; text-align: center; will-change: opacity, transform;">
+      <div class="cs-story-eyebrow" style="font-size: 18px; letter-spacing: 5px; color: #9aa3d1; margin-bottom: 18px;">{{ t.originEyebrow }}</div>
+      <p class="cs-origin-quote" style="font-family: var(--cs-cjk, 'Gowun Batang'), 'Gowun Batang', serif; letter-spacing: var(--cs-track, 0px); direction: var(--cs-dir, ltr); font-weight: var(--cs-weight, 700); font-size: 46px; line-height: var(--cs-lead, 1.85); color: #f3efe2; margin: 0 0 26px; word-break: var(--cs-wb, keep-all); overflow-wrap: break-word; white-space: pre-line;">{{ t.originQuote }}</p>
+      <p class="cs-origin-note" style="font-family: var(--cs-cjk, 'Gowun Batang'), 'Gowun Batang', serif; letter-spacing: var(--cs-track, 0px); direction: var(--cs-dir, ltr); font-size: 21px; line-height: var(--cs-lead, 1.9); color: #9aa3d1; margin: 0; word-break: var(--cs-wb, keep-all); overflow-wrap: break-word; white-space: pre-line;">{{ t.originNote }}</p>
+      <img class="cs-meowcat" src="assets/origin_cat.webp" alt="" style="width: min(140px, 24.6vw); height: auto; display: block; margin: 26px auto 0;">
+      <div class="cs-morestar" aria-hidden="true"></div>
+    </div>
+  </section>
+
   <!-- SCENE 2 : falling star cat -->
   <section id="story" class="cs-story" data-screen-label="2 별에서 온 고양이" ref="{{ scene2Ref }}" style="position: relative; z-index: 3; height: 930vh; margin-bottom: 0;">
     <div class="cs-story-pin" style="position: sticky; top: 0; height: 100vh; overflow: hidden;">
 
       <!-- beat visuals -->
       
-      <div ref="{{ cloudsRef }}" style="position: absolute; bottom: 0; left: 0; right: 0; height: 335px; opacity: 0; pointer-events: none; will-change: opacity, transform; background: url('assets/forrest_pattern_s.webp') repeat-x center bottom / auto 335px;"></div>
+      <div ref="{{ cloudsRef }}" style="position: absolute; bottom: 0; left: 0; right: 0; height: 335px; opacity: 0; pointer-events: none; will-change: opacity, transform; background: url('assets/forrest_pattern_s.webp?v=085') repeat-x center bottom / auto 335px;"></div>
 
       <!-- falling cat -->
       <div ref="{{ catFallRef }}" style="position: absolute; left: 50%; top: 0; will-change: transform; z-index: 6;">
@@ -935,7 +980,7 @@
           <p class="cs-story-main" style="font-family: var(--cs-cjk, 'Gowun Batang'), 'Gowun Batang', serif; letter-spacing: var(--cs-track, 0px); font-feature-settings: var(--cs-jp-palt, normal); font-kerning: var(--cs-jp-kern, auto); direction: var(--cs-dir, ltr); font-weight: var(--cs-weight, 700); font-size: 50px; line-height: var(--cs-lead, 1.85); margin: 0 auto; text-align: center; text-wrap: pretty; word-break: var(--cs-wb, keep-all); overflow-wrap: break-word; white-space: pre-line;">{{ t.beat2 }}</p>
           <div class="cs-roomrow" style="display: flex; align-items: flex-end; justify-content: center; gap: 12px; margin-top: 36px;">
             <img class="cs-room" src="assets/room.webp" alt="천문대의 방" style="width: min(320px, 44vw); display: block; filter: drop-shadow(0 6px 20px rgba(0,0,0,.28));">
-            <img ref="{{ kikiStarRef }}" class="cs-kiki cs-meowcat" src="assets/kiki_star.webp" alt="키키" style="width: min(180px, 30vw); display: block; filter: drop-shadow(0 6px 24px rgba(255,220,150,.25)); will-change: transform, opacity; opacity: 0; transform: translateX(62vw) rotate(10deg);">
+            <img ref="{{ kikiStarRef }}" class="cs-kiki cs-meowcat" src="assets/kiki_star.webp" alt="키키" style="width: min(180px, 30vw); display: block; filter: drop-shadow(0 6px 24px rgba(255,220,150,.25)); will-change: transform, opacity; opacity: 0; transform: translateX(36vw) rotate(6deg);">
           </div>
           <div class="cs-morestar" aria-hidden="true"></div>
         </div>
@@ -1019,7 +1064,6 @@
   <!-- SCENE 4.3 : the guitar cat -->
   <section ref="{{ guitarSectionRef }}" class="cs-tall" data-screen-label="4.3 기타 치는 고양이" style="position: relative; z-index: 3; width: 100%; min-height: 160vh; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 10vh 24px; gap: 30px; box-sizing: border-box;">
     <p class="cs-reveal cs-story-main" style="font-family: var(--cs-cjk, 'Gowun Batang'), 'Gowun Batang', serif; letter-spacing: var(--cs-track, 0px); font-feature-settings: var(--cs-jp-palt, normal); font-kerning: var(--cs-jp-kern, auto); direction: var(--cs-dir, ltr); font-weight: var(--cs-weight, 700); font-size: 50px; line-height: var(--cs-lead, 1.85); margin: 0 auto; max-width: 740px; text-align: center; text-wrap: pretty; word-break: var(--cs-wb, keep-all); overflow-wrap: break-word; white-space: pre-line; will-change: opacity, transform;">{{ t.guitarMain }}</p>
-    <div class="cs-reveal cs-dawnhint" style="margin-top: 30px; font-size: 24px; letter-spacing: 2px; line-height: 1.7; color: #9aa3d1; will-change: opacity, transform;">{{ t.dawnHint }}</div>
     <div style="position: relative; width: min(504px, 86vw); margin: 0 auto; flex-shrink: 0;">
       <img class="cs-guitarcat cs-meowcat" src="assets/guitar_show.webp" alt="기타 치는 고양이" style="width: 100%; display: block; filter: drop-shadow(0 8px 28px rgba(255,220,150,.22));">
       <span style="position: absolute; left: 30%; top: 22%; font-size: 40px; color: #ffd48a; opacity: 0; animation: csNote 3.6s ease-out infinite;">♪</span>
@@ -1029,36 +1073,42 @@
     <div class="cs-reveal"><div class="cs-morestar" aria-hidden="true"></div></div>
   </section>
 
-  <!-- SCENE 5 : dawn / download -->
-  <!-- EPILOGUE : where the story came from -->
-  <section class="cs-tall" data-screen-label="4.9 이야기의 시작" style="position: relative; z-index: 3; min-height: 110vh; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 10vh 24px;">
-    <div class="cs-reveal" style="max-width: 660px; margin: 0 auto; text-align: center; will-change: opacity, transform;">
-      <div style="font-family: var(--cs-cjk, 'Gowun Batang'), 'Gowun Batang', serif; font-size: 13px; letter-spacing: 5px; font-size: 16px; color: #9aa3d1; margin-bottom: 26px;">{{ t.originEyebrow }}</div>
-      <p class="cs-origin-quote" style="font-family: var(--cs-cjk, 'Gowun Batang'), 'Gowun Batang', serif; letter-spacing: var(--cs-track, 0px); direction: var(--cs-dir, ltr); font-weight: var(--cs-weight, 700); font-size: 46px; line-height: var(--cs-lead, 1.85); color: #f3efe2; margin: 0 0 26px; word-break: var(--cs-wb, keep-all); overflow-wrap: break-word; white-space: pre-line;">{{ t.originQuote }}</p>
-      <p class="cs-origin-note" style="font-family: var(--cs-cjk, 'Gowun Batang'), 'Gowun Batang', serif; letter-spacing: var(--cs-track, 0px); direction: var(--cs-dir, ltr); font-size: 21px; line-height: var(--cs-lead, 1.9); color: #9aa3d1; margin: 0; word-break: var(--cs-wb, keep-all); overflow-wrap: break-word; white-space: pre-line;">{{ t.originNote }}</p>
-      <img class="cs-meowcat" src="assets/origin_cat.webp" alt="" style="width: min(140px, 24.6vw); height: auto; display: block; margin: 26px auto 0;">
-      <div class="cs-morestar" aria-hidden="true"></div>
-    </div>
-  </section>
+  <div class="cs-tree-stage">
+  <img class="cs-polo-tree-bg" src="assets/cats_polo_tree.webp" alt="" aria-hidden="true" loading="lazy" width="1382" height="1358">
 
   <!-- SCENE 4.7 : game trailer -->
-  <section ref="{{ trailerSectionRef }}" class="cs-tall" data-screen-label="4.7 게임 영상" style="position: relative; z-index: 3; min-height: 110vh; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 12vh 24px 16vh;">
+  <section ref="{{ trailerSectionRef }}" class="cs-tall cs-trailer" data-screen-label="4.7 게임 영상" style="position: relative; z-index: 3; min-height: 110vh; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 12vh 24px 16vh;">
     <div class="cs-reveal" style="text-align: center; max-width: 640px; margin-bottom: 44px; will-change: opacity, transform;">
-      <div style="font-size: 13px; letter-spacing: 5px; color: #9aa3d1; margin-bottom: 18px;">{{ t.trailerEyebrow }}</div>
       <p style="font-family: var(--cs-cjk, 'Gowun Batang'), 'Gowun Batang', serif; letter-spacing: var(--cs-track, 0px); font-weight: 700; font-size: 26px; line-height: 1.7; margin: 0; word-break: var(--cs-wb, keep-all); overflow-wrap: break-word; white-space: pre-line;">{{ t.trailerMain }}</p>
     </div>
     <div class="cs-reveal" ref="{{ trailerBoxRef }}" onClick="{{ trailerPlay }}" style="position: relative; width: min(960px, 92vw); aspect-ratio: 16/9; border-radius: 20px; overflow: hidden; border: 1px solid rgba(154,163,209,.35); background: #0b0f22; box-shadow: 0 24px 60px rgba(0,0,0,.4); cursor: pointer; will-change: opacity, transform;">
       <!-- facade poster (YouTube thumbnail) -->
       <div ref="{{ trailerPosterRef }}" style="position: absolute; inset: 0; display: flex; align-items: center; justify-content: center;">
-        <img src="https://i.ytimg.com/vi_webp/u2pUaW_JTMI/maxresdefault.webp" alt="" style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover;">
+        <img src="https://i.ytimg.com/vi_webp/Y7GAFRahuNc/maxresdefault.webp" alt="" style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover;">
         <div style="position: absolute; inset: 0; background: linear-gradient(180deg, rgba(11,15,34,.15), rgba(11,15,34,.45));"></div>
         <div style="position: relative; width: 84px; height: 84px; border-radius: 50%; background: rgba(240,185,92,.95); display: flex; align-items: center; justify-content: center; box-shadow: 0 8px 30px rgba(240,185,92,.4);">
           <div style="width: 0; height: 0; border-left: 26px solid #1b1409; border-top: 16px solid transparent; border-bottom: 16px solid transparent; margin-left: 6px;"></div>
         </div>
       </div>
     </div>
-    <a class="cs-ytlink" href="https://www.youtube.com/watch?v=u2pUaW_JTMI&amp;t=2s" target="_blank" rel="noopener" style="margin-top: 10px; color: #9aa3d1;">▶ {{ t.trailerYoutube }}</a>
+    <a class="cs-ytlink" href="https://www.youtube.com/watch?v=Y7GAFRahuNc" target="_blank" rel="noopener" style="margin-top: 10px; color: #9aa3d1;">▶ {{ t.trailerYoutube }}</a>
   </section>
+
+  <section id="download" class="cs-bottom-download" data-screen-label="5 다운로드" ref="{{ scene5Ref }}">
+    <div class="cs-bottom-download-actions">
+      <img src="assets/download.webp" alt="Download Now" loading="lazy" width="120" height="132" style="width: 120px; height: auto; display: block;">
+      <div class="cs-bottom-download-badges">
+        <a class="cs-storebadge-link" href="https://play.google.com/store/apps/details?id=com.hidea.cat">
+          <img class="cs-storebadge" src="assets/googleplay.webp" alt="{{ t.btnGoogle }}" width="308" height="102">
+        </a>
+        <a class="cs-storebadge-link" href="https://itunes.apple.com/app/id1581431235">
+          <img class="cs-storebadge" src="assets/appstore.webp" alt="{{ t.btnApple }}" width="308" height="102">
+        </a>
+      </div>
+    </div>
+  </section>
+
+  </div>
 
   <button type="button" class="cs-topbtn" ref="{{ topBtnRef }}" onClick="{{ goTop }}" title="{{ t.btnTop }}" aria-label="{{ t.btnTop }}">
     <img src="assets/cat_face_star.webp" alt="" width="34" height="34">
@@ -1076,9 +1126,9 @@
   </footer>
 </div>
 </div></x-dc>
-<script type="text/x-dc" data-dc-script data-props="{&quot;particleDensity&quot;:{&quot;editor&quot;:&quot;range&quot;,&quot;default&quot;:2,&quot;min&quot;:0,&quot;max&quot;:2,&quot;step&quot;:0.25,&quot;tsType&quot;:&quot;number&quot;,&quot;section&quot;:&quot;분위기&quot;},&quot;fontKr&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;default&quot;:&quot;Gowun Batang&quot;,&quot;options&quot;:[&quot;Gowun Batang&quot;,&quot;Gowun Dodum&quot;,&quot;Nanum Myeongjo&quot;,&quot;Hi Melody&quot;,&quot;Poor Story&quot;,&quot;Gaegu&quot;,&quot;Dongle&quot;],&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;언어별 폰트&quot;},&quot;fontEn&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;default&quot;:&quot;Marcellus&quot;,&quot;options&quot;:[&quot;Spicy Rice&quot;,&quot;Cormorant Garamond&quot;,&quot;Vollkorn&quot;,&quot;Alegreya&quot;,&quot;Spectral&quot;,&quot;Gelasio&quot;,&quot;Bodoni Moda&quot;,&quot;Playfair Display&quot;,&quot;Marcellus&quot;,&quot;Italiana&quot;,&quot;Amiri&quot;,&quot;Sorts Mill Goudy&quot;,&quot;Rosarivo&quot;],&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;언어별 폰트&quot;},&quot;fontJp&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;default&quot;:&quot;Zen Maru Gothic&quot;,&quot;options&quot;:[&quot;Zen Maru Gothic&quot;,&quot;Kosugi Maru&quot;,&quot;M PLUS Rounded 1c&quot;,&quot;Yusei Magic&quot;,&quot;Zen Kurenaido&quot;],&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;언어별 폰트&quot;},&quot;fontCn&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;default&quot;:&quot;ZCOOL XiaoWei&quot;,&quot;options&quot;:[&quot;ZCOOL XiaoWei&quot;,&quot;LXGW WenKai TC&quot;,&quot;Noto Sans SC&quot;,&quot;ZCOOL QingKe HuangYou&quot;,&quot;ZCOOL KuaiLe&quot;,&quot;Noto Sans TC&quot;,&quot;Noto Serif SC&quot;],&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;언어별 폰트&quot;},&quot;fontEs&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;default&quot;:&quot;Marcellus&quot;,&quot;options&quot;:[&quot;Spicy Rice&quot;,&quot;Cormorant Garamond&quot;,&quot;Vollkorn&quot;,&quot;Alegreya&quot;,&quot;Spectral&quot;,&quot;Gelasio&quot;,&quot;Bodoni Moda&quot;,&quot;Playfair Display&quot;,&quot;Marcellus&quot;,&quot;Italiana&quot;,&quot;Amiri&quot;,&quot;Sorts Mill Goudy&quot;,&quot;Rosarivo&quot;],&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;언어별 폰트&quot;},&quot;fontFr&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;default&quot;:&quot;Marcellus&quot;,&quot;options&quot;:[&quot;Spicy Rice&quot;,&quot;Cormorant Garamond&quot;,&quot;Vollkorn&quot;,&quot;Alegreya&quot;,&quot;Spectral&quot;,&quot;Gelasio&quot;,&quot;Bodoni Moda&quot;,&quot;Playfair Display&quot;,&quot;Marcellus&quot;,&quot;Italiana&quot;,&quot;Amiri&quot;,&quot;Sorts Mill Goudy&quot;,&quot;Rosarivo&quot;],&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;언어별 폰트&quot;},&quot;fontId&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;default&quot;:&quot;Marcellus&quot;,&quot;options&quot;:[&quot;Spicy Rice&quot;,&quot;Cormorant Garamond&quot;,&quot;Vollkorn&quot;,&quot;Alegreya&quot;,&quot;Spectral&quot;,&quot;Gelasio&quot;,&quot;Bodoni Moda&quot;,&quot;Playfair Display&quot;,&quot;Marcellus&quot;,&quot;Italiana&quot;,&quot;Amiri&quot;,&quot;Sorts Mill Goudy&quot;,&quot;Rosarivo&quot;],&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;언어별 폰트&quot;},&quot;trackKr&quot;:{&quot;editor&quot;:&quot;range&quot;,&quot;default&quot;:-1,&quot;min&quot;:-3,&quot;max&quot;:6,&quot;step&quot;:0.5,&quot;unit&quot;:&quot;px&quot;,&quot;tsType&quot;:&quot;number&quot;,&quot;section&quot;:&quot;언어별 자간&quot;},&quot;trackEn&quot;:{&quot;editor&quot;:&quot;range&quot;,&quot;default&quot;:0.5,&quot;min&quot;:-3,&quot;max&quot;:6,&quot;step&quot;:0.5,&quot;unit&quot;:&quot;px&quot;,&quot;tsType&quot;:&quot;number&quot;,&quot;section&quot;:&quot;언어별 자간&quot;},&quot;trackJp&quot;:{&quot;editor&quot;:&quot;range&quot;,&quot;default&quot;:0,&quot;min&quot;:-2,&quot;max&quot;:3,&quot;step&quot;:0.25,&quot;unit&quot;:&quot;px&quot;,&quot;tsType&quot;:&quot;number&quot;,&quot;section&quot;:&quot;언어별 자간&quot;},&quot;trackCn&quot;:{&quot;editor&quot;:&quot;range&quot;,&quot;default&quot;:0,&quot;min&quot;:-1,&quot;max&quot;:1,&quot;step&quot;:0.25,&quot;unit&quot;:&quot;px&quot;,&quot;tsType&quot;:&quot;number&quot;,&quot;section&quot;:&quot;언어별 자간&quot;},&quot;trackEs&quot;:{&quot;editor&quot;:&quot;range&quot;,&quot;default&quot;:0,&quot;min&quot;:-0.5,&quot;max&quot;:2,&quot;step&quot;:0.25,&quot;unit&quot;:&quot;px&quot;,&quot;tsType&quot;:&quot;number&quot;,&quot;section&quot;:&quot;언어별 자간&quot;},&quot;trackFr&quot;:{&quot;editor&quot;:&quot;range&quot;,&quot;default&quot;:0,&quot;min&quot;:-1,&quot;max&quot;:2,&quot;step&quot;:0.25,&quot;unit&quot;:&quot;px&quot;,&quot;tsType&quot;:&quot;number&quot;,&quot;section&quot;:&quot;언어별 자간&quot;},&quot;trackId&quot;:{&quot;editor&quot;:&quot;range&quot;,&quot;default&quot;:0,&quot;min&quot;:-3,&quot;max&quot;:6,&quot;step&quot;:0.5,&quot;unit&quot;:&quot;px&quot;,&quot;tsType&quot;:&quot;number&quot;,&quot;section&quot;:&quot;언어별 자간&quot;},&quot;leadingKr&quot;:{&quot;editor&quot;:&quot;range&quot;,&quot;default&quot;:1.4,&quot;min&quot;:1.2,&quot;max&quot;:2.6,&quot;step&quot;:0.05,&quot;tsType&quot;:&quot;number&quot;,&quot;section&quot;:&quot;언어별 행간&quot;},&quot;leadingEn&quot;:{&quot;editor&quot;:&quot;range&quot;,&quot;default&quot;:1.4,&quot;min&quot;:1.2,&quot;max&quot;:2.6,&quot;step&quot;:0.05,&quot;tsType&quot;:&quot;number&quot;,&quot;section&quot;:&quot;언어별 행간&quot;},&quot;leadingJp&quot;:{&quot;editor&quot;:&quot;range&quot;,&quot;default&quot;:1.45,&quot;min&quot;:1.3,&quot;max&quot;:1.5,&quot;step&quot;:0.05,&quot;tsType&quot;:&quot;number&quot;,&quot;section&quot;:&quot;언어별 행간&quot;},&quot;leadingCn&quot;:{&quot;editor&quot;:&quot;range&quot;,&quot;default&quot;:1.7,&quot;min&quot;:1.6,&quot;max&quot;:1.8,&quot;step&quot;:0.05,&quot;tsType&quot;:&quot;number&quot;,&quot;section&quot;:&quot;언어별 행간&quot;},&quot;leadingEs&quot;:{&quot;editor&quot;:&quot;range&quot;,&quot;default&quot;:1.4,&quot;min&quot;:1.2,&quot;max&quot;:1.5,&quot;step&quot;:0.05,&quot;tsType&quot;:&quot;number&quot;,&quot;section&quot;:&quot;언어별 행간&quot;},&quot;leadingFr&quot;:{&quot;editor&quot;:&quot;range&quot;,&quot;default&quot;:1.4,&quot;min&quot;:1.2,&quot;max&quot;:1.5,&quot;step&quot;:0.05,&quot;tsType&quot;:&quot;number&quot;,&quot;section&quot;:&quot;언어별 행간&quot;},&quot;leadingId&quot;:{&quot;editor&quot;:&quot;range&quot;,&quot;default&quot;:1.4,&quot;min&quot;:1.2,&quot;max&quot;:2.6,&quot;step&quot;:0.05,&quot;tsType&quot;:&quot;number&quot;,&quot;section&quot;:&quot;언어별 행간&quot;},&quot;fontPt&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;default&quot;:&quot;Marcellus&quot;,&quot;options&quot;:[&quot;Spicy Rice&quot;,&quot;Cormorant Garamond&quot;,&quot;Vollkorn&quot;,&quot;Alegreya&quot;,&quot;Spectral&quot;,&quot;Gelasio&quot;,&quot;Bodoni Moda&quot;,&quot;Playfair Display&quot;,&quot;Marcellus&quot;,&quot;Italiana&quot;,&quot;Amiri&quot;,&quot;Sorts Mill Goudy&quot;,&quot;Rosarivo&quot;],&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;언어별 폰트&quot;},&quot;trackPt&quot;:{&quot;editor&quot;:&quot;range&quot;,&quot;default&quot;:0,&quot;min&quot;:-3,&quot;max&quot;:6,&quot;step&quot;:0.5,&quot;unit&quot;:&quot;px&quot;,&quot;tsType&quot;:&quot;number&quot;,&quot;section&quot;:&quot;언어별 자간&quot;},&quot;leadingPt&quot;:{&quot;editor&quot;:&quot;range&quot;,&quot;default&quot;:1.4,&quot;min&quot;:1.2,&quot;max&quot;:2.6,&quot;step&quot;:0.05,&quot;tsType&quot;:&quot;number&quot;,&quot;section&quot;:&quot;언어별 행간&quot;},&quot;fontTh&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;default&quot;:&quot;Mali&quot;,&quot;options&quot;:[&quot;Mali&quot;,&quot;Itim&quot;,&quot;Sriracha&quot;,&quot;Charm&quot;,&quot;Chakra Petch&quot;,&quot;Bai Jamjuree&quot;,&quot;Noto Serif Thai&quot;],&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;언어별 폰트&quot;},&quot;trackTh&quot;:{&quot;editor&quot;:&quot;range&quot;,&quot;default&quot;:0,&quot;min&quot;:-2,&quot;max&quot;:4,&quot;step&quot;:0.25,&quot;unit&quot;:&quot;px&quot;,&quot;tsType&quot;:&quot;number&quot;,&quot;section&quot;:&quot;언어별 자간&quot;},&quot;leadingTh&quot;:{&quot;editor&quot;:&quot;range&quot;,&quot;default&quot;:1.8,&quot;min&quot;:1.6,&quot;max&quot;:2,&quot;step&quot;:0.05,&quot;tsType&quot;:&quot;number&quot;,&quot;section&quot;:&quot;언어별 행간&quot;}}">
+<script type="text/x-dc" data-dc-script data-props="{&quot;particleDensity&quot;:{&quot;editor&quot;:&quot;range&quot;,&quot;default&quot;:2,&quot;min&quot;:0,&quot;max&quot;:2,&quot;step&quot;:0.25,&quot;tsType&quot;:&quot;number&quot;,&quot;section&quot;:&quot;분위기&quot;},&quot;fontKr&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;default&quot;:&quot;Gowun Batang&quot;,&quot;options&quot;:[&quot;Gowun Batang&quot;,&quot;Gowun Dodum&quot;,&quot;Nanum Myeongjo&quot;,&quot;Hi Melody&quot;,&quot;Poor Story&quot;,&quot;Gaegu&quot;,&quot;Dongle&quot;],&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;한글 폰트&quot;},&quot;trackKr&quot;:{&quot;editor&quot;:&quot;range&quot;,&quot;default&quot;:-1,&quot;min&quot;:-3,&quot;max&quot;:6,&quot;step&quot;:0.5,&quot;unit&quot;:&quot;px&quot;,&quot;tsType&quot;:&quot;number&quot;,&quot;section&quot;:&quot;한글 자간&quot;},&quot;leadingKr&quot;:{&quot;editor&quot;:&quot;range&quot;,&quot;default&quot;:1.4,&quot;min&quot;:1.2,&quot;max&quot;:2.6,&quot;step&quot;:0.05,&quot;tsType&quot;:&quot;number&quot;,&quot;section&quot;:&quot;한글 행간&quot;}}">
 class Component extends DCLogic {
-  state = { sound: true, flipped: {}, lang: 'kr', langConfirmed: true };
+  state = { sound: this.readSoundPreference(), flipped: {} };
 
   constructor(props) {
     super(props);
@@ -1092,6 +1142,12 @@ class Component extends DCLogic {
     this.stirring = false;
     this.lastSteam = 0;
     this.audio = null;
+  }
+
+  readSoundPreference() {
+    if (window.__csSoundOn !== undefined) return window.__csSoundOn;
+    window.__csSoundOn = true;
+    return true;
   }
 
   // audio lives outside the React tree so re-renders can never detach it
@@ -1153,7 +1209,7 @@ class Component extends DCLogic {
   }
 
   soundEnabled() {
-    return this._soundOn !== undefined ? this._soundOn : this.state.sound;
+    return window.__csSoundOn !== undefined ? window.__csSoundOn : this.state.sound;
   }
 
   stopTrack(el) {
@@ -1265,9 +1321,18 @@ class Component extends DCLogic {
 
   muteForVideo() {
     this._videoMute = true;
+    this._soundOn = false;
+    window.__csSoundOn = false;
+    document.documentElement.classList.add('cs-sound-off');
+    if (this.refs2.soundBtn) {
+      this.refs2.soundBtn.classList.add('is-off');
+      this.refs2.soundBtn.title = '♪ 배경음 켜기';
+      this.refs2.soundBtn.setAttribute('aria-label', this.refs2.soundBtn.title);
+    }
     clearInterval(this._bRamp); this._bRamp = null; this._t_bRamp = undefined;
     clearInterval(this._gRamp); this._gRamp = null; this._t_gRamp = undefined;
     this.silenceAll();
+    if (this.state.sound) this.setState({ sound: false });
   }
 
   unlockAudio() {
@@ -1289,7 +1354,13 @@ class Component extends DCLogic {
     this._soundTapAt = now;
     const on = !this.soundEnabled();
     this._soundOn = on;
-    if (this.refs2.soundBtn) this.refs2.soundBtn.classList.toggle('is-off', !on);
+    window.__csSoundOn = on;
+    document.documentElement.classList.toggle('cs-sound-off', !on);
+    if (this.refs2.soundBtn) {
+      this.refs2.soundBtn.classList.toggle('is-off', !on);
+      this.refs2.soundBtn.title = on ? '♪ 배경음 끄기' : '♪ 배경음 켜기';
+      this.refs2.soundBtn.setAttribute('aria-label', this.refs2.soundBtn.title);
+    }
     clearInterval(this._fade);
     clearInterval(this._bRamp); this._bRamp = null; this._t_bRamp = undefined;
     clearInterval(this._gRamp); this._gRamp = null; this._t_gRamp = undefined;
@@ -1353,9 +1424,7 @@ class Component extends DCLogic {
   }
 
   menuCopy() {
-    const T = this._i18n;
-    const lang = (this.state && this.state.lang) || 'kr';
-    return (T && (T[lang] || T.kr)) || { navMenu: '메뉴', navClose: '닫기' };
+    return this._T || { navMenu: '??', navClose: '??' };
   }
 
   toggleMenuNow() {
@@ -1458,8 +1527,13 @@ class Component extends DCLogic {
     const g = this.getGuitar();
     const b = this.getAudio();
     const gs = this.refs2.guitarSection;
-    if (gs) this._guitarPageY = window.scrollY + gs.getBoundingClientRect().top;
-    const guitarTop = gs
+    const guitarEnabled = !!(gs && !gs.hidden && getComputedStyle(gs).display !== 'none');
+    if (!guitarEnabled) {
+      this._guitarPageY = null;
+      this._guitarReached = false;
+    }
+    if (guitarEnabled) this._guitarPageY = window.scrollY + gs.getBoundingClientRect().top;
+    const guitarTop = guitarEnabled
       ? gs.getBoundingClientRect().top
       : (this._guitarPageY != null ? this._guitarPageY - window.scrollY : Infinity);
     if (guitarTop < h * 0.45) this._guitarReached = true;
@@ -1579,125 +1653,27 @@ class Component extends DCLogic {
   }
 
   applyCjkFont() {
-    const L = this.state.lang;
     const p = this.props;
-    const picked = {
-      kr: p.fontKr ?? 'Gowun Batang',
-      en: p.fontEn ?? 'Spicy Rice',
-      jp: p.fontJp ?? 'Zen Maru Gothic',
-      cn: p.fontCn ?? 'Noto Sans SC',
-      es: p.fontEs ?? 'Spicy Rice',
-      fr: p.fontFr ?? 'Spicy Rice',
-      th: p.fontTh ?? 'Mali',
-      pt: p.fontPt ?? 'Spicy Rice',
-      id: p.fontId ?? 'Gowun Batang'
-    }[L] || 'Gowun Batang';
-    // scope RTL to text only — flipping the document reflows the whole frame
+    const picked = p.fontKr ?? 'Gowun Batang';
     document.documentElement.dir = 'ltr';
+    document.documentElement.lang = 'ko';
     document.documentElement.style.setProperty('--cs-dir', 'ltr');
-    document.documentElement.style.setProperty('--cs-weight', L === 'kr' ? '700' : '400');
-    this._meowText = (this._T && (this._T[L] || this._T.kr) || {}).meowText || '야옹 ~';
+    document.documentElement.style.setProperty('--cs-weight', '700');
+    this._meowText = (this._T && this._T.meowText) || '?? ~';
     this.ensureFont(picked);
     document.documentElement.style.setProperty('--cs-cjk', "'" + picked + "'");
-    const navMetrics = {
-      kr: [20, 18],
-      en: [19, 16],
-      jp: [18, 14],
-      cn: [20, 18],
-      es: [18, 14],
-      fr: [18, 14],
-      th: [19, 15],
-      pt: [18, 14],
-      id: [19, 15]
-    }[L] || [20, 18];
-    document.documentElement.style.setProperty('--cs-nav-size', navMetrics[0] + 'px');
-    document.documentElement.style.setProperty('--cs-nav-gap', navMetrics[1] + 'px');
-    const track = { kr: -1, en: p.trackEn, jp: p.trackJp, cn: p.trackCn, es: p.trackEs, fr: p.trackFr, th: p.trackTh, pt: p.trackPt, id: p.trackId }[L] ?? 0;
-    document.documentElement.style.setProperty('--cs-track', (L === 'cn' ? Math.max(-2, Math.min(0.5, track || -1)) : track) + 'px');
-    let lead = { kr: p.leadingKr, en: p.leadingEn, jp: p.leadingJp, cn: p.leadingCn, es: p.leadingEs, fr: p.leadingFr, th: p.leadingTh, pt: p.leadingPt, id: p.leadingId }[L] ?? 1.85;
-    // Thai stacked vowels/tone marks need a taller line box
-    if (L === 'th') lead = Math.max(1.7, Math.min(2.0, lead ?? 1.8));
-    // JP typographic convention: 130–150% leading, optical kerning, tightened yakumono
-    if (L === 'jp') lead = Math.max(1.3, Math.min(1.5, lead ?? 1.45));
-    // CN: full-width glyphs read best at zero tracking with generous leading
-    if (L === 'cn') lead = Math.max(1.6, Math.min(1.8, lead ?? 1.7));
-    // FR: accents need a little more room than plain Latin — 120–150%
-    if (L === 'fr') lead = Math.max(1.2, Math.min(1.5, lead ?? 1.4));
-    // ES: accents, ñ and ¿¡ need vertical room; long words dislike tight tracking
-    if (L === 'es') lead = Math.max(1.2, Math.min(1.5, lead ?? 1.4));
-    document.documentElement.style.setProperty('--cs-lead', String(lead));
-    document.documentElement.style.setProperty('--cs-jp-kern', (L === 'jp' || L === 'cn') ? 'normal' : 'auto');
-    document.documentElement.style.setProperty('--cs-jp-palt', L === 'jp' ? '"palt" 1, "kern" 1' : (L === 'cn' ? '"palt" 1, "kern" 1' : 'normal'));
-    // JP/CN run with no spaces; keep-all treats the whole line as unbreakable and overflows
-    document.documentElement.style.setProperty('--cs-wb', (L === 'jp' || L === 'cn') ? 'normal' : (L === 'th' ? 'break-word' : 'keep-all'));
-    this.syncDocumentMeta();
-    this.scheduleCnPunct();
-  }
-
-  scheduleCnPunct() {
-    if (this._cnPunctRaf) cancelAnimationFrame(this._cnPunctRaf);
-    this._cnPunctRaf = requestAnimationFrame(() => {
-      this._cnPunctRaf = 0;
-      this.syncCnPunct();
-    });
-  }
-
-  syncCnPunct() {
-    const marks = /[，！？!?]/;
-    const split = /([，！？!?])/;
-    const kind = (ch) => (ch === '，' || ch === ',') ? 'comma' : ((ch === '？' || ch === '?') ? 'ask' : 'bang');
-    if ((this.state && this.state.lang) !== 'cn') {
-      document.querySelectorAll('.cs-cn-punct').forEach((el) => el.replaceWith(document.createTextNode(el.textContent)));
-      return;
-    }
-    const walker = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT, {
-      acceptNode: (node) => {
-        if (!node.nodeValue || !marks.test(node.nodeValue)) return NodeFilter.FILTER_REJECT;
-        const p = node.parentElement;
-        if (!p || p.closest('.cs-cn-punct, script, style, canvas, .cs-nav-probe')) return NodeFilter.FILTER_REJECT;
-        return NodeFilter.FILTER_ACCEPT;
-      }
-    });
-    const nodes = [];
-    while (walker.nextNode()) nodes.push(walker.currentNode);
-    for (const node of nodes) {
-      const parts = node.nodeValue.split(split);
-      const frag = document.createDocumentFragment();
-      for (const part of parts) {
-        if (!part) continue;
-        if (part.length === 1 && marks.test(part)) {
-          const span = document.createElement('span');
-          span.className = 'cs-cn-punct';
-          span.dataset.p = kind(part);
-          span.textContent = part;
-          frag.appendChild(span);
-        } else {
-          frag.appendChild(document.createTextNode(part));
-        }
-      }
-      node.replaceWith(frag);
-    }
-  }
-
-  syncDocumentMeta() {
-    const L = this.state.lang;
-    const t = (this._T && (this._T[L] || this._T.kr)) || {};
-    const htmlLang = { kr: 'ko', en: 'en', jp: 'ja', cn: 'zh-Hans', es: 'es', fr: 'fr', th: 'th', pt: 'pt', id: 'id' }[L] || 'ko';
-    const ogLocale = { kr: 'ko_KR', en: 'en_US', jp: 'ja_JP', cn: 'zh_CN', es: 'es_ES', fr: 'fr_FR', th: 'th_TH', pt: 'pt_PT', id: 'id_ID' }[L] || 'ko_KR';
-    const brand = t.brandName || '고양이와 스프';
-    const title = t.pageTitle || (brand === 'Cats & Soup' ? 'Cats & Soup' : (brand + ' · Cats & Soup'));
-    const desc = String(t.pageDesc || t.heroTag || '').replace(/\n/g, ' ');
-    document.documentElement.lang = htmlLang;
-    document.title = title;
-    const set = (sel, attr, val) => { const el = document.querySelector(sel); if (el && val) el.setAttribute(attr, val); };
-    set('meta[name="description"]', 'content', desc);
-    set('meta[property="og:title"]', 'content', title);
-    set('meta[property="og:description"]', 'content', desc);
-    set('meta[property="og:locale"]', 'content', ogLocale);
-    set('meta[name="twitter:title"]', 'content', title);
-    set('meta[name="twitter:description"]', 'content', desc);
+    document.documentElement.style.setProperty('--cs-nav-size', '20px');
+    document.documentElement.style.setProperty('--cs-nav-gap', '18px');
+    document.documentElement.style.setProperty('--cs-track', (p.trackKr ?? -1) + 'px');
+    document.documentElement.style.setProperty('--cs-lead', String(p.leadingKr ?? 1.4));
+    document.documentElement.style.setProperty('--cs-jp-kern', 'auto');
+    document.documentElement.style.setProperty('--cs-jp-palt', 'normal');
+    document.documentElement.style.setProperty('--cs-wb', 'keep-all');
     this.scheduleNavMode();
   }
+
+
+
 
   ref2(name) { return (el) => { this.refs2[name] = el; }; }
 
@@ -1748,7 +1724,7 @@ class Component extends DCLogic {
       'assets/cat_face_star.webp', 'assets/cat_star.webp', 'assets/kiki.webp',
       'assets/balloon.webp', 'assets/cat_cook_01.webp', 'assets/cat_cook_02.webp',
       'assets/light_02.webp', 'assets/room.webp', 'assets/kiki_star.webp',
-      'assets/soup_pot.webp', 'assets/cat_back.webp', 'assets/forrest_pattern_s.webp',
+      'assets/soup_pot.webp', 'assets/cat_back.webp', 'assets/forrest_pattern_s.webp?v=085',
       'assets/cat_other.webp', 'assets/cats_surround.webp', 'assets/guitar_show.webp',
       'assets/camping_cat.webp', 'assets/cat_rest.webp', 'assets/cats_polo.webp',
       'assets/bi_neowiz.webp', 'assets/logo_kr_trim.webp',
@@ -1894,7 +1870,7 @@ class Component extends DCLogic {
       }
       // stay silent until the loader has finished and the hero is showing
       if (!this._loaderGone || this._pendingBgm) return;
-      if (!this.state.sound) return;
+      if (!this.soundEnabled()) return;
       this.updateAudioZones(window.innerHeight);
       window.removeEventListener('pointerdown', startBgm);
       window.removeEventListener('keydown', startBgm);
@@ -1960,7 +1936,7 @@ class Component extends DCLogic {
 
   componentWillUnmount() {
     for (const a of [window.__csBgm, window.__csGuitar]) {
-      if (a) { a.pause(); a.volume = 0; }
+      if (a) { a.pause(); a.volume = 0; a.muted = true; }
     }
     clearInterval(this._bRamp); clearInterval(this._gRamp);
     cancelAnimationFrame(this.rafId);
@@ -2059,13 +2035,13 @@ class Component extends DCLogic {
         el.style.transform = 'translateY(' + ((0.5 - t) * travel) + 'px)';
       };
       win(this.refs2.beat1, -0.02, 0.22);
-      win(this.refs2.beat2, 0.30, 0.54);
+      win(this.refs2.beat2, 0.30, 0.62);
       win(this.refs2.beat3, 0.66, 0.92);
       // kiki plays her own timed entrance once beat2 comes into view
       if (this.refs2.kikiStar && !this._kikiFlew && p > 0.36) {
         this._kikiFlew = true;
         const el = this.refs2.kikiStar;
-        el.style.transition = 'opacity 2.6s ease, transform 3.4s cubic-bezier(.34,0,.5,1)';
+        el.style.transition = 'opacity 2.2s ease, transform 2.8s cubic-bezier(.34,0,.5,1)';
         requestAnimationFrame(() => {
           el.style.opacity = '1';
           el.style.transform = 'translateX(0) rotate(0deg)';
@@ -2126,14 +2102,6 @@ class Component extends DCLogic {
     // scene 5 dawn (removed for the polo event page)
     this.dayAlpha = 0;
     if (this.refs2.dayBg) this.refs2.dayBg.style.opacity = '0';
-    // one continuous warmth, held back until the trailer, then carried through to the dawn
-    const w = this.refs2.warmth;
-    const ts = this.refs2.trailerSection;
-    if (w && ts) {
-      const h = window.innerHeight;
-      const lit = Math.max(0, Math.min(1, (h * 0.85 - ts.getBoundingClientRect().top) / (h * 0.85)));
-      w.style.opacity = String(lit * (1 - this.dayAlpha * 0.9));
-    }
   }
 
   draw(t) {
@@ -2261,8 +2229,8 @@ class Component extends DCLogic {
     const build = () => {
       if (!window.YT || !window.YT.Player) return false;
       this.ytPlayer = new window.YT.Player(holder, {
-        videoId: 'u2pUaW_JTMI',
-        playerVars: { autoplay: 1, mute: 1, controls: 0, loop: 1, playlist: 'u2pUaW_JTMI', start: 2, modestbranding: 1, playsinline: 1, rel: 0, disablekb: 1, fs: 0 },
+        videoId: 'Y7GAFRahuNc',
+        playerVars: { autoplay: 1, mute: 1, controls: 0, loop: 1, playlist: 'Y7GAFRahuNc', modestbranding: 1, playsinline: 1, rel: 0, disablekb: 1, fs: 0 },
         events: {
           onReady: (e) => {
             e.target.mute();
@@ -2393,45 +2361,13 @@ class Component extends DCLogic {
 
   renderVals() {
     const flipped = this.state.flipped;
-    const CATS = {
-      kr: [
+    const CATS = [
         { name: '키키 KiKi', tagline: '마을에 처음 도착한 별고양이', breed: '터키시 앙고라', birthday: '9월 15일', food: '생선', personality: '호기심 많고 영리해서 새로운 재주를 금세 익혀요.', img: true },
         { name: '???', tagline: '스프 향기를 따라온 둘째', personality: '아직 이름을 알려주지 않았어요. 게임에서 직접 만나 보세요!' },
         { name: '???', tagline: '나무 그늘에서 낮잠을 자요', personality: '아직 이름을 알려주지 않았어요. 게임에서 직접 만나 보세요!' },
         { name: '???', tagline: '당근 캐기의 달인', personality: '아직 이름을 알려주지 않았어요. 게임에서 직접 만나 보세요!' }
-      ],
-      en: [
-        { name: 'KiKi', tagline: 'The very first star-cat in the village', breed: 'Turkish Angora', birthday: 'September 15th', food: 'Fish', personality: 'A curious, clever soul who masters every new trick in a heartbeat.', img: true },
-        { name: '???', tagline: 'Followed the scent of soup', personality: "Hasn't told us their name yet. Meet them in the game!" },
-        { name: '???', tagline: 'Naps under the tree shade', personality: "Hasn't told us their name yet. Meet them in the game!" },
-        { name: '???', tagline: 'Master of carrot digging', personality: "Hasn't told us their name yet. Meet them in the game!" }
-      ],
-      jp: [
-        { name: 'キキ', tagline: '村にいちばん最初に来た星猫', breed: 'ターキッシュアンゴラ', birthday: '9月15日', food: 'おさかな', personality: '好奇心いっぱいで賢く、新しい芸をすぐ覚えます。', img: true },
-        { name: '???', tagline: 'スープの香りをたどって来た二番目', personality: 'まだ名前を教えてくれません。ゲームで会ってみてね！' },
-        { name: '???', tagline: '木かげでお昼寝します', personality: 'まだ名前を教えてくれません。ゲームで会ってみてね！' },
-        { name: '???', tagline: 'にんじん掘りの達人', personality: 'まだ名前を教えてくれません。ゲームで会ってみてね！' }
-      ],
-      cn: [
-        { name: '奇奇', tagline: '第一只来到村庄的星猫', breed: '土耳其安哥拉猫', birthday: '9月15日', food: '小鱼', personality: '好奇又聪明，新把戏一学就会。', img: true },
-        { name: '???', tagline: '循着汤香而来的第二只', personality: '还没告诉我们名字，快去游戏里见见它吧！' },
-        { name: '???', tagline: '在树荫下打盹', personality: '还没告诉我们名字，快去游戏里见见它吧！' },
-        { name: '???', tagline: '挖胡萝卜的高手', personality: '还没告诉我们名字，快去游戏里见见它吧！' }
-      ],
-      es: [
-        { name: 'KiKi', tagline: 'El primer gato estelar de la aldea', breed: 'Angora turco', birthday: '15 de septiembre', food: 'Pescado', personality: 'Un alma curiosa y lista que aprende cada truco en un instante.', img: true },
-        { name: '???', tagline: 'Siguió el aroma de la sopa', personality: 'Aún no nos ha dicho su nombre. ¡Conócelo en el juego!' },
-        { name: '???', tagline: 'Duerme la siesta bajo la sombra del árbol', personality: 'Aún no nos ha dicho su nombre. ¡Conócelo en el juego!' },
-        { name: '???', tagline: 'Maestro cavando zanahorias', personality: 'Aún no nos ha dicho su nombre. ¡Conócelo en el juego!' }
-      ],
-      fr: [
-        { name: 'KiKi', tagline: 'Le tout premier chat des étoiles du village', breed: 'Angora turc', birthday: '15 septembre', food: 'Poisson', personality: 'Une âme curieuse et maligne qui apprend chaque tour en un clin d’œil.', img: true },
-        { name: '???', tagline: 'A suivi le parfum de la soupe', personality: 'Il ne nous a pas encore dit son nom. Rencontrez-le dans le jeu !' },
-        { name: '???', tagline: 'Fait la sieste à l’ombre de l’arbre', personality: 'Il ne nous a pas encore dit son nom. Rencontrez-le dans le jeu !' },
-        { name: '???', tagline: 'Maître du déterrage de carottes', personality: 'Il ne nous a pas encore dit son nom. Rencontrez-le dans le jeu !' }
-      ]
-    };
-    const catsData = (CATS[this.state.lang] || CATS.kr).map(c => ({ ...c, breed: c.breed || '???', birthday: c.birthday || '???', food: c.food || '???', img: !!c.img }));
+      ];
+    const catsData = CATS.map(c => ({ ...c, breed: c.breed || '???', birthday: c.birthday || '???', food: c.food || '???', img: !!c.img }));
     const cats = catsData.map((c, i) => ({
       ...c,
       hasImage: c.img,
@@ -2439,14 +2375,11 @@ class Component extends DCLogic {
       flipTransform: flipped[i] ? 'rotateY(180deg)' : 'rotateY(0deg)',
       onFlip: () => this.setState(s => ({ flipped: { ...s.flipped, [i]: !s.flipped[i] } }))
     }));
-    const lang = this.state.lang;
     const T = {
-      kr: {
         originEyebrow: '이야기의 시작', originQuote: '“아빠, 고양이 키워도 돼?”', originNote: '고양이와 스프는\n한 아이의 이 질문에서 시작되었습니다.',
         meowText: '야옹 ~',
         brandName: '고양이와 스프',
         loadingLabel: '이야기를 불러오는 중...',
-        pickLanguage: '언어를 선택해주세요', okStart: '시작하기',
         loadingVoice: '아빠! 고양이 키워도 돼?',
         heroEyebrow: '잠들기 전에 읽는 이야기',
         heroHeadline: '밤하늘에서 스프 냄새가 나요',
@@ -2461,8 +2394,8 @@ class Component extends DCLogic {
         aboutTitle: '고양이와 스프는?',
         aboutP1: '고양이와 스프는,\n전세계 8000만 유저에게 사랑받고 있는\n힐링 방치형 모바일 게임입니다.',
         aboutP2: '보글보글 스프를 요리하는 귀여운 고양이들의\n숲 속 일상을 지금 확인해보세요!',
-        moreStory: '이 고양이들이 온 숲의\n밤 이야기를 들을까요',
-        moreHint: '아래로 스크롤해 이야기를 들으세요',
+        moreStory: '더 많은 이야기가 궁금하신가요?',
+        moreHint: '아래로 스크롤 해보세요.',
         btnTop: 'TOP',
         pageTitle: '고양이와 스프 · 제2회 제주폴로연맹회장배 폴로대회',
         pageDesc: '제2회 제주폴로연맹회장배 폴로대회와 함께하는 고양이와 스프. 전세계 8000만 유저에게 사랑받는 힐링 방치형 모바일 게임.',
@@ -2481,432 +2414,17 @@ class Component extends DCLogic {
         tapHint: '카드를 눌러 고양이를 만나 보세요',
         guitarMain: '어디선가 한 고양이는 기타를 치고\n노래를 부르기 시작해요.\n사랑의 노래를.',
         inter2: '밤이 깊도록 스프는 보글보글 끓고,\n고양이들은 모닥불 곁에서\n그르렁 그르렁...\n숲은 어느새 작은 마을이 되었어요.',
-        dawnHint: '그리고, 동쪽 하늘이\n밝아오기 시작했어요',
-        s5Eyebrow: '그리고, 아침',
-        s5Heading: '아침이 밝고,\n작은 스프 가게가 문을 열었어요',
-        s5Main: '이제, 이 숲의 집사는 당신이에요.\n고양이들과 함께\n스프를 끓여 보세요.',
         lblBreed: '품종', lblBirthday: '생일', lblFood: '좋아하는 음식',
         navStory: '이야기', navUpdate: '업데이트', navCoupon: '쿠폰 코드', navRecipe: '마법 레시피', navSocial: '소셜', navCats: '고양이들', navDownload: '다운로드', navMenu: '메뉴', navClose: '닫기',
         btnGoogle: 'Google Play에서 받기', btnApple: 'App Store에서 받기', btnCoupon: '쿠폰 코드 입력',
         bgmOn: '배경음 켜기', bgmOff: '배경음 끄기',
         ftTerms: '이용약관', ftPrivacy: '개인정보처리방침',
-        trailerEyebrow: '게임 영상', trailerMain: '별빛 숲의 하루를 영상으로 만나 보세요.', trailerYoutube: 'YouTube에서 보기'
-      },
-      en: {
-        originEyebrow: 'WHERE IT BEGAN', originQuote: '“Dad, can we get a cat?”', originNote: 'Cats & Soup\nbegan with one child’s question.',
-        meowText: 'Meow ~',
-        brandName: 'Cats & Soup',
-        loadingLabel: 'Preparing the story...',
-        pickLanguage: 'Choose your language', okStart: 'Start',
-        loadingVoice: 'Dad! Can we get a cat?',
-        heroEyebrow: 'A COZY BEDTIME STORY',
-        heroHeadline: 'The night sky smells of soup',
-        voice1: 'Dad.',
-        voice2: 'Dad, what\'s this cat\'s name?',
-        voice3a: 'Dad.',
-        voice3b: 'Thank you.',
-        heroTag: 'A tiny soup shop run by cats from the stars.',
-        scrollHint: 'Scroll down to begin the story',
-        eventLine1: 'Together with “Cats & Soup”',
-        eventLine2: 'The 2nd Jeju Polo Association President\'s Cup',
-        aboutTitle: 'What is Cats & Soup?',
-        aboutP1: 'Cats & Soup is a cozy idle mobile game\nloved by 80 million players around the world.',
-        aboutP2: 'Come see the forest days of the cats\nwho cook bubbling pots of soup!',
-        moreStory: 'Shall we hear the night story\nof the forest these cats came from?',
-        moreHint: 'Scroll on, and the story begins.',
-        btnTop: 'TOP',
-        pageTitle: 'Cats & Soup · 2nd Jeju Polo Association President\'s Cup',
-        pageDesc: 'Cats & Soup, together with the 2nd Jeju Polo Association President\'s Cup. A cozy idle game loved by 80 million players.',
-        storyEyebrow: 'THE FIRST NIGHT,\nA SPARK SENT SKYWARD',
-        beat1: 'One night, from an old observatory,\nmany tiny sparks\nwere sent up into the sky.',
-        beat2: 'The light passed between the stars\nand reached the Cat Star.\nThere lived a curious star-cat named KiKi.',
-        beat3: 'KiKi rode a ribbon of starlight\nthrough the clouds\ndown into the sleeping forest.',
-        catStar: 'THE CAT STAR',
-        s3Eyebrow: 'THE SECOND NIGHT,\nA POT LEFT SIMMERING',
-        s3Main: 'What KiKi found in the woods\nwas a pot bubbling over the fire.\nOne pot of soup.',
-        stirHint: 'Hover over the pot to stir the soup',
-        clickMe: 'Click KiKi',
-        inter1: "So the soup would not scorch,\nKiKi stirred the pot with care.\nFrom that night on,\nKiKi was the cook of the forest.",
-        s4Eyebrow: 'THE THIRD NIGHT,\nGUESTS WHO FOLLOWED THE SCENT',
-        s4Main: 'A soft light rose with the steam,\nand one by one\nthe star-cats\nfollowed the scent down.',
-        tapHint: 'Tap a card to meet a cat',
-        guitarMain: 'Somewhere, a cat starts playing guitar\nand begins to sing.\nA love song.',
-        inter2: 'The soup bubbled late into the night,\nthe cats by the fire\npurred and purred...\nand the forest became a little village.',
-        dawnHint: 'Then the eastern sky\nbegan to glow',
-        s5Eyebrow: 'AND THEN, MORNING',
-        s5Heading: 'Morning came,\nand the little soup shop opened its doors',
-        s5Main: 'Now the forest is yours to care for.\nCome cook soup\nwith the cats.',
-        lblBreed: 'Breed', lblBirthday: 'Birthday', lblFood: 'Favorite Food',
-        navStory: 'Story', navUpdate: 'Update', navCoupon: 'Coupon Code', navRecipe: 'Magic Recipe', navSocial: 'Social', navCats: 'Cats', navDownload: 'Download', navMenu: 'Menu', navClose: 'Close',
-        btnGoogle: 'Get it on Google Play', btnApple: 'Download on the App Store', btnCoupon: 'Enter Coupon Code',
-        bgmOn: 'Music On', bgmOff: 'Music Off',
-        ftTerms: 'Terms of Service', ftPrivacy: 'Privacy Policy',
-        trailerEyebrow: 'WATCH THE TRAILER', trailerMain: 'See a day in the starlit forest, in motion.', trailerYoutube: 'Watch on YouTube'
-      },
-      jp: {
-        originEyebrow: 'はじまりのおはなし', originQuote: '「パパ、ねこ飼ってもいい？」', originNote: '『猫とスープ』は、\nひとりの子どものこの質問から生まれました。',
-        meowText: 'にゃあ ~',
-        brandName: '猫とスープ',
-        loadingLabel: '物語を準備中...',
-        pickLanguage: '言語を選んでください', okStart: 'はじめる',
-        loadingVoice: 'パパ！ネコ、飼ってもいい？',
-        heroEyebrow: 'ねむる前に読むおはなし',
-        heroHeadline: '夜空から、スープの香り',
-        voice1: 'パパ。',
-        voice2: 'パパ、このネコの名前はなに？',
-        voice3a: 'パパ。',
-        voice3b: 'ありがとう。',
-        heroTag: '星からやってきた猫たちの、ちいさなスープ屋さん。',
-        scrollHint: 'スクロールして物語をはじめよう',
-        eventLine1: '「猫とスープ」とともに',
-        eventLine2: '第2回 済州ポロ連盟会長杯 ポロ大会',
-        aboutTitle: '猫とスープって？',
-        aboutP1: '『猫とスープ』は、世界8000万のプレイヤーに愛される\nヒーリング放置型モバイルゲームです。',
-        aboutP2: 'ことことスープを作る、かわいい猫たちの\n森のくらしを、いま覗いてみてください。',
-        moreStory: 'この猫たちがやってきた森の、\n夜の話を聞きましょう',
-        moreHint: 'スクロールして、物語をどうぞ',
-        btnTop: 'TOP',
-        pageTitle: '猫とスープ · 第2回 済州ポロ連盟会長杯',
-        pageDesc: '第2回 済州ポロ連盟会長杯とともに届ける『猫とスープ』。世界8000万に愛されるヒーリング放置ゲーム。',
-        storyEyebrow: '最初の夜、\n空へ送られた小さな光',
-        beat1: 'ある夜、古い天文台から、\n小さな光がいくつも\n空へ打ち上げられました。',
-        beat2: 'その光は星々のあいだを抜けて\n猫の星へ届きました。\n好奇心いっぱいの星猫キキが住んでいました。',
-        beat3: 'キキは星あかりのリボンに乗って、\n雲を抜け、\n眠る森へ降りていきました。',
-        catStar: '猫の星',
-        s3Eyebrow: '二番目の夜、\nことこと煮える鍋',
-        s3Main: '森の中でキキが見つけたのは、\n焚き火の上でことこと煮える、\nスープの鍋ひとつ。',
-        stirHint: '鍋にカーソルを重ねて、スープをかき混ぜてみて',
-        clickMe: 'キキをクリック',
-        inter1: 'スープが焦げないように、\nキキはそっと鍋をかき混ぜました。\nその夜からキキは、\n森の料理人になったのです。',
-        s4Eyebrow: '三番目の夜、\n香りをたどってきたお客さん',
-        s4Main: 'スープの湯気に乗って、\n淡い光が立ちのぼると、\n星猫たちがひとつ、またひとつ、\n香りをたどって降りてきました。',
-        tapHint: 'カードをタップして猫に会おう',
-        guitarMain: 'どこかで一匹の猫がギターを弾き、\n歌をうたいはじめます。\n愛の歌を。',
-        inter2: '夜が更けるまでスープはことこと、\n猫たちは焚き火のそばで\nごろごろ……\n森はいつしか小さな村になりました。',
-        dawnHint: 'そして、東の空が\n明るみはじめました',
-        s5Eyebrow: 'そして、朝',
-        s5Heading: '朝が来て、\nちいさなスープ屋さんが店をひらきました',
-        s5Main: 'これからは、あなたがこの森の飼い主。\n猫たちといっしょに\nスープを作りましょう。',
-        lblBreed: '猫種', lblBirthday: '誕生日', lblFood: '好きな食べ物',
-        navStory: '物語', navUpdate: 'アップデート', navCoupon: 'クーポンコード', navRecipe: '魔法のレシピ', navSocial: 'ソーシャル', navCats: '猫たち', navDownload: 'ダウンロード', navMenu: 'メニュー', navClose: '閉じる',
-        btnGoogle: 'Google Playで手に入れる', btnApple: 'App Storeでダウンロード', btnCoupon: 'クーポンコード入力',
-        bgmOn: '背景音楽 オン', bgmOff: '背景音楽 オフ',
-        ftTerms: '利用規約', ftPrivacy: 'プライバシーポリシー',
-        trailerEyebrow: 'ゲーム映像', trailerMain: '星あかりの森の一日を、映像でどうぞ。', trailerYoutube: 'YouTubeで見る'
-      },
-      cn: {
-        originEyebrow: '故事的起点', originQuote: '“爸爸，我们能养只猫吗？”', originNote: '《猫咪汤》\n从一个孩子的这句提问里开始了。',
-        meowText: '喵 ~',
-        brandName: '猫咪汤',
-        loadingLabel: '正在准备故事...',
-        pickLanguage: '请选择语言', okStart: '开始',
-        loadingVoice: '爸爸！我们能养只猫吗？',
-        heroEyebrow: '睡前读的小故事',
-        heroHeadline: '夜空里飘来汤的香气',
-        voice1: '爸爸。',
-        voice2: '爸爸，这只猫叫什么名字呀？',
-        voice3a: '爸爸。',
-        voice3b: '谢谢你。',
-        heroTag: '来自星星的猫咪们开的小小汤铺。',
-        scrollHint: '向下滚动，开始这个故事',
-        eventLine1: '与《猫咪汤》一起',
-        eventLine2: '第二届济州马球联盟会长杯马球大赛',
-        aboutTitle: '猫咪汤是什么？',
-        aboutP1: '《猫咪汤》是一款治愈系放置手游，\n已收获全球八千万玩家的喜爱。',
-        aboutP2: '来看看可爱猫咪们在森林里\n咕嘟咕嘟煮汤的日常吧！',
-        moreStory: '要不要听一听\n这些猫咪来时的森林夜话',
-        moreHint: '向下滚动，听一听这个故事',
-        btnTop: 'TOP',
-        pageTitle: '猫咪汤 · 第二届济州马球联盟会长杯',
-        pageDesc: '第二届济州马球联盟会长杯，与《猫咪汤》同行。全球八千万玩家喜爱的治愈放置手游。',
-        storyEyebrow: '第一夜，\n送上夜空的微光',
-        beat1: '一天夜里，从一座老天文台，\n好几点微光\n被送上了夜空。',
-        beat2: '那道光穿过群星，\n来到了猫咪星。\n好奇的星猫奇奇就住在那里。',
-        beat3: '奇奇乘着星光的缎带，\n穿过云层，\n来到了沉睡的森林。',
-        catStar: '猫咪星',
-        s3Eyebrow: '第二夜，\n咕嘢咕嘢冒泡的汤锅',
-        s3Main: '在森林深处，奇奇发现了\n篝火上咕嘟咕嘟冒泡的\n一口汤锅。',
-        stirHint: '把鼠标移到锅上，搅一搅汤吧',
-        clickMe: '点点奇奇',
-        inter1: '为了不让汤烧糊，\n奇奇小心翼翼地搅着锅。\n从那晚起，奇奇成了\n森林的厨师。',
-        s4Eyebrow: '第三夜，\n循香而来的客人',
-        s4Main: '柔和的光随着热气升起，\n星猫们一只接一只，\n循着香气\n来到了森林。',
-        tapHint: '点击卡片，认识猫咪',
-        guitarMain: '不知从哪里，一只猫咪抱起吉他，\n唱起了歌。\n一首爱的歌。',
-        inter2: '汤咕嘟咕嘟煮到深夜，\n猫咪们在火边\n打着呼噜。\n不知不觉，森林变成了一座小村庄。',
-        dawnHint: '然后，东方的天空\n开始泛白',
-        s5Eyebrow: '然后，天亮了',
-        s5Heading: '天亮了，\n小小的汤铺开门了',
-        s5Main: '现在，你就是这片森林的管家。\n来和猫咪们一起\n煮汤吧。',
-        lblBreed: '品种', lblBirthday: '生日', lblFood: '喜欢的食物',
-        navStory: '故事', navUpdate: '更新', navCoupon: '优惠码', navRecipe: '魔法食谱', navSocial: '社交', navCats: '猫咪们', navDownload: '下载', navMenu: '菜单', navClose: '关闭',
-        btnGoogle: '在 Google Play 下载', btnApple: '在 App Store 下载', btnCoupon: '输入优惠码',
-        bgmOn: '开启音乐', bgmOff: '关闭音乐',
-        ftTerms: '服务条款', ftPrivacy: '隐私政策',
-        trailerEyebrow: '游戏视频', trailerMain: '用视频认识星光森林的一天。', trailerYoutube: '在 YouTube 观看'
-      },
-      es: {
-        originEyebrow: 'DÓNDE EMPEZÓ', originQuote: '«Papá, ¿podemos tener un gato?»', originNote: 'Cats & Soup\nnació de la pregunta sencilla de una niña.',
-        meowText: 'Miau ~',
-        brandName: 'Cats & Soup',
-        loadingLabel: 'Preparando la historia...',
-        pickLanguage: 'Elige tu idioma', okStart: 'Comenzar',
-        loadingVoice: '¡Papá! ¿Podemos tener un gato?',
-        heroEyebrow: 'UN CUENTO PARA ANTES DE DORMIR',
-        heroHeadline: 'El cielo nocturno huele a sopa',
-        voice1: 'Papá.',
-        voice2: 'Papá, ¿cómo se llama este gato?',
-        voice3a: 'Papá.',
-        voice3b: 'Gracias.',
-        heroTag: 'Una diminuta tienda de sopa de gatos venidos de las estrellas.',
-        scrollHint: 'Desplázate hacia abajo para comenzar la historia',
-        eventLine1: 'Junto a «Cats & Soup»',
-        eventLine2: '2.º Torneo Copa del Presidente de la Federación de Polo de Jeju',
-        aboutTitle: '¿Qué es Cats & Soup?',
-        aboutP1: 'Cats & Soup es un juego idle relajante\nquerido por 80 millones de jugadores en el mundo.',
-        aboutP2: 'Descubre el día a día en el bosque de los gatos\nque cocinan una sopa burbujeante.',
-        moreStory: '¿Oímos la historia nocturna\ndel bosque de donde vinieron estos gatos?',
-        moreHint: 'Sigue bajando para oír la historia.',
-        btnTop: 'TOP',
-        pageTitle: 'Cats & Soup · Copa del Presidente de Polo de Jeju',
-        pageDesc: 'Cats & Soup, junto al 2.º Torneo Copa del Presidente de la Federación de Polo de Jeju.',
-        storyEyebrow: 'LA PRIMERA NOCHE,\nUNA CHISPA HACIA EL CIELO',
-        beat1: 'Una noche, desde un viejo observatorio,\nvarias pequeñas chispas\nfueron lanzadas al cielo.',
-        beat2: 'La luz cruzó las estrellas\ny llegó a la Estrella de los Gatos.\nAllí vivía un curioso gato estelar llamado KiKi.',
-        beat3: 'KiKi montó una cinta de luz estelar,\nbajó entre las nubes\nhasta un bosque dormido.',
-        catStar: 'LA ESTRELLA DE LOS GATOS',
-        s3Eyebrow: 'LA SEGUNDA NOCHE,\nUNA OLLA A FUEGO LENTO',
-        s3Main: 'En lo profundo del bosque, KiKi encontró\nuna olla burbujeando sobre el fuego.\nUna olla de sopa.',
-        stirHint: 'Pasa el ratón sobre la olla para remover la sopa',
-        clickMe: 'Haz clic en KiKi',
-        inter1: 'Para que la sopa no se quemara,\nKiKi removió la olla con cuidado.\nDesde esa noche,\nfue el cocinero del bosque.',
-        s4Eyebrow: 'LA TERCERA NOCHE,\nINVITADOS TRAS EL AROMA',
-        s4Main: 'Con el vapor de la sopa\nse elevó una luz suave,\ny uno a uno los gatos estelares\nbajaron siguiendo el aroma.',
-        tapHint: 'Toca una tarjeta para conocer a un gato',
-        guitarMain: 'En algún lugar, un gato toma una guitarra\ny empieza a cantar.\nUna canción de amor.',
-        inter2: 'La sopa hirvió hasta bien entrada la noche,\nlos gatos junto al fuego\nronroneaban...\ny el bosque se volvió una pequeña aldea.',
-        dawnHint: 'Entonces el cielo del este\nempezó a brillar',
-        s5Eyebrow: 'Y ENTONCES, LA MAÑANA',
-        s5Heading: 'Llegó la mañana,\ny la pequeña tienda de sopa abrió sus puertas',
-        s5Main: 'Ahora el bosque está a tu cuidado.\nVen a cocinar sopa\ncon los gatos.',
-        lblBreed: 'Raza', lblBirthday: 'Cumpleaños', lblFood: 'Comida favorita',
-        navStory: 'Historia', navUpdate: 'Novedades', navCoupon: 'Código de cupón', navRecipe: 'Receta mágica', navSocial: 'Social', navCats: 'Gatos', navDownload: 'Descargar', navMenu: 'Menú', navClose: 'Cerrar',
-        btnGoogle: 'Consíguelo en Google Play', btnApple: 'Descárgalo en el App Store', btnCoupon: 'Introducir código',
-        bgmOn: 'Música activada', bgmOff: 'Música desactivada',
-        ftTerms: 'Términos del servicio', ftPrivacy: 'Política de privacidad',
-        trailerEyebrow: 'VER EL TRÁILER', trailerMain: 'Descubre en vídeo un día en el bosque estrellado.', trailerYoutube: 'Ver en YouTube'
-      },
-      fr: {
-        originEyebrow: 'AU COMMENCEMENT', originQuote: '« Papa, on peut avoir un chat ? »', originNote: 'Cats & Soup\nest né de la question toute simple d’une enfant.',
-        meowText: 'Miaou ~',
-        brandName: 'Cats & Soup',
-        loadingLabel: 'Préparation de l’histoire...',
-        pickLanguage: 'Choisissez votre langue', okStart: 'Commencer',
-        loadingVoice: 'Papa ! On peut avoir un chat ?',
-        heroEyebrow: 'UNE HISTOIRE POUR LE SOIR',
-        heroHeadline: 'Le ciel nocturne sent la soupe',
-        voice1: 'Papa.',
-        voice2: 'Papa, il s’appelle comment, ce chat ?',
-        voice3a: 'Papa.',
-        voice3b: 'Merci.',
-        heroTag: 'Une toute petite échoppe de soupe tenue par des chats venus des étoiles.',
-        scrollHint: 'Faites défiler vers le bas pour commencer l’histoire',
-        eventLine1: 'Avec « Cats & Soup »',
-        eventLine2: '2e Coupe du président de la Fédération de polo de Jeju',
-        aboutTitle: 'C’est quoi, Cats & Soup ?',
-        aboutP1: 'Cats & Soup est un jeu idle apaisant,\naimé par 80 millions de joueurs dans le monde.',
-        aboutP2: 'Découvrez le quotidien forestier des chats\nqui mijotent une soupe toute douce.',
-        moreStory: 'Écoutons l’histoire de la nuit\ndans la forêt d’où viennent ces chats.',
-        moreHint: 'Faites défiler pour écouter l’histoire.',
-        btnTop: 'TOP',
-        pageTitle: 'Cats & Soup · Coupe du président de polo de Jeju',
-        pageDesc: 'Cats & Soup, avec la 2e Coupe du président de la Fédération de polo de Jeju.',
-        storyEyebrow: 'LA PREMIÈRE NUIT,\nUNE ÉTINCELLE VERS LE CIEL',
-        beat1: 'Une nuit, depuis un vieil observatoire,\nplusieurs petites étincelles\nfurent lancées dans le ciel.',
-        beat2: 'La lumière traversa les étoiles\net rejoignit l’Étoile des Chats.\nLà vivait un curieux chat des étoiles nommé KiKi.',
-        beat3: 'KiKi s’envola sur un ruban de lumière d’étoiles,\nà travers les nuages,\njusqu’à une forêt endormie.',
-        catStar: 'L’ÉTOILE DES CHATS',
-        s3Eyebrow: 'LA DEUXIÈME NUIT,\nUNE MARMITE QUI MIJOTE',
-        s3Main: 'Au cœur des bois, KiKi trouva\nune marmite mijotant sur le feu.\nUne marmite de soupe.',
-        stirHint: 'Survolez la marmite pour remuer la soupe',
-        clickMe: 'Cliquez sur KiKi',
-        inter1: 'Pour que la soupe ne brûle pas,\nKiKi remua doucement la marmite.\nDès cette nuit-là,\nil devint le cuisinier de la forêt.',
-        s4Eyebrow: 'LA TROISIÈME NUIT,\nDES INVITÉS SUIVANT LE PARFUM',
-        s4Main: 'Avec la vapeur de la soupe\ns’éleva une lumière douce,\net un à un les chats des étoiles\ndescendirent en suivant le parfum.',
-        tapHint: 'Touchez une carte pour rencontrer un chat',
-        guitarMain: 'Quelque part, un chat prend une guitare\net se met à chanter.\nUne chanson d’amour.',
-        inter2: 'La soupe mijota tard dans la nuit,\nles chats près du feu\nronronnaient...\net la forêt devint un petit village.',
-        dawnHint: 'Puis le ciel de l’est\nse mit à briller',
-        s5Eyebrow: 'ET PUIS, LE MATIN',
-        s5Heading: 'Le matin vint,\net la petite échoppe de soupe ouvrit ses portes',
-        s5Main: 'La forêt est désormais à votre charge.\nVenez cuisiner de la soupe\navec les chats.',
-        lblBreed: 'Race', lblBirthday: 'Anniversaire', lblFood: 'Plat préféré',
-        navStory: 'Histoire', navUpdate: 'Mises à jour', navCoupon: 'Code promo', navRecipe: 'Recette magique', navSocial: 'Social', navCats: 'Chats', navDownload: 'Télécharger', navMenu: 'Menu', navClose: 'Fermer',
-        btnGoogle: 'Disponible sur Google Play', btnApple: 'Télécharger dans l’App Store', btnCoupon: 'Saisir un code',
-        bgmOn: 'Musique activée', bgmOff: 'Musique désactivée',
-        ftTerms: 'Conditions d’utilisation', ftPrivacy: 'Politique de confidentialité',
-        trailerEyebrow: 'VOIR LA BANDE-ANNONCE', trailerMain: 'Découvrez en vidéo une journée dans la forêt étoilée.', trailerYoutube: 'Regarder sur YouTube'
-      },
-      th: {
-        originEyebrow: 'จุดเริ่มต้นของเรื่องนี้', originQuote: '“พ่อคะ เราเลี้ยงแมวได้ไหม?”', originNote: 'Cats & Soup\nเริ่มจากคำถามง่าย ๆ ของเด็กคนหนึ่ง',
-        meowText: 'เมี้ยว ~',
-        brandName: 'Cats & Soup',
-        loadingLabel: 'กำลังเตรียมเรื่องเล่า...',
-        pickLanguage: 'เลือกภาษาของคุณ', okStart: 'เริ่ม',
-        loadingVoice: 'พ่อคะ! เราเลี้ยงแมวได้ไหม?',
-        heroEyebrow: 'นิทานก่อนนอน',
-        heroHeadline: 'ท้องฟ้ายามค่ำมีกลิ่นซุป',
-        voice1: 'พ่อคะ',
-        voice2: 'พ่อคะ แมวตัวนี้ชื่ออะไร?',
-        voice3a: 'พ่อคะ',
-        voice3b: 'ขอบคุณนะ',
-        heroTag: 'ร้านซุปเล็ก ๆ ของเหล่าแมวที่มาจากดวงดาว',
-        scrollHint: 'เลื่อนลงเพื่อเริ่มเรื่องเล่า',
-        eventLine1: 'ร่วมกับ “Cats & Soup”',
-        eventLine2: 'โปโลชิงถ้วยประธานสหพันธ์โปโลเชจู ครั้งที่ 2',
-        aboutTitle: 'Cats & Soup คืออะไร?',
-        aboutP1: 'Cats & Soup คือเกมมือถือแนวฮีลลิ่งแบบปล่อยวาง\nที่ผู้เล่นทั่วโลกกว่า 80 ล้านคนรัก',
-        aboutP2: 'มาดูชีวิตในป่าของแมวน่ารัก\nที่กำลังเคี่ยวซุปเดือดปุด ๆ กันเถอะ!',
-        moreStory: 'แมวเหล่านี้มาจากป่าไหน\nมาฟังเรื่องราตรีของป่านั้นกันเถอะ',
-        moreHint: 'เลื่อนลงเพื่อฟังเรื่องเล่า',
-        btnTop: 'TOP',
-        pageTitle: 'Cats & Soup · โปโลชิงถ้วยประธานสหพันธ์โปโลเชจู',
-        pageDesc: 'Cats & Soup ไปกับโปโลชิงถ้วยประธานสหพันธ์โปโลเชจู ครั้งที่ 2',
-        storyEyebrow: 'คืนแรก\nแสงน้อย ๆ ที่ลอยขึ้นฟ้า',
-        beat1: 'คืนหนึ่ง หอดูดาวเก่าแก่\nส่งประกายแสงเล็ก ๆ หลายดวง\nขึ้นไปบนท้องฟ้า',
-        beat2: 'แสงนั้นลอยผ่านหมู่ดาว\nไปจนถึงดาวแมว\nคิคิ แมวดาวผู้ช่างสงสัยอาศัยอยู่ที่นั่น',
-        beat3: 'คิคินั่งริบบิ้นแสงดาว\nผ่านหมู่เมฆ\nลงมาสู่ป่าที่กำลังหลับใหล',
-        catStar: 'ดาวแมว',
-        s3Eyebrow: 'คืนที่สอง\nหม้อที่เดือดปุด ๆ',
-        s3Main: 'กลางป่าลึก คิคิพบ\nหม้อที่เดือดอยู่บนกองไฟ\nซุปหนึ่งใบ',
-        stirHint: 'เลื่อนเมาส์ไปที่หม้อเพื่อคนซุป',
-        clickMe: 'คลิกที่คิคิ',
-        inter1: 'คิคิคนซุปอย่างเบามือ\nเพื่อไม่ให้ไหม้\nและตั้งแต่คืนนั้นเธอก็กลายเป็น\nพ่อครัวประจำป่า',
-        s4Eyebrow: 'คืนที่สาม\nแขกที่ตามกลิ่นมา',
-        s4Main: 'ไอซุปลอยขึ้น\nพร้อมแสงอ่อน ๆ\nแล้วแมวดาวก็ทยอยลงมา\nตามกลิ่นหอมนั้น',
-        tapHint: 'แตะการ์ดเพื่อทำความรู้จักแมว',
-        guitarMain: 'ที่ไหนสักแห่ง แมวตัวหนึ่งหยิบกีตาร์ขึ้นมา\nแล้วเริ่มร้องเพลง\nเพลงรัก',
-        inter2: 'ซุปเดือดไปจนดึกดื่น\nแมว ๆ ข้างกองไฟ\nครางเบา ๆ ...\nและป่าก็กลายเป็นหมู่บ้านเล็ก ๆ',
-        dawnHint: 'แล้วขอบฟ้าทางตะวันออก\nก็เริ่มสว่าง',
-        s5Eyebrow: 'และแล้ว เช้าก็มาถึง',
-        s5Heading: 'เช้ามาเยือน\nและร้านซุปเล็ก ๆ ก็เปิดประตู',
-        s5Main: 'ตั้งแต่นี้ไป ป่าแห่งนี้อยู่ในความดูแลของคุณ\nมาทำซุป\nกับเหล่าแมวกันเถอะ',
-        lblBreed: 'สายพันธุ์', lblBirthday: 'วันเกิด', lblFood: 'อาหารโปรด',
-        navStory: 'เรื่องเล่า', navUpdate: 'อัปเดต', navCoupon: 'โค้ดคูปอง', navRecipe: 'สูตรเวทมนตร์', navSocial: 'โซเชียล', navCats: 'เหล่าแมว', navDownload: 'ดาวน์โหลด', navMenu: 'เมนู', navClose: 'ปิด',
-        btnGoogle: 'ดาวน์โหลดบน Google Play', btnApple: 'ดาวน์โหลดบน App Store', btnCoupon: 'กรอกโค้ด',
-        bgmOn: 'เปิดเพลง', bgmOff: 'ปิดเพลง',
-        ftTerms: 'ข้อกำหนดการใช้งาน', ftPrivacy: 'นโยบายความเป็นส่วนตัว',
-        trailerEyebrow: 'ดูตัวอย่างเกม', trailerMain: 'ชมหนึ่งวันในป่าใต้แสงดาวผ่านวิดีโอ', trailerYoutube: 'ดูบน YouTube'
-      },
-      pt: {
-        originEyebrow: 'ONDE TUDO COMEÇOU', originQuote: '“Pai, podemos ter um gato?”', originNote: 'Cats & Soup\nnasceu da pergunta simples de uma criança.',
-        meowText: 'Miau ~',
-        brandName: 'Cats & Soup',
-        loadingLabel: 'Preparando a história...',
-        pickLanguage: 'Escolha o seu idioma', okStart: 'Começar',
-        loadingVoice: 'Pai! Podemos ter um gato?',
-        heroEyebrow: 'UMA HISTÓRIA PARA DORMIR',
-        heroHeadline: 'O céu noturno cheira a sopa',
-        voice1: 'Pai.',
-        voice2: 'Pai, como se chama este gato?',
-        voice3a: 'Pai.',
-        voice3b: 'Obrigada.',
-        heroTag: 'Uma pequenina casa de sopas dos gatos vindos das estrelas.',
-        scrollHint: 'Role para baixo para começar a história',
-        eventLine1: 'Junto com “Cats & Soup”',
-        eventLine2: '2.º Torneio Taça do Presidente da Federação de Polo de Jeju',
-        aboutTitle: 'O que é Cats & Soup?',
-        aboutP1: 'Cats & Soup é um jogo idle aconchegante,\namado por 80 milhões de jogadores no mundo.',
-        aboutP2: 'Venha ver o dia a dia na floresta dos gatos\nque cozinham uma sopa a borbulhar.',
-        moreStory: 'Vamos ouvir a história da noite\nna floresta de onde vieram estes gatos?',
-        moreHint: 'Role para baixo e ouça a história.',
-        btnTop: 'TOP',
-        pageTitle: 'Cats & Soup · Taça do Presidente de Polo de Jeju',
-        pageDesc: 'Cats & Soup, junto com o 2.º Torneio Taça do Presidente da Federação de Polo de Jeju.',
-        storyEyebrow: 'PRIMEIRA NOITE,\nAS LUZINHAS QUE SUBIRAM AO CÉU',
-        beat1: 'Certa noite, um velho observatório\nlançou várias pequenas faíscas\nao céu.',
-        beat2: 'A luz atravessou as estrelas\ne chegou à Estrela dos Gatos.\nLá vivia KiKi, uma gatinha estelar muito curiosa.',
-        beat3: 'KiKi subiu numa fita de luz estelar,\npassou pelas nuvens\ne desceu até uma floresta adormecida.',
-        catStar: 'Estrela dos Gatos',
-        s3Eyebrow: 'SEGUNDA NOITE,\nA PANELA QUE BORBULHAVA',
-        s3Main: 'No meio da floresta, KiKi encontrou\numa panela a ferver sobre a fogueira.\nUma panela de sopa.',
-        stirHint: 'Passe o cursor sobre a panela para mexer a sopa',
-        clickMe: 'Clique na KiKi',
-        inter1: 'Para a sopa não queimar,\nKiKi mexeu a panela com cuidado.\nDaquela noite em diante,\ntornou-se a cozinheira da floresta.',
-        s4Eyebrow: 'TERCEIRA NOITE,\nOS CONVIDADOS DO AROMA',
-        s4Main: 'Com o vapor da sopa\nsubiu uma luz suave,\ne um a um os gatos estelares\ndesceram seguindo o aroma.',
-        tapHint: 'Toque no cartão para conhecer o gato',
-        guitarMain: 'Nalgum lugar, um gato pega numa guitarra\ne começa a cantar.\nUma canção de amor.',
-        inter2: 'A sopa ferveu noite adentro,\nos gatos junto à fogueira\nronronaram...\ne a floresta virou uma pequena aldeia.',
-        dawnHint: 'E então o céu a leste\ncomeçou a clarear',
-        s5Eyebrow: 'E ENTÃO, A MANHÃ',
-        s5Heading: 'A manhã chegou,\ne a pequena casa de sopas abriu as portas',
-        s5Main: 'Agora esta floresta está aos seus cuidados.\nVenha cozinhar sopa\ncom os gatos.',
-        lblBreed: 'Raça', lblBirthday: 'Aniversário', lblFood: 'Comida preferida',
-        navStory: 'História', navUpdate: 'Atualizações', navCoupon: 'Código de cupão', navRecipe: 'Receita mágica', navSocial: 'Social', navCats: 'Gatos', navDownload: 'Descarregar', navMenu: 'Menu', navClose: 'Fechar',
-        btnGoogle: 'Baixar no Google Play', btnApple: 'Baixar na App Store', btnCoupon: 'Resgatar código',
-        bgmOn: 'Música ligada', bgmOff: 'Música desligada',
-        ftTerms: 'Termos de utilização', ftPrivacy: 'Política de privacidade',
-        trailerEyebrow: 'VEJA O TRAILER', trailerMain: 'Descubra em vídeo um dia na floresta estrelada.', trailerYoutube: 'Ver no YouTube'
-      },
-      id: {
-        originEyebrow: 'AWAL CERITANYA', originQuote: '“Ayah, boleh kita pelihara kucing?”', originNote: 'Cats & Soup\nlahir dari pertanyaan sederhana seorang anak.',
-        meowText: 'Meong ~',
-        brandName: 'Cats & Soup',
-        loadingLabel: 'Menyiapkan ceritanya...',
-        pickLanguage: 'Pilih bahasamu', okStart: 'Mulai',
-        loadingVoice: 'Ayah! Boleh kita pelihara kucing?',
-        heroEyebrow: 'CERITA PENGANTAR TIDUR',
-        heroHeadline: 'Langit malam beraroma sup',
-        voice1: 'Ayah.',
-        voice2: 'Ayah, siapa nama kucing ini?',
-        voice3a: 'Ayah.',
-        voice3b: 'Terima kasih.',
-        heroTag: 'Kedai sup mungil milik para kucing dari bintang.',
-        scrollHint: 'Gulir ke bawah untuk memulai cerita',
-        eventLine1: 'Bersama “Cats & Soup”',
-        eventLine2: 'Piala Presiden Federasi Polo Jeju ke-2',
-        aboutTitle: 'Apa itu Cats & Soup?',
-        aboutP1: 'Cats & Soup adalah game idle yang menenangkan,\ndicintai 80 juta pemain di seluruh dunia.',
-        aboutP2: 'Lihat keseharian para kucing lucu di hutan\nyang memasak sup mendidih pelan.',
-        moreStory: 'Mau dengar cerita malam\ndi hutan asal kucing-kucing ini?',
-        moreHint: 'Gulir terus untuk mendengar ceritanya.',
-        btnTop: 'TOP',
-        pageTitle: 'Cats & Soup · Piala Presiden Polo Jeju',
-        pageDesc: 'Cats & Soup bersama Piala Presiden Federasi Polo Jeju ke-2.',
-        storyEyebrow: 'MALAM PERTAMA,\nCAHAYA KECIL YANG NAIK KE LANGIT',
-        beat1: 'Suatu malam, dari sebuah observatorium tua,\nbeberapa cahaya kecil\ndilepaskan ke langit.',
-        beat2: 'Cahaya itu melintasi bintang-bintang\ndan sampai di Bintang Kucing.\nDi sanalah KiKi, kucing bintang yang penasaran, tinggal.',
-        beat3: 'KiKi menaiki pita cahaya bintang,\nmelewati awan,\nlalu turun ke hutan yang tertidur.',
-        catStar: 'BINTANG KUCING',
-        s3Eyebrow: 'MALAM KEDUA,\nPANCI YANG MENDIDIH PELAN',
-        s3Main: 'Di dalam hutan, KiKi menemukan\nsepanci yang mendidih di atas api unggun.\nSepanci sup.',
-        stirHint: 'Arahkan kursor ke panci untuk mengaduk sup',
-        clickMe: 'Klik KiKi',
-        inter1: 'Agar sup tidak gosong,\nKiKi mengaduk panci perlahan.\nSejak malam itu,\nia menjadi juru masak hutan.',
-        s4Eyebrow: 'MALAM KETIGA,\nTAMU YANG MENGIKUTI AROMA',
-        s4Main: 'Bersama uap sup\nnaik cahaya lembut,\ndan satu per satu kucing bintang\nturun mengikuti aromanya.',
-        tapHint: 'Ketuk kartu untuk berkenalan dengan kucing',
-        guitarMain: 'Di suatu tempat, seekor kucing memetik gitar\ndan mulai bernyanyi.\nSebuah lagu cinta.',
-        inter2: 'Sup mendidih hingga larut malam,\npara kucing di dekat api unggun\nmendengkur...\ndan hutan menjadi sebuah desa kecil.',
-        dawnHint: 'Lalu langit timur\nmulai terang',
-        s5Eyebrow: 'DAN KEMUDIAN, PAGI',
-        s5Heading: 'Pagi tiba,\ndan kedai sup mungil itu membuka pintunya',
-        s5Main: 'Kini hutan ini ada dalam asuhanmu.\nMasaklah sup\nbersama para kucing.',
-        lblBreed: 'Ras', lblBirthday: 'Ulang tahun', lblFood: 'Makanan favorit',
-        navStory: 'Cerita', navUpdate: 'Pembaruan', navCoupon: 'Kode kupon', navRecipe: 'Resep ajaib', navSocial: 'Sosial', navCats: 'Kucing', navDownload: 'Unduh', navMenu: 'Menu', navClose: 'Tutup',
-        btnGoogle: 'Dapatkan di Google Play', btnApple: 'Unduh di App Store', btnCoupon: 'Masukkan kode',
-        bgmOn: 'Musik menyala', bgmOff: 'Musik mati',
-        ftTerms: 'Ketentuan Layanan', ftPrivacy: 'Kebijakan Privasi',
-        trailerEyebrow: 'LIHAT TRAILER', trailerMain: 'Temukan satu hari di hutan berbintang lewat video.', trailerYoutube: 'Tonton di YouTube'
-      }
-    };
+        trailerMain: '별빛 숲의 하루를 영상으로 만나 보세요.', trailerYoutube: 'YouTube에서 보기'
+      };
     this._T = T;
-    this._meowText = (T[lang] || T.kr).meowText || '야옹 ~';
-    this._i18n = T;
+    this._meowText = T.meowText || '야옹 ~';
     return {
-      t: T[lang] || T.kr,
-      isKr: lang === 'kr',
+      t: T,
       catOtherRef: (el) => { this.refs2.catOther = el; if (el) requestAnimationFrame(() => this.watchCatOther(el)); },
       catsSurroundRef: this.ref('catsSurround'),
       guitarSection2Ref: (el) => { this.refs2.guitarSection2 = el; },
@@ -2920,17 +2438,19 @@ class Component extends DCLogic {
       loaderRef: this.ref2('loader'),
       loaderStarsRef: (el) => { this.refs2.loaderStars = el; if (el) requestAnimationFrame(() => this.startLoaderStars(el)); },
       loaderBarRef: this.ref2('loaderBar'),
-      langConfirmed: true,
       mainUiVisibility: 'visible',
       cats,
-      soundLabel: '♪ ' + (this.state.sound ? (T[lang] || T.kr).bgmOff : (T[lang] || T.kr).bgmOn),
-      menuLabel: this._menuOpen ? (T[lang] || T.kr).navClose : (T[lang] || T.kr).navMenu,
+      soundLabel: '♪ ' + (this.state.sound ? T.bgmOff : T.bgmOn),
+      menuLabel: this._menuOpen ? T.navClose : T.navMenu,
       closeMenu: () => this.closeMenu(),
       bgmRef: this.ref('bgm'),
       soundBtnRef: (el) => {
         this.refs2.soundBtn = el;
         if (!el) return;
-        el.classList.toggle('is-off', !this.soundEnabled());
+        const on = this.soundEnabled();
+        el.classList.toggle('is-off', !on);
+        el.title = on ? '♪ 배경음 끄기' : '♪ 배경음 켜기';
+        el.setAttribute('aria-label', el.title);
         if (el._csSoundBound) return;
         el._csSoundBound = true;
         el.addEventListener('pointerup', (e) => {
@@ -2994,7 +2514,7 @@ class Component extends DCLogic {
         if (!host || host.querySelector('iframe.cs-ytplayer')) return;
         if (p) p.style.display = 'none';
         host.insertAdjacentHTML('beforeend',
-          '<iframe class="cs-ytplayer" src="https://www.youtube.com/embed/u2pUaW_JTMI?autoplay=1&amp;start=2&amp;playsinline=1&amp;rel=0" title="Cats &amp; Soup trailer" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen style="position:absolute;inset:0;width:100%;height:100%;border:0;"></iframe>'
+          '<iframe class="cs-ytplayer" src="https://www.youtube.com/embed/Y7GAFRahuNc?autoplay=1&amp;playsinline=1&amp;rel=0" title="Cats &amp; Soup trailer" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen style="position:absolute;inset:0;width:100%;height:100%;border:0;"></iframe>'
         );
       },
       goStory: (e) => this.jumpToStory(e),
@@ -3048,7 +2568,6 @@ class Component extends DCLogic {
         this.spawnSteam(true);
       },
       dayBgRef: this.ref('dayBg'),
-      warmthRef: this.ref('warmth'),
       canvasRef: this.ref('canvas'),
       heroVideoRef: this.ref('heroVideo'),
       kikiVideoRef: this.ref('kikiVideo'),
