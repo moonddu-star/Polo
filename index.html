@@ -388,6 +388,7 @@ window.__csSoundOn = true;
     gap: 12px;
     flex-wrap: wrap;
   }
+  .cs-rest-paw-cue { margin-top: -58px; }
   .yt-cover iframe { position: absolute; top: 50%; left: 50%; width: 100vw; height: 56.25vw; min-height: 100%; min-width: 177.78vh; transform: translate(-50%,-50%); pointer-events: none; }
   .cs-hero { min-height: 100vh !important; min-height: 100dvh !important; }
   .cs-story-pin { height: 100vh !important; height: 100dvh !important; }
@@ -678,20 +679,20 @@ window.__csSoundOn = true;
   /* phones, plus short landscape (iPhone 14 landscape is 844×390) */
   @media (max-width: 720px), (max-height: 540px) and (hover: none) {
     html.cs-hamburger .cs-topbar {
-      padding: 6px 10px !important;
-      padding-top: max(6px, env(safe-area-inset-top)) !important;
-      padding-left: max(10px, env(safe-area-inset-left)) !important;
-      padding-right: max(10px, env(safe-area-inset-right)) !important;
+      padding: 4px 8px !important;
+      padding-top: max(4px, env(safe-area-inset-top)) !important;
+      padding-left: max(8px, env(safe-area-inset-left)) !important;
+      padding-right: max(8px, env(safe-area-inset-right)) !important;
     }
     html.cs-hamburger .cs-topbar-left,
     html.cs-hamburger .cs-sound,
-    html.cs-hamburger .cs-menubtn { height: 50px; }
-    html.cs-hamburger .cs-sound-icon-on { width: 50px !important; height: 50px !important; }
-    html.cs-hamburger .cs-sound-icon-off { width: 49px !important; height: 49px !important; }
+    html.cs-hamburger .cs-menubtn { height: 46px; }
+    html.cs-hamburger .cs-sound-icon-on { width: 44px !important; height: 44px !important; }
+    html.cs-hamburger .cs-sound-icon-off { width: 43px !important; height: 43px !important; }
     html.cs-hamburger .cs-menubtn { width: 44px; min-width: 44px; min-height: 44px; }
-    html.cs-hamburger .cs-menu-icon-open { width: 40px; height: auto; }
-    html.cs-hamburger .cs-menu-icon-close { width: 20px; height: 20px; }
-    .cs-landing { padding: calc(76px + env(safe-area-inset-top, 0px)) 12px 0 !important; }
+    html.cs-hamburger .cs-menu-icon-open { width: 36px; height: auto; }
+    html.cs-hamburger .cs-menu-icon-close { width: 18px; height: 18px; }
+    .cs-landing { padding: calc(68px + env(safe-area-inset-top, 0px)) 12px 0 !important; }
     .cs-polo-hero,
     .cs-hero-stage,
     .cs-hero-cats { width: calc(100vw - 24px) !important; max-width: calc(100vw - 24px) !important; }
@@ -741,10 +742,11 @@ window.__csSoundOn = true;
       align-items: center !important;
       justify-content: center !important;
       min-height: 0;
-      gap: 14px !important;
-      padding: 32px 20px 40px !important;
-      padding-bottom: max(40px, calc(20px + env(safe-area-inset-bottom))) !important;
+      gap: 8px !important;
+      padding: 20px 16px 24px !important;
+      padding-bottom: max(24px, calc(12px + env(safe-area-inset-bottom))) !important;
     }
+    .cs-footer .cs-ci { width: 132px; }
     .cs-footer-right {
       width: 100%;
       align-items: center;
@@ -752,6 +754,7 @@ window.__csSoundOn = true;
       text-align: center;
     }
     .cs-footer-copy {
+      font-size: 10px;
       white-space: normal;
       overflow-wrap: anywhere;
     }
@@ -781,7 +784,11 @@ window.__csSoundOn = true;
     .cs-spark { width: min(260px, 62vw) !important; }
     .cs-soup { width: min(208px, 52.8vw) !important; }
     .cs-catback { width: min(83px, 19.2vw) !important; }
-    .cs-restcat { width: min(168px, 43.4vw) !important; }
+    .cs-restcat { width: min(128px, 32vw) !important; }
+    .cs-rest-paw-cue { margin-top: -42px; }
+    .cs-restcat span:nth-of-type(1) { font-size: 21px !important; }
+    .cs-restcat span:nth-of-type(2) { font-size: 27px !important; }
+    .cs-restcat span:nth-of-type(3) { font-size: 32px !important; }
     .cs-shop { width: min(240px, 62vw) !important; }
     .cs-chefcat { width: min(54px, 12vw) !important; }
     .cs-camping { width: min(240px, 68vw) !important; max-width: 68vw !important; aspect-ratio: 600 / 581; }
@@ -804,9 +811,9 @@ window.__csSoundOn = true;
   @media (max-height: 540px) and (hover: none) {
     html.cs-hamburger .cs-topbar-left,
     html.cs-hamburger .cs-sound,
-    html.cs-hamburger .cs-menubtn { height: 48px; }
-    html.cs-hamburger .cs-sound-icon-on { width: 48px !important; height: 48px !important; }
-    html.cs-hamburger .cs-sound-icon-off { width: 47px !important; height: 47px !important; }
+    html.cs-hamburger .cs-menubtn { height: 44px; }
+    html.cs-hamburger .cs-sound-icon-on { width: 42px !important; height: 42px !important; }
+    html.cs-hamburger .cs-sound-icon-off { width: 41px !important; height: 41px !important; }
     html.cs-hamburger .cs-nav { padding-top: calc(64px + env(safe-area-inset-top, 0px)) !important; }
     html.cs-hamburger .cs-nav a { padding: 14px 12px !important; font-size: 22px !important; }
     html.cs-hamburger .cs-extlink { width: 16px; height: 16px; }
@@ -835,7 +842,7 @@ window.__csSoundOn = true;
     <div style="width: 180px; height: 3px; background: rgba(154,163,209,.25); border-radius: 2px; overflow: hidden;">
       <div ref="{{ loaderBarRef }}" style="width: 0%; height: 100%; background: #f0b95c; transition: width .3s ease;"></div>
     </div>
-    <div style="position: absolute; right: max(16px, env(safe-area-inset-right)); bottom: max(14px, env(safe-area-inset-bottom)); font-family: 'Gowun Dodum', sans-serif; font-size: 11px; letter-spacing: 0.5px; color: #fff; pointer-events: none;">ver 0.56</div>
+    <div style="position: absolute; right: max(16px, env(safe-area-inset-right)); bottom: max(14px, env(safe-area-inset-bottom)); font-family: 'Gowun Dodum', sans-serif; font-size: 11px; letter-spacing: 0.5px; color: #fff; pointer-events: none;">ver 0.57</div>
   </div>
 
   <!-- fixed backgrounds -->
@@ -1093,13 +1100,13 @@ window.__csSoundOn = true;
         <span style="position: absolute; left: 70%; bottom: 0; width: 10px; height: 10px; border-radius: 50%; background: #ffe0a0; opacity: 0; animation: csEmber 3.2s ease-out infinite 2.1s;"></span>
       </div>
     </div>
-    <div class="cs-reveal cs-restcat" style="position: relative; left: min(180px, 20vw); width: min(238px, 42.7vw); margin: -110px auto 0; will-change: opacity, transform;">
+    <div class="cs-reveal cs-restcat" style="position: relative; left: min(80px, 8vw); width: min(238px, 42.7vw); margin: -75px auto 0; will-change: opacity, transform;">
       <img class="cs-meowcat" src="assets/cat_rest.webp" alt="해먹에서 잠든 고양이" style="width: 100%; display: block; cursor: pointer; filter: drop-shadow(0 8px 26px rgba(0,0,0,.3));">
       <span style="position: absolute; left: 72%; top: 42%; font-family: 'Gowun Batang', serif; font-size: 30px; color: #cfd6f5; opacity: 0; animation: csZzz 4.2s ease-out infinite;">z</span>
       <span style="position: absolute; left: 72%; top: 42%; font-family: 'Gowun Batang', serif; font-size: 38px; color: #cfd6f5; opacity: 0; animation: csZzz 4.2s ease-out infinite 1.05s;">z</span>
       <span style="position: absolute; left: 72%; top: 42%; font-family: 'Gowun Batang', serif; font-size: 46px; color: #cfd6f5; opacity: 0; animation: csZzz 4.2s ease-out infinite 2.1s;">z</span>
     </div>
-    <div class="cs-reveal"><div class="cs-morestar" aria-hidden="true"></div></div>
+    <div class="cs-reveal cs-rest-paw-cue"><div class="cs-morestar" aria-hidden="true"></div></div>
   </section>
 
   <!-- SCENE 4.3 : the guitar cat -->
@@ -1107,9 +1114,9 @@ window.__csSoundOn = true;
     <p class="cs-reveal cs-story-main" style="font-family: var(--cs-cjk, 'Gowun Batang'), 'Gowun Batang', serif; letter-spacing: var(--cs-track, 0px); font-feature-settings: var(--cs-jp-palt, normal); font-kerning: var(--cs-jp-kern, auto); direction: var(--cs-dir, ltr); font-weight: var(--cs-weight, 700); font-size: 50px; line-height: var(--cs-lead, 1.85); margin: 0 auto; max-width: 740px; text-align: center; text-wrap: pretty; word-break: var(--cs-wb, keep-all); overflow-wrap: break-word; white-space: pre-line; will-change: opacity, transform;">{{ t.guitarMain }}</p>
     <div style="position: relative; width: min(504px, 86vw); margin: 0 auto; flex-shrink: 0;">
       <img class="cs-guitarcat cs-meowcat" src="assets/guitar_show.webp" alt="기타 치는 고양이" style="width: 100%; display: block; filter: drop-shadow(0 8px 28px rgba(255,220,150,.22));">
-      <span style="position: absolute; left: 30%; top: 22%; font-size: 40px; color: #ffd48a; opacity: 0; animation: csNote 3.6s ease-out infinite;">♪</span>
-      <span style="position: absolute; left: 30%; top: 22%; font-size: 50px; color: #f0b95c; opacity: 0; animation: csNote 3.6s ease-out infinite 1.2s;">♫</span>
-      <span style="position: absolute; left: 30%; top: 22%; font-size: 34px; color: #ffe6b8; opacity: 0; animation: csNote 3.6s ease-out infinite 2.4s;">♪</span>
+      <span style="position: absolute; left: 30%; top: 22%; font-size: 28px; color: #ffd48a; opacity: 0; animation: csNote 3.6s ease-out infinite;">♪</span>
+      <span style="position: absolute; left: 30%; top: 22%; font-size: 35px; color: #f0b95c; opacity: 0; animation: csNote 3.6s ease-out infinite 1.2s;">♫</span>
+      <span style="position: absolute; left: 30%; top: 22%; font-size: 24px; color: #ffe6b8; opacity: 0; animation: csNote 3.6s ease-out infinite 2.4s;">♪</span>
     </div>
     <div class="cs-reveal"><div class="cs-morestar" aria-hidden="true"></div></div>
   </section>
@@ -2253,7 +2260,7 @@ class Component extends DCLogic {
 
         ctx.save();
         ctx.lineCap = 'round';
-        ctx.strokeStyle = '#ffc95e';
+        ctx.strokeStyle = '#ffffff';
         ctx.globalAlpha = alpha * 0.18;
         ctx.lineWidth = 0.55 * dpr;
         ctx.beginPath();
@@ -2275,7 +2282,7 @@ class Component extends DCLogic {
         ctx.lineTo(x, y);
         ctx.stroke();
 
-        ctx.fillStyle = '#ffe08a';
+        ctx.fillStyle = '#ffffff';
         ctx.globalAlpha = alpha * 0.9;
         ctx.beginPath();
         ctx.arc(x, y, 1.55 * dpr, 0, Math.PI * 2);
