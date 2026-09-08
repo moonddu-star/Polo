@@ -798,6 +798,12 @@ window.__csSoundOn = true;
     .cs-guitar-note-1 { font-size: 22px !important; }
     .cs-guitar-note-2 { font-size: 28px !important; }
     .cs-guitar-note-3 { font-size: 19px !important; }
+    .cs-guitar-note-1,
+    .cs-guitar-note-2,
+    .cs-guitar-note-3 {
+      left: 50% !important;
+      top: 27% !important;
+    }
     .cs-audience { width: min(360px, 90vw) !important; }
     .cs-spark { width: min(260px, 62vw) !important; }
     .cs-soup { width: min(208px, 52.8vw) !important; }
@@ -860,7 +866,7 @@ window.__csSoundOn = true;
     <div style="width: 180px; height: 3px; background: rgba(154,163,209,.25); border-radius: 2px; overflow: hidden;">
       <div ref="{{ loaderBarRef }}" style="width: 0%; height: 100%; background: #f0b95c; transition: width .3s ease;"></div>
     </div>
-    <div style="position: absolute; right: max(16px, env(safe-area-inset-right)); bottom: max(14px, env(safe-area-inset-bottom)); font-family: 'Gowun Dodum', sans-serif; font-size: 11px; letter-spacing: 0.5px; color: #fff; pointer-events: none;">ver 0.64</div>
+    <div style="position: absolute; right: max(16px, env(safe-area-inset-right)); bottom: max(14px, env(safe-area-inset-bottom)); font-family: 'Gowun Dodum', sans-serif; font-size: 11px; letter-spacing: 0.5px; color: #fff; pointer-events: none;">ver 0.65</div>
   </div>
 
   <!-- fixed backgrounds -->
@@ -1321,10 +1327,17 @@ class Component extends DCLogic {
         }
         const source = mixer.ctx.createMediaElementSource(el);
         const gain = mixer.ctx.createGain();
-        gain.gain.value = 0;
+        // Creating a MediaElementSource reroutes an already-audible element
+        // immediately. Seed its gain from the old output so activation itself
+        // never creates a dip or a jump.
+        gain.gain.value = (!el.paused && !el.muted) ? el.volume : 0;
         source.connect(gain);
         gain.connect(mixer.ctx.destination);
-        mixer[name] = el._csMixerTrack = { ctx: mixer.ctx, source: source, gain: gain };
+        mixer[name] = el._csMixerTrack = {
+          ctx: mixer.ctx, source: source, gain: gain,
+          _from: gain.gain.value, _to: gain.gain.value,
+          _at: mixer.ctx.currentTime, _until: mixer.ctx.currentTime
+        };
       };
       try {
         reconnect(bgm, 'bgm');
@@ -1336,7 +1349,10 @@ class Component extends DCLogic {
       }
       return null;
     }
-    if (!Ctx || (!this.compactUi() && this.audioVolumeWorks(bgm))) return null;
+    // A successful volume-property assignment does not prove that Safari
+    // applies it to audible output (notably iPad desktop mode). Prefer one
+    // dependable GainNode path whenever Web Audio is available.
+    if (!Ctx) return null;
     try {
       const ctx = new Ctx();
       const mixer = { ctx: ctx, bgm: null, guitar: null };
@@ -1345,10 +1361,14 @@ class Component extends DCLogic {
         if (el._csMixerTrack) return el._csMixerTrack;
         const source = ctx.createMediaElementSource(el);
         const gain = ctx.createGain();
-        gain.gain.value = 0;
+        gain.gain.value = (!el.paused && !el.muted) ? el.volume : 0;
         source.connect(gain);
         gain.connect(ctx.destination);
-        el._csMixerTrack = { ctx: ctx, source: source, gain: gain };
+        el._csMixerTrack = {
+          ctx: ctx, source: source, gain: gain,
+          _from: gain.gain.value, _to: gain.gain.value,
+          _at: ctx.currentTime, _until: ctx.currentTime
+        };
         mixer[name] = el._csMixerTrack;
         return el._csMixerTrack;
       };
@@ -1500,14 +1520,16 @@ class Component extends DCLogic {
 
   unlockAudio() {
     // iOS: play+pause inside the tap so later scroll can start each track.
-    // Stay muted and paused — the loader must stay silent.
+    // Do not interrupt a track which autoplay has already made audible.
     if (navigator.userActivation && !navigator.userActivation.isActive) return false;
     const mixer = this.ensureMediaMixer();
     if (mixer && mixer.ctx.resume) mixer.ctx.resume().catch(() => {});
     for (const el of [this.getAudio(), this.getGuitar()]) {
+      if (!el.paused) continue;
       el.muted = true;
-      if (this.audioMixerTrack(el)) this.setTrackLevel(el, 0);
-      else el.volume = 0;
+      const track = this.audioMixerTrack(el);
+      if (track && this.trackLevel(track) < 0.005) this.setTrackLevel(el, 0);
+      else if (!track) el.volume = 0;
       const p = el.play();
       el.pause();
       try { el.currentTime = 0; } catch (e) {}
@@ -1748,8 +1770,9 @@ class Component extends DCLogic {
       }
     }
 
-    const ramp = (audio, target, step) => {
+    const ramp = (audio, target) => {
       const key = audio === g ? '_gRamp' : '_bRamp';
+      const duration = 1.35;
       const track = this.audioMixerTrack(audio);
       if (track) {
         if (this['_t' + key] === target && this[key]) return;
@@ -1764,27 +1787,36 @@ class Component extends DCLogic {
         try {
           gain.cancelScheduledValues(now);
           gain.setValueAtTime(current, now);
-          gain.linearRampToValueAtTime(target, now + 1);
+          gain.linearRampToValueAtTime(target, now + duration);
         } catch (e) {
           gain.value = target;
         }
         track._from = current;
         track._to = target;
         track._at = now;
-        track._until = now + 1;
+        track._until = now + duration;
         if (target > 0) {
           try { audio.volume = 1; } catch (e) {}
           audio.muted = false;
           if (audio.paused) audio.play().catch(() => {});
         }
-        this[key] = setTimeout(() => {
+        const finish = () => {
+          // AudioContext time stops while suspended. Finalizing by wall-clock
+          // time would pause the media before its gain automation can run.
+          if (this['_t' + key] !== target) return;
+          const remaining = track._until - track.ctx.currentTime;
+          if (remaining > 0.015) {
+            this[key] = setTimeout(finish, Math.max(30, Math.min(200, remaining * 1000)));
+            return;
+          }
           this[key] = null;
           this.setTrackLevel(audio, target);
           if (target === 0) {
             audio.pause();
             audio.muted = true;
           }
-        }, 1050);
+        };
+        this[key] = setTimeout(finish, duration * 1000 + 30);
         return;
       }
       if (this.hardAudioCut()) {
@@ -1804,11 +1836,13 @@ class Component extends DCLogic {
       const settled = audio.volume === target && (target > 0 ? !audio.paused : audio.paused);
       if (this['_t' + key] === target && settled) return;
       this['_t' + key] = target;
-      const s = step || 0.04;
+      const from = audio.volume;
+      const started = performance.now();
       clearInterval(this[key]);
       this[key] = setInterval(() => {
-        const next = audio.volume + (target > audio.volume ? s : -s);
-        if ((target > audio.volume && next >= target) || (target < audio.volume && next <= target)) {
+        const p = Math.max(0, Math.min(1, (performance.now() - started) / (duration * 1000)));
+        const next = from + (target - from) * p;
+        if (p >= 1) {
           audio.volume = target;
           clearInterval(this[key]);
           this[key] = null;
@@ -1820,16 +1854,16 @@ class Component extends DCLogic {
           }
           audio.volume = Math.max(0, Math.min(1, next));
           // volume property stuck (iOS): stop pretending to fade
-          if (target === 0 && audio.volume > next + 0.02) {
+          if (Math.abs(audio.volume - next) > 0.02) {
             this._volOk = false;
             this.stopTrack(audio);
           }
         }
-      }, 60);
+      }, 50);
     };
 
     if (wantGuitar) {
-      ramp(b, 0, 0.02);
+      ramp(b, 0);
       if (!this._guitarPlayed) {
         this._guitarPlayed = true;
         this._guitarDone = false;
@@ -1843,11 +1877,11 @@ class Component extends DCLogic {
         g.muted = false;
         g.play().catch(() => { this._guitarPlayed = false; });
       }
-      ramp(g, 0.5, 0.025);
+      ramp(g, 0.5);
       return;
     }
-    ramp(g, 0, 0.025);
-    ramp(b, 0.25, 0.02);
+    ramp(g, 0);
+    ramp(b, 0.25);
   }
 
   // hard rule: nothing plays once the guitar scene is fully above the viewport
