@@ -691,12 +691,8 @@ window.__csSoundOn = true;
   /* phones, plus short landscape (iPhone 14 landscape is 844×390) */
   @media (max-width: 720px), (max-height: 540px) and (hover: none) {
     html {
-      scroll-snap-type: y proximity;
+      /* snapping fought the sticky story scrubbing and trapped the last screens */
       scroll-padding-top: calc(58px + env(safe-area-inset-top, 0px));
-    }
-    section[data-screen-label]:not(.cs-landing):not(.cs-story) {
-      scroll-snap-align: center;
-      scroll-snap-stop: normal;
     }
     html.cs-hamburger .cs-topbar {
       padding: 4px 8px !important;
@@ -881,7 +877,7 @@ window.__csSoundOn = true;
     <div style="width: 180px; height: 3px; background: rgba(154,163,209,.25); border-radius: 2px; overflow: hidden;">
       <div ref="{{ loaderBarRef }}" style="width: 0%; height: 100%; background: #f0b95c; transition: width .3s ease;"></div>
     </div>
-    <div style="position: absolute; right: max(16px, env(safe-area-inset-right)); bottom: max(14px, env(safe-area-inset-bottom)); font-family: 'Gowun Dodum', sans-serif; font-size: 11px; letter-spacing: 0.5px; color: #fff; pointer-events: none;">ver 0.69</div>
+    <div style="position: absolute; right: max(16px, env(safe-area-inset-right)); bottom: max(14px, env(safe-area-inset-bottom)); font-family: 'Gowun Dodum', sans-serif; font-size: 11px; letter-spacing: 0.5px; color: #fff; pointer-events: none;">ver 0.70</div>
   </div>
 
   <!-- fixed backgrounds -->
