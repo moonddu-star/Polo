@@ -872,7 +872,7 @@ window.__csSoundOn = true;
     <div style="width: 180px; height: 3px; background: rgba(154,163,209,.25); border-radius: 2px; overflow: hidden;">
       <div ref="{{ loaderBarRef }}" style="width: 0%; height: 100%; background: #f0b95c; transition: width .3s ease;"></div>
     </div>
-    <div style="position: absolute; right: max(16px, env(safe-area-inset-right)); bottom: max(14px, env(safe-area-inset-bottom)); font-family: 'Gowun Dodum', sans-serif; font-size: 11px; letter-spacing: 0.5px; color: #fff; pointer-events: none;">ver 0.67</div>
+    <div style="position: absolute; right: max(16px, env(safe-area-inset-right)); bottom: max(14px, env(safe-area-inset-bottom)); font-family: 'Gowun Dodum', sans-serif; font-size: 11px; letter-spacing: 0.5px; color: #fff; pointer-events: none;">ver 0.68</div>
   </div>
 
   <!-- fixed backgrounds -->
@@ -1571,7 +1571,10 @@ class Component extends DCLogic {
       this.setState({ sound: on });
       return;
     }
-    if (on) this.updateAudioZones(window.innerHeight);
+    if (on) {
+      this._restoreSoundLevel = true;
+      this.updateAudioZones(window.innerHeight);
+    }
     else this.silenceAll();
     this.setState({ sound: on });
   }
@@ -1780,6 +1783,20 @@ class Component extends DCLogic {
       const key = audio === g ? '_gRamp' : '_bRamp';
       const duration = 1.35;
       const track = this.audioMixerTrack(audio);
+      if (target > 0 && this._restoreSoundLevel) {
+        this._restoreSoundLevel = false;
+        clearInterval(this[key]);
+        clearTimeout(this[key]);
+        this[key] = null;
+        this['_t' + key] = target;
+        if (track) this.setTrackLevel(audio, target);
+        else {
+          try { audio.volume = target; } catch (e) {}
+        }
+        audio.muted = false;
+        if (audio.paused) audio.play().catch(() => {});
+        return;
+      }
       if (track) {
         if (this['_t' + key] === target && this[key]) return;
         const gain = track.gain.gain;
@@ -1870,6 +1887,11 @@ class Component extends DCLogic {
 
     if (wantGuitar) {
       ramp(b, 0);
+      g.loop = false;
+      if (this._guitarDone) {
+        this.stopTrack(g);
+        return;
+      }
       if (!this._guitarPlayed) {
         this._guitarPlayed = true;
         this._guitarDone = false;
@@ -1877,7 +1899,6 @@ class Component extends DCLogic {
         if (this.audioMixerTrack(g)) this.setTrackLevel(g, 0);
         else g.volume = 0;
       }
-      g.loop = true;
       if (g.paused) {
         if (!this._gRamp && !this.hardAudioCut() && !this.audioMixerTrack(g)) g.volume = 0;
         g.muted = false;

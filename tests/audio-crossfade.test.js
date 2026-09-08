@@ -142,6 +142,7 @@ const component = {
 
 const entering = { guitarEnabled: true, guitarRect: { top: 300, bottom: 1900 } };
 component.updateAudioZones(1000, entering);
+assert.equal(guitar.loop, false, 'guitar track must play only once');
 assert.deepEqual(bgmTrack.gain.gain.ramp, { value: 0, at: clock + 1.35 });
 assert.deepEqual(guitarTrack.gain.gain.ramp, { value: 0.5, at: clock + 1.35 });
 
@@ -172,4 +173,21 @@ assert.equal(component.trackLevel(guitarTrack), 0);
 assert.equal(guitar.paused, true);
 assert.equal(guitar.muted, true);
 
-console.log('audio crossfade: deterministic 1.35s enter/leave ramps passed');
+component.setTrackLevel(bgm, 0);
+bgm.pause();
+bgm.muted = true;
+component._t_bRamp = 0;
+component._restoreSoundLevel = true;
+component.updateAudioZones(1000, leaving);
+assert.equal(component.trackLevel(bgmTrack), 0.25, 'sound toggle did not restore normal BGM level immediately');
+assert.equal(bgm.paused, false);
+assert.equal(bgm.muted, false);
+assert.equal(component._restoreSoundLevel, false);
+
+component._guitarDone = true;
+const guitarPlayCalls = guitar.playCalls;
+component.updateAudioZones(1000, entering);
+assert.equal(guitar.playCalls, guitarPlayCalls, 'finished guitar track restarted in its scene');
+assert.equal(guitar.paused, true);
+
+console.log('audio crossfade and sound-toggle level restoration passed');
