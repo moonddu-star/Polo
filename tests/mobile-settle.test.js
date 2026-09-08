@@ -77,12 +77,14 @@ const app = {
   cancelSettle: method('cancelSettle')
 };
 
-function at(y) {
+// dir is the way the reader was last moving: the settle only looks that way
+function at(y, dir) {
   global.window.scrollY = y;
   scrolls.length = 0;
   frame = null;
   clock = 0;
   app._settling = false;
+  app._scrollDir = dir === undefined ? 1 : dir;
 }
 
 // run a queued glide to completion, returning the frames it produced
@@ -145,7 +147,7 @@ for (let i = 1; i < sorted.length; i++) {
 }
 
 // --- the glide ------------------------------------------------------------
-at(5000);
+at(5000, -1);
 app.settleScroll();
 assert.ok(frame, 'nearby stop did not start a glide');
 const path = runGlide();
@@ -183,7 +185,7 @@ app.settleScroll();
 assert.equal(frame, null, 'a stop further than half a screen still yanked the page');
 
 // a touch mid-glide abandons it where it is
-at(5000);
+at(5000, -1);
 app.settleScroll();
 runGlide(3);
 const abandoned = global.window.scrollY;
@@ -192,9 +194,63 @@ runGlide();
 assert.equal(global.window.scrollY, abandoned, 'glide kept running after being cancelled');
 assert.equal(app._settling, false, 'cancelled glide left the settling flag raised');
 
+// --- reading onward -------------------------------------------------------
+// Stops sit about a screen apart, so a reader who pauses in the first half of
+// a gap is nearest the scene behind them. Taking that stop hauled them back
+// where they came from, and because a small scroll never reached the halfway
+// line, gentle scrolling in those bands could not make any progress at all.
+const stops = targets.slice().sort((a, b) => a - b);
+for (let i = 1; i < stops.length; i++) {
+  for (let y = stops[i - 1] + 20; y < stops[i]; y += 20) {
+    at(y, 1);
+    app.settleScroll();
+    if (frame) runGlide();
+    assert.ok(
+      global.window.scrollY >= y,
+      `reading down at ${y} was dragged back to ${global.window.scrollY}`
+    );
+    at(y, -1);
+    app.settleScroll();
+    if (frame) runGlide();
+    assert.ok(
+      global.window.scrollY <= y,
+      `reading up at ${y} was pushed on to ${global.window.scrollY}`
+    );
+  }
+}
+
+// the reported case: pausing on the way from the "깊어가는 밤" screen down to
+// the trailer used to fling the reader back up to it
+const DEEPNIGHT = 7256;
+const GUITAR = 8100;
+assert.ok(targets.includes(DEEPNIGHT) && targets.includes(GUITAR), 'fixture lost the bottom stops');
+at(DEEPNIGHT + 400, 1);
+app.settleScroll();
+assert.ok(frame, 'a pause between the last two screens got no help at all');
+runGlide();
+assert.equal(
+  global.window.scrollY,
+  GUITAR,
+  'a pause on the way to the trailer did not carry on to the next screen'
+);
+
+// walking down in small steps has to actually go somewhere
+at(GUITAR, 1);
+let walked = GUITAR;
+for (let i = 0; i < 8; i++) {
+  at(walked + 45, 1);
+  app.settleScroll();
+  if (frame) runGlide();
+  walked = global.window.scrollY;
+}
+assert.ok(
+  walked >= GUITAR + 8 * 45,
+  `eight small scrolls moved ${walked - GUITAR}px instead of ${8 * 45}px`
+);
+
 // --- the gates ------------------------------------------------------------
 const gated = (patch, why) => {
-  at(5000);
+  at(5000, -1);
   const restore = {};
   for (const k of Object.keys(patch)) { restore[k] = app[k]; app[k] = patch[k]; }
   app.settleScroll();
