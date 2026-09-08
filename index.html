@@ -150,7 +150,7 @@ window.__csSoundOn = true;
     min-width: 0;
   }
   .cs-hero-cat {
-    width: 908px !important;
+    width: 726.4px !important;
     height: auto !important;
     max-width: 100% !important;
     pointer-events: none;
@@ -161,8 +161,8 @@ window.__csSoundOn = true;
     display: flex;
     flex-direction: column;
     align-items: center;
-    width: min(56.43vw, 609px) !important;
-    max-width: 609px;
+    width: min(45.144vw, 487.2px) !important;
+    max-width: 487.2px;
     margin-top: 0;
   }
   .cs-hero-logo {
@@ -213,13 +213,27 @@ window.__csSoundOn = true;
     color: #f3efe2;
   }
   .cs-about {
+    position: relative;
     width: min(680px, 92vw);
-    margin: 68px auto 0;
+    margin: 108px auto 0;
+  }
+  .cs-about-paw {
+    position: absolute;
+    top: -76px;
+    left: 0;
+    right: 0;
+    pointer-events: none;
+  }
+  .cs-about-paw .cs-morestar {
+    margin: 0 auto;
   }
   .cs-about-title,
   .cs-story-main,
   .cs-invite .cs-moregate-title {
     font-size: 50px !important;
+  }
+  .cs-origin-note {
+    font-size: 24px !important;
   }
   .cs-about-title {
     font-family: var(--cs-cjk, 'Gowun Batang'), 'Gowun Batang', serif;
@@ -229,7 +243,7 @@ window.__csSoundOn = true;
   }
   .cs-about p {
     font-family: var(--cs-cjk, 'Gowun Batang'), 'Gowun Batang', serif;
-    font-size: clamp(15px, 2.4vw, 19px);
+    font-size: 24px;
     line-height: 1.65;
     margin: 0;
     color: #9aa3d1;
@@ -242,7 +256,7 @@ window.__csSoundOn = true;
     white-space: pre-line;
   }
   .cs-landing-stores {
-    margin: 34px 0 8px;
+    margin: 74px 0 8px;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -273,7 +287,7 @@ window.__csSoundOn = true;
   }
   .cs-invite .cs-moregate-hint {
     position: relative;
-    font-size: 18px;
+    font-size: 24px;
     line-height: 1.5;
     letter-spacing: 1px;
     color: #c3c9e8;
@@ -326,7 +340,7 @@ window.__csSoundOn = true;
     flex-direction: column;
     justify-content: center;
     align-items: flex-end;
-    padding-right: 64px;
+    padding-right: 0;
     text-align: right;
   }
   .cs-footer-copy {
@@ -361,8 +375,8 @@ window.__csSoundOn = true;
     position: relative;
     z-index: 2;
   }
-  .cs-tree-stage > .cs-trailer { transform: translateY(120px); }
-  .cs-tree-stage > .cs-bottom-download { transform: translateY(120px); }
+  .cs-tree-stage > .cs-trailer { transform: translateY(220px); }
+  .cs-tree-stage > .cs-bottom-download { transform: translateY(260px); }
   .cs-bottom-download {
     position: relative;
     z-index: 3;
@@ -700,16 +714,16 @@ window.__csSoundOn = true;
     .cs-hero-stage,
     .cs-hero-cats { width: calc(100vw - 24px) !important; max-width: calc(100vw - 24px) !important; }
     .cs-polo-hero { padding-top: 26px; }
-    .cs-hero-cat { width: 82vw !important; max-width: 460px !important; }
-    .cs-hero-brand { width: 56.43vw !important; max-width: 609px; }
+    .cs-hero-cat { width: 65.6vw !important; max-width: 368px !important; }
+    .cs-hero-brand { width: 45.144vw !important; max-width: 487.2px; }
     .cs-event-copy { width: 100%; box-sizing: border-box; margin-top: 20px; }
     .cs-event-line1 { font-size: clamp(18px, 5.04vw, 21.6px); margin-bottom: 8px; }
     .cs-event-line2 { font-size: clamp(23.4px, 6.48vw, 27.9px); white-space: normal; }
     .cs-event-copy, .cs-about { padding: 0 20px; }
-    .cs-about { margin-top: 62px; }
+    .cs-about { margin-top: 102px; }
     .cs-about-title, .cs-story-main, .cs-invite .cs-moregate-title { font-size: 26px !important; }
     .cs-about-title { margin-bottom: 20px; }
-    .cs-about p { font-size: 15px; line-height: 1.68; }
+    .cs-about p { font-size: 17px; line-height: 1.68; }
     .cs-landing-stores { margin-top: 46px; }
     .cs-polo-tree-bg {
       left: 50%;
@@ -727,7 +741,7 @@ window.__csSoundOn = true;
       height: auto !important;
     }
     .cs-invite { padding: 8vh 20px 10vh !important; }
-    .cs-invite .cs-moregate-hint { font-size: 15px !important; }
+    .cs-invite .cs-moregate-hint { font-size: 17px !important; }
     .cs-topbtn { width: 58px; }
     .cs-story { height: 480vh !important; }
     .cs-story-main { line-height: var(--cs-lead, 1.4) !important; }
@@ -737,11 +751,10 @@ window.__csSoundOn = true;
     .cs-heroline { font-size: 20px !important; }
     .cs-herotag { font-size: 15px !important; }
     .cs-origin-quote { font-size: 26px !important; }
-    .cs-origin-note { font-size: 16px !important; }
+    .cs-origin-note { font-size: 17px !important; }
     .cs-potrow { flex-direction: column !important; align-items: center !important; gap: 40px !important; }
     .cs-pot { transform: scale(.82); transform-origin: 50% 100%; }
     .cs-shot { width: min(300px, 78vw) !important; }
-    .cs-storebtns { padding-bottom: max(28px, env(safe-area-inset-bottom)) !important; }
     .cs-storebadge { height: 44px !important; }
     .cs-coupon { font-size: 18px !important; }
     .cs-footer {
@@ -835,6 +848,32 @@ window.__csSoundOn = true;
     html.cs-hamburger .cs-social-icon { width: 22px; height: 22px; }
     .cs-hero { padding-top: 64px !important; }
   }
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+      scroll-behavior: auto !important;
+      transition-duration: 0.001ms !important;
+      animation-duration: 0.001ms !important;
+      animation-iteration-count: 1 !important;
+    }
+    .cs-reveal {
+      opacity: 1 !important;
+      transform: none !important;
+      will-change: auto !important;
+    }
+    .cs-loader-star,
+    .cs-morestar,
+    .cs-catback,
+    .cs-dipper circle,
+    .cs-const circle {
+      animation: none !important;
+    }
+    .cs-kiki,
+    .cs-cat-other,
+    .cs-cats-surround {
+      opacity: 1 !important;
+      transform: none !important;
+    }
+  }
 </style>
 </helmet>
 
@@ -849,7 +888,7 @@ window.__csSoundOn = true;
     <div style="width: 180px; height: 3px; background: rgba(154,163,209,.25); border-radius: 2px; overflow: hidden;">
       <div ref="{{ loaderBarRef }}" style="width: 0%; height: 100%; background: #f0b95c; transition: width .3s ease;"></div>
     </div>
-    <div style="position: absolute; right: max(16px, env(safe-area-inset-right)); bottom: max(14px, env(safe-area-inset-bottom)); font-family: 'Gowun Dodum', sans-serif; font-size: 11px; letter-spacing: 0.5px; color: #fff; pointer-events: none;">ver 0.60</div>
+    <div style="position: absolute; right: max(16px, env(safe-area-inset-right)); bottom: max(14px, env(safe-area-inset-bottom)); font-family: 'Gowun Dodum', sans-serif; font-size: 11px; letter-spacing: 0.5px; color: #fff; pointer-events: none;">ver 0.61</div>
   </div>
 
   <!-- fixed backgrounds -->
@@ -955,7 +994,7 @@ window.__csSoundOn = true;
   <!-- LANDING : polo event head + game intro -->
   <div ref="{{ mainContentRef }}" style="visibility: {{ mainUiVisibility }};">
   <section id="top" class="cs-landing" data-screen-label="1 폴로 헤드">
-    <img class="cs-event-ci" src="assets/bi_neowiz.webp?v=071" alt="NEOWIZ" width="161" height="27">
+    <img class="cs-event-ci" src="assets/bi_neowiz2.webp?v=061" alt="NEOWIZ" width="161" height="27">
     <div class="cs-event-copy">
       <p class="cs-event-line1">{{ t.eventLine1 }}</p>
       <p class="cs-event-line2">{{ t.eventLine2 }}</p>
@@ -981,6 +1020,7 @@ window.__csSoundOn = true;
       </div>
     </div>
     <div class="cs-about">
+      <div class="cs-about-paw" aria-hidden="true"><div class="cs-morestar"></div></div>
       <h1 class="cs-about-title">{{ t.aboutTitle }}</h1>
       <p>{{ t.aboutP1 }}</p>
       <p>{{ t.aboutP2 }}</p>
@@ -1088,8 +1128,8 @@ window.__csSoundOn = true;
       <div class="cs-story-eyebrow" style="font-size: 18px; letter-spacing: 5px; color: #9aa3d1; margin-bottom: 18px;">{{ t.s4Eyebrow }}</div>
       <p class="cs-story-main" style="font-family: var(--cs-cjk, 'Gowun Batang'), 'Gowun Batang', serif; letter-spacing: var(--cs-track, 0px); font-feature-settings: var(--cs-jp-palt, normal); font-kerning: var(--cs-jp-kern, auto); direction: var(--cs-dir, ltr); font-weight: var(--cs-weight, 700); font-size: 50px; line-height: var(--cs-lead, 1.85); margin: 0 auto; text-align: center; text-wrap: pretty; word-break: var(--cs-wb, keep-all); overflow-wrap: break-word; white-space: pre-line;">{{ t.s4Main }}</p>
     </div>
-    <img ref="{{ catOtherRef }}" class="cs-meowcat" src="assets/cat_other.webp" alt="별고양이들" style="width: min(180px, 40.5vw); display: block; margin: 28px auto 0; filter: drop-shadow(0 6px 24px rgba(255,220,150,.2)); opacity: 0; transform: translate(46vw, -38vh) rotate(14deg); transition: opacity 2.4s ease, transform 4.2s cubic-bezier(.42,0,.72,1);">
-    <img ref="{{ catsSurroundRef }}" class="cs-audience cs-meowcat" src="assets/cats_surround.webp" alt="구경하는 고양이들" style="width: min(620px, 88vw); display: block; margin: -10px auto 0; opacity: 0; transform: translateY(24px); transition: opacity 2.2s ease, transform 2.2s ease;">
+    <img ref="{{ catOtherRef }}" class="cs-cat-other cs-meowcat" src="assets/cat_other.webp" alt="별고양이들" style="width: min(180px, 40.5vw); display: block; margin: 28px auto 0; filter: drop-shadow(0 6px 24px rgba(255,220,150,.2)); opacity: 0; transform: translate(46vw, -38vh) rotate(14deg); transition: opacity 2.4s ease, transform 4.2s cubic-bezier(.42,0,.72,1);">
+    <img ref="{{ catsSurroundRef }}" class="cs-cats-surround cs-audience cs-meowcat" src="assets/cats_surround.webp" alt="구경하는 고양이들" style="width: min(620px, 88vw); display: block; margin: -10px auto 0; opacity: 0; transform: translateY(24px); transition: opacity 2.2s ease, transform 2.2s ease;">
     <div class="cs-reveal"><div class="cs-morestar" aria-hidden="true"></div></div>
   </section>
 
@@ -1136,7 +1176,7 @@ window.__csSoundOn = true;
     <div class="cs-reveal" ref="{{ trailerBoxRef }}" onClick="{{ trailerPlay }}" style="position: relative; width: min(960px, 92vw); aspect-ratio: 16/9; border-radius: 20px; overflow: hidden; border: 1px solid rgba(154,163,209,.35); background: #0b0f22; box-shadow: 0 24px 60px rgba(0,0,0,.4); cursor: pointer; will-change: opacity, transform;">
       <!-- facade poster (YouTube thumbnail) -->
       <div ref="{{ trailerPosterRef }}" style="position: absolute; inset: 0; display: flex; align-items: center; justify-content: center;">
-        <img src="https://i.ytimg.com/vi_webp/Y7GAFRahuNc/maxresdefault.webp" alt="" style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover;">
+        <img src="https://i.ytimg.com/vi_webp/Y7GAFRahuNc/maxresdefault.webp" alt="" loading="lazy" decoding="async" fetchpriority="low" style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover;">
         <div style="position: absolute; inset: 0; background: linear-gradient(180deg, rgba(11,15,34,.15), rgba(11,15,34,.45));"></div>
         <div style="position: relative; width: 84px; height: 84px; border-radius: 50%; background: rgba(240,185,92,.95); display: flex; align-items: center; justify-content: center; box-shadow: 0 8px 30px rgba(240,185,92,.4);">
           <div style="width: 0; height: 0; border-left: 26px solid #1b1409; border-top: 16px solid transparent; border-bottom: 16px solid transparent; margin-left: 6px;"></div>
@@ -1212,7 +1252,7 @@ class Component extends DCLogic {
       a.src = 'assets/bgm.mp3';
       a.id = 'cs-bgm';
       a.loop = true;
-      a.preload = 'auto';
+      a.preload = 'metadata';
       a.volume = 0;
       a.playsInline = true;
       a.setAttribute('playsinline', '');
@@ -1236,7 +1276,7 @@ class Component extends DCLogic {
       a.src = 'assets/guitar.mp3';
       a.id = 'cs-guitar';
       a.loop = true;
-      a.preload = 'auto';
+      a.preload = 'metadata';
       a.volume = 0;
       a.playsInline = true;
       a.setAttribute('playsinline', '');
@@ -1285,6 +1325,50 @@ class Component extends DCLogic {
     }
     try { el.volume = prev; } catch (e) {}
     return this._volOk;
+  }
+
+  reducedMotion() {
+    if (this._reducedMotion !== undefined) return this._reducedMotion;
+    return window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  }
+
+  applyMotionPreference(reduced) {
+    this._reducedMotion = !!reduced;
+    document.documentElement.classList.toggle('cs-reduced-motion', this._reducedMotion);
+    if (this._reducedMotion) {
+      cancelAnimationFrame(this.rafId);
+      this.rafId = 0;
+      cancelAnimationFrame(this._loaderStars);
+      this._loaderStars = 0;
+      if (this._loaderResize) {
+        window.removeEventListener('resize', this._loaderResize);
+        this._loaderResize = null;
+      }
+      clearInterval(this.steamTimer);
+      clearInterval(this.shootTimer);
+      this.steamTimer = null;
+      this.shootTimer = null;
+      clearTimeout(this._cookLoop);
+      this._cookLoop = null;
+      this.shooters.length = 0;
+      this.magicShots.length = 0;
+      const c = this.refs2.canvas;
+      if (c) (this._ctx || c.getContext('2d')).clearRect(0, 0, c.width, c.height);
+      if (this.refs2.cookFrame1) this.refs2.cookFrame1.style.opacity = '1';
+      if (this.refs2.cookFrame) this.refs2.cookFrame.style.opacity = '0';
+    } else {
+      if (!this._loaderGone && this.refs2.loaderStars) this.startLoaderStars(this.refs2.loaderStars);
+      if (this._canvasLoop && !this.rafId && !document.hidden) {
+        this.rafId = requestAnimationFrame(this._canvasLoop);
+      }
+      if (this._startDecorativeTimers) this._startDecorativeTimers();
+      this.startCookLoop();
+    }
+    if (this._scrollRaf) cancelAnimationFrame(this._scrollRaf);
+    this._scrollRaf = requestAnimationFrame(() => {
+      this._scrollRaf = 0;
+      this.updateScroll();
+    });
   }
 
   compactUi() {
@@ -1552,7 +1636,7 @@ class Component extends DCLogic {
   }
 
   // rect-driven audio zoning (IntersectionObserver never fires in this host)
-  updateAudioZones(h) {
+  updateAudioZones(h, geometry) {
     if (!this._loaderGone) {
       this.silenceAll();
       return;
@@ -1565,7 +1649,7 @@ class Component extends DCLogic {
     if (this._videoMute) {
       const tr = this.refs2.trailerSection;
       if (tr) {
-        const r = tr.getBoundingClientRect();
+        const r = geometry && geometry.trailerRect ? geometry.trailerRect : tr.getBoundingClientRect();
         if (r.bottom < 0 || r.top > h) this._videoMute = false;
       }
       if (this._videoMute) {
@@ -1576,14 +1660,19 @@ class Component extends DCLogic {
     const g = this.getGuitar();
     const b = this.getAudio();
     const gs = this.refs2.guitarSection;
-    const guitarEnabled = !!(gs && !gs.hidden && getComputedStyle(gs).display !== 'none');
+    const guitarEnabled = geometry && geometry.guitarEnabled !== undefined
+      ? geometry.guitarEnabled
+      : !!(gs && !gs.hidden && getComputedStyle(gs).display !== 'none');
     if (!guitarEnabled) {
       this._guitarPageY = null;
       this._guitarReached = false;
     }
-    if (guitarEnabled) this._guitarPageY = window.scrollY + gs.getBoundingClientRect().top;
+    const guitarRect = geometry && geometry.guitarRect
+      ? geometry.guitarRect
+      : (guitarEnabled ? gs.getBoundingClientRect() : null);
+    if (guitarEnabled && guitarRect) this._guitarPageY = window.scrollY + guitarRect.top;
     const guitarTop = guitarEnabled
-      ? gs.getBoundingClientRect().top
+      ? guitarRect.top
       : (this._guitarPageY != null ? this._guitarPageY - window.scrollY : Infinity);
     if (guitarTop < h * 0.45) this._guitarReached = true;
     const wantGuitar = this._guitarReached ? guitarTop < h * 0.55 : guitarTop < h * 0.45;
@@ -1756,6 +1845,17 @@ class Component extends DCLogic {
       }
       this._loaderStars = requestAnimationFrame(draw);
     };
+    if (this.reducedMotion()) {
+      ctx.clearRect(0, 0, cv.width, cv.height);
+      ctx.fillStyle = '#e9edff';
+      ctx.globalAlpha = this.compactUi() ? 0.32 : 0.55;
+      for (const s of stars) {
+        const rr = s.r;
+        ctx.fillRect(s.x * cv.width - rr, s.y * cv.height - rr, rr * 2, rr * 2);
+      }
+      ctx.globalAlpha = 1;
+      return;
+    }
     this._loaderStars = requestAnimationFrame(draw);
     this._loaderResize = () => size();
     window.addEventListener('resize', this._loaderResize);
@@ -1767,35 +1867,34 @@ class Component extends DCLogic {
     return this._refFns[name];
   }
 
+  invalidateRevealGeometry() {
+    for (const el of (this._reveals || [])) {
+      delete el._csPageTop;
+      delete el._csHeight;
+    }
+  }
+
   loadAssets() {
     this._loadStart = Date.now();
     const urls = [
-      'assets/cat_face_star.webp', 'assets/cat_star.webp', 'assets/kiki.webp',
-      'assets/balloon.webp', 'assets/cat_cook_01.webp', 'assets/cat_cook_02.webp',
-      'assets/light_02.webp', 'assets/room.webp', 'assets/kiki_star.webp',
-      'assets/soup_pot.webp', 'assets/cat_back.webp', 'assets/forrest_pattern_s.webp?v=085',
-      'assets/cat_other.webp', 'assets/cats_surround.webp', 'assets/guitar_show.webp',
-      'assets/camping_cat.webp', 'assets/cat_rest.webp', 'assets/cats_polo.webp',
-      'assets/bi_neowiz.webp?v=071', 'assets/logo_kr_trim.webp',
-      'assets/googleplay.webp', 'assets/appstore.webp', 'assets/cat_paw.webp',
-      'assets/bgm.mp3', 'assets/guitar.mp3'
+      'assets/cat_star.webp', 'assets/cats_polo.webp',
+      'assets/bi_neowiz2.webp?v=061', 'assets/logo_kr_trim.webp',
+      'assets/googleplay.webp', 'assets/appstore.webp'
     ];
     let loaded = 0;
     const bump = () => {
       loaded++;
       const bar = this.refs2.loaderBar;
       if (bar) bar.style.width = Math.round((loaded / urls.length) * 100) + '%';
-      if (loaded >= urls.length) this.hideLoader();
+      if (loaded >= urls.length) {
+        this.invalidateRevealGeometry();
+        this.hideLoader();
+      }
     };
     urls.forEach((u) => {
-      if (u.endsWith('.mp3')) {
-        // fetch the whole file — canplaythrough can fire on a partial buffer
-        fetch(u).then((r) => r.blob()).then(bump).catch(bump);
-      } else {
-        const img = new Image();
-        img.onload = bump; img.onerror = bump;
-        img.src = u;
-      }
+      const img = new Image();
+      img.onload = bump; img.onerror = bump;
+      img.src = u;
     });
     // safety timeout so a slow/blocked asset never traps the user on the loader
     setTimeout(() => this.hideLoader(), 20000);
@@ -1816,6 +1915,9 @@ class Component extends DCLogic {
         el.style.display = 'none';
         this._loaderGone = true;
         if (this._loaderResize) window.removeEventListener('resize', this._loaderResize);
+        // Audio is intentionally created only after critical visual assets unblock the page.
+        this.getAudio();
+        this.getGuitar();
         if (this.soundEnabled()) {
           this._pendingBgm = false;
           this._t_bRamp = undefined;
@@ -1824,7 +1926,7 @@ class Component extends DCLogic {
         } else {
           this.silenceAll();
         }
-      }, 850);
+      }, this.reducedMotion() ? 0 : 850);
     });
   }
 
@@ -1887,6 +1989,12 @@ class Component extends DCLogic {
     this.killStrayAudio();
     this.applyCjkFont();
     this.updateNavMode();
+    this._motionQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
+    this._onMotionChange = (e) => this.applyMotionPreference(e.matches);
+    if (this._motionQuery.addEventListener) this._motionQuery.addEventListener('change', this._onMotionChange);
+    else this._motionQuery.addListener(this._onMotionChange);
+    this._reducedMotion = this._motionQuery.matches;
+    document.documentElement.classList.toggle('cs-reduced-motion', this._reducedMotion);
     const density = Math.min(1, this.props.particleDensity ?? 1);
     const mobileSky = this.compactUi();
     const skyMul = mobileSky ? 0.28 : 1;
@@ -1904,11 +2012,26 @@ class Component extends DCLogic {
       });
     };
     this.onMove = (e) => { this.mx = e.clientX; this.my = e.clientY; };
-    this.onResize = () => { this._balloonEl = null; this.sizeCanvas(); this.updateScroll(); this.scheduleNavMode(); };
+    this.onResize = () => {
+      this._balloonEl = null;
+      this.invalidateRevealGeometry();
+      this.sizeCanvas();
+      this.updateScroll();
+      this.scheduleNavMode();
+    };
     window.addEventListener('scroll', this.onScroll, { passive: true, capture: true });
     window.addEventListener('mousemove', this.onMove, { passive: true });
     window.addEventListener('resize', this.onResize);
     this.sizeCanvas();
+    this._reveals = Array.from(document.getElementsByClassName('cs-reveal'));
+    if (document.fonts && document.fonts.ready) {
+      document.fonts.ready.then(() => {
+        this.invalidateRevealGeometry();
+        this.updateScroll();
+      });
+    }
+    const guitarSection = this.refs2.guitarSection;
+    this._guitarEnabled = !!(guitarSection && !guitarSection.hidden && getComputedStyle(guitarSection).display !== 'none');
     this.updateScroll();
     this.loadAssets();
     // BGM starts on; browsers block autoplay, so retry on first interaction
@@ -1931,27 +2054,50 @@ class Component extends DCLogic {
     window.addEventListener('keydown', startBgm);
     let last = 0;
     const loop = (t) => {
-      if (document.hidden) { this.rafId = 0; return; }
+      if (document.hidden || this.reducedMotion()) { this.rafId = 0; return; }
       this.rafId = requestAnimationFrame(loop);
       const idle = this.dayAlpha > 0.92 && !this.magicShots.length && !this.shooters.length;
       if (t - last < (idle ? 80 : 33)) return;
       last = t;
       this.draw(t / 1000);
     };
+    this._canvasLoop = loop;
     this._onVis = () => {
       if (document.hidden) {
         this.shooters.length = 0;
         return;
       }
-      if (!document.hidden && !this.rafId) this.rafId = requestAnimationFrame(loop);
+      if (!document.hidden && !this.reducedMotion() && !this.rafId) this.rafId = requestAnimationFrame(loop);
     };
     document.addEventListener('visibilitychange', this._onVis);
-    this.rafId = requestAnimationFrame(loop);
-    this.steamTimer = setInterval(() => {
-      if (document.hidden) return;
-      this.spawnSteam(false);
-      this.spawnSteam(false, 2);
-    }, 900);
+    this._startDecorativeTimers = () => {
+      if (this.reducedMotion()) return;
+      if (!this.steamTimer) {
+        this.steamTimer = setInterval(() => {
+          if (document.hidden || this.reducedMotion()) return;
+          this.spawnSteam(false);
+          this.spawnSteam(false, 2);
+        }, 900);
+      }
+      if (!this.shootTimer) {
+        this.shootTimer = setInterval(() => {
+          if (document.hidden || this.reducedMotion() || this.shooters.length) return;
+          if (this.dayAlpha < 0.6 && Math.random() < 0.6) {
+            this.shooters.push({
+              x: Math.random() * 0.8 + 0.1,
+              y: Math.random() * 0.35,
+              life: 0,
+              dx: 0.28 + Math.random() * 0.15,
+              dy: 0.12 + Math.random() * 0.08
+            });
+          }
+        }, 3800);
+      }
+    };
+    if (!this.reducedMotion()) {
+      this.rafId = requestAnimationFrame(loop);
+      this._startDecorativeTimers();
+    }
     this.beatTimes = null;
     this._beatIdx = -1;
     // video slots: show only when the file exists & can play
@@ -1967,19 +2113,6 @@ class Component extends DCLogic {
       }).catch(() => {});
     };
 
-
-    this.shootTimer = setInterval(() => {
-      if (document.hidden || this.shooters.length) return;
-      if (this.dayAlpha < 0.6 && Math.random() < 0.6) {
-        this.shooters.push({
-          x: Math.random() * 0.8 + 0.1,
-          y: Math.random() * 0.35,
-          life: 0,
-          dx: 0.28 + Math.random() * 0.15,
-          dy: 0.12 + Math.random() * 0.08
-        });
-      }
-    }, 3800);
     this._onMeowClick = (e) => {
       const el = e.target && e.target.closest && e.target.closest('.cs-meowcat');
       if (!el) return;
@@ -2000,6 +2133,7 @@ class Component extends DCLogic {
     if (this.ytPlayer && this.ytPlayer.destroy) try { this.ytPlayer.destroy(); } catch (e) {}
     clearInterval(this.steamTimer);
     clearInterval(this.shootTimer);
+    clearTimeout(this._cookLoop);
     window.removeEventListener('scroll', this.onScroll, { capture: true });
     if (this._startBgm) {
       window.removeEventListener('pointerdown', this._startBgm);
@@ -2008,6 +2142,10 @@ class Component extends DCLogic {
     }
     window.removeEventListener('mousemove', this.onMove);
     window.removeEventListener('resize', this.onResize);
+    if (this._motionQuery && this._onMotionChange) {
+      if (this._motionQuery.removeEventListener) this._motionQuery.removeEventListener('change', this._onMotionChange);
+      else this._motionQuery.removeListener(this._onMotionChange);
+    }
     if (this._onMeowClick) document.removeEventListener('click', this._onMeowClick, true);
     if (this.audio) { try { this.audio.ctx.close(); } catch (e) {} }
   }
@@ -2031,21 +2169,65 @@ class Component extends DCLogic {
 
   updateScroll() {
     const h = window.innerHeight;
-    // scene 2: cat falls through sticky viewport
+    const scrollY = window.scrollY;
     const s2 = this.refs2.scene2;
-    if (s2 && this.refs2.catFall) {
-      const r = s2.getBoundingClientRect();
+    const cf = this.refs2.catFall;
+    if (cf && (!this._balloonEl || this._balloonEl.parentNode !== cf)) {
+      this._balloonEl = cf.querySelector('img[src*="balloon"]');
+    }
+    const balloon = this._balloonEl;
+    const reveals = this._reveals || (this._reveals = Array.from(document.getElementsByClassName('cs-reveal')));
+    const co = this.refs2.catOther;
+    const footer = this.refs2.footer;
+    const s3 = this.refs2.scene3;
+    const guitarSection = this.refs2.guitarSection;
+    const trailerSection = this.refs2.trailerSection;
+
+    // Read all layout-dependent values together before any style/class writes.
+    const geometry = {
+      s2Rect: s2 ? s2.getBoundingClientRect() : null,
+      catWidth: cf ? (cf.offsetWidth || 190) : 0,
+      catHeight: cf ? (cf.offsetHeight || 250) : 0,
+      balloonHeight: balloon ? balloon.offsetHeight : 0,
+      revealRects: new Array(reveals.length),
+      catOtherRect: co && !this._coFlew ? co.getBoundingClientRect() : null,
+      footerRect: footer ? footer.getBoundingClientRect() : null,
+      scene3Rect: s3 ? s3.getBoundingClientRect() : null,
+      guitarEnabled: this._guitarEnabled !== undefined
+        ? this._guitarEnabled
+        : !!(guitarSection && !guitarSection.hidden && getComputedStyle(guitarSection).display !== 'none'),
+      guitarRect: null,
+      trailerRect: this._videoMute && trailerSection ? trailerSection.getBoundingClientRect() : null
+    };
+    for (let i = 0; i < reveals.length; i++) {
+      const el = reveals[i];
+      const cachedTop = el._csPageTop;
+      const cachedHeight = el._csHeight;
+      const estimatedTop = cachedTop === undefined ? 0 : cachedTop - scrollY;
+      if (cachedTop !== undefined && (estimatedTop > h * 2 || estimatedTop + cachedHeight < -h)) {
+        geometry.revealRects[i] = {
+          top: estimatedTop,
+          bottom: estimatedTop + cachedHeight,
+          height: cachedHeight
+        };
+      } else {
+        const rect = el.getBoundingClientRect();
+        geometry.revealRects[i] = rect;
+        el._csPageTop = rect.top + scrollY;
+        el._csHeight = rect.height;
+      }
+    }
+    if (geometry.guitarEnabled) geometry.guitarRect = guitarSection.getBoundingClientRect();
+
+    // scene 2: cat falls through sticky viewport
+    if (s2 && cf) {
+      const r = geometry.s2Rect;
       const p = Math.max(0, Math.min(1, -r.top / (r.height - h)));
-      const cf = this.refs2.catFall;
-      const cw = cf.offsetWidth || 190, ch = cf.offsetHeight || 250;
+      const cw = geometry.catWidth, ch = geometry.catHeight;
       const pad = this.compactUi() ? 14 : 24;
       // keep the cat fully inside the sticky viewport at every scroll position
       // room above for the balloon bunch she holds, measured not guessed
-      if (!this._balloonEl || this._balloonEl.parentNode !== cf) {
-        this._balloonEl = cf.querySelector('img[src*="balloon"]');
-      }
-      const balloon = this._balloonEl;
-      let head = balloon ? balloon.offsetHeight * 0.82 : 220;
+      let head = balloon ? geometry.balloonHeight * 0.82 : 220;
       // narrow screens: the rig reads much larger against the viewport, so scale it down
       let rigScale = window.innerWidth <= 480 ? 0.62 : this.compactUi() ? 0.74 : 1;
       // short viewports: shrink the rig until the descent keeps a usable travel distance
@@ -2111,17 +2293,24 @@ class Component extends DCLogic {
 
       if (this.refs2.clouds) {
         const raw = Math.max(0, Math.min(1, (p - 0.66) / 0.24));
-        const o = raw * raw * (3 - 2 * raw);
+        const fadeIn = raw * raw * (3 - 2 * raw);
+        const exit = Math.max(0, Math.min(1, (p - 0.9) / 0.1));
+        const fadeOut = 1 - exit * exit * (3 - 2 * exit);
+        const o = fadeIn * fadeOut;
         this.refs2.clouds.style.opacity = String(o * 0.95);
-        this.refs2.clouds.style.transform = 'translateY(' + ((1 - o) * 10) + 'vh)';
+        this.refs2.clouds.style.transform = 'translateY(' + ((1 - fadeIn) * 10) + 'vh)';
       }
     }
     // gentle fade-up reveals, driven from live rects on scroll only
     // fade in as copy enters, fade out as it leaves so adjacent scenes do not stack
-    const reveals = document.getElementsByClassName('cs-reveal');
     for (let i = 0; i < reveals.length; i++) {
       const el = reveals[i];
-      const r = el.getBoundingClientRect();
+      const r = geometry.revealRects[i];
+      if (r.bottom < -h || r.top > h * 2) {
+        if (el._csO !== 0) { el._csO = 0; el.style.opacity = '0'; }
+        if (el._csY !== 16) { el._csY = 16; el.style.transform = 'translateY(16px)'; }
+        continue;
+      }
       const inn = Math.max(0, Math.min(1, (h * 0.86 - r.top) / (h * 0.26)));
       const out = Math.max(0, Math.min(1, (r.bottom - h * 0.14) / (h * 0.26)));
       const t = Math.min(inn, out);
@@ -2132,9 +2321,8 @@ class Component extends DCLogic {
       if (el._csY !== ty) { el._csY = ty; el.style.transform = 'translateY(' + ty + 'px)'; }
     }
     // cloud cat + audience cats (rect-driven; IO does not fire in this host)
-    const co = this.refs2.catOther;
     if (co && !this._coFlew) {
-      const r = co.getBoundingClientRect();
+      const r = geometry.catOtherRect;
       if (r.top < h * 0.82 && r.bottom > 0) {
         this._coFlew = true;
         co.style.opacity = '1';
@@ -2145,15 +2333,13 @@ class Component extends DCLogic {
         }, 4200);
       }
     }
-    this.updateAudioZones(h);
+    this.updateAudioZones(h, geometry);
     if (this.refs2.topBtn) {
-      const footer = this.refs2.footer;
-      const beforeFooter = !footer || footer.getBoundingClientRect().top >= h;
-      this.refs2.topBtn.classList.toggle('is-on', window.scrollY > 360 && beforeFooter);
+      const beforeFooter = !geometry.footerRect || geometry.footerRect.top >= h;
+      this.refs2.topBtn.classList.toggle('is-on', scrollY > 360 && beforeFooter);
     }
-    const s3 = this.refs2.scene3;
     if (s3) {
-      const r3 = s3.getBoundingClientRect();
+      const r3 = geometry.scene3Rect;
       this._s3Vis = Math.max(0, Math.min(1, (h - r3.top) / h)) * Math.max(0, Math.min(1, r3.bottom / h));
     } else {
       this._s3Vis = 0;
@@ -2398,6 +2584,7 @@ class Component extends DCLogic {
   }
 
   spawnSteam(strong, which) {
+    if (this.reducedMotion()) return;
     const box = which === 2 ? this.refs2.steam2 : this.refs2.steam;
     if (!box) return;
     const r = box.getBoundingClientRect();
@@ -2449,6 +2636,28 @@ class Component extends DCLogic {
     el._gone = true;
     el.style.opacity = '0';
     setTimeout(() => { el.style.display = 'none'; }, 1600);
+  }
+
+  startCookLoop() {
+    if (this.reducedMotion() || this._cookLoop || !this.refs2.cookFrame) return;
+    let on = false;
+    const tick = () => {
+      if (this.reducedMotion()) {
+        this._cookLoop = null;
+        return;
+      }
+      const img = this.refs2.cookFrame;
+      if (!img) {
+        this._cookLoop = null;
+        return;
+      }
+      on = !on;
+      img.style.opacity = on ? '1' : '0';
+      const a = this.refs2.cookFrame1;
+      if (a) a.style.opacity = on ? '0' : '1';
+      this._cookLoop = setTimeout(tick, on ? 800 : 2200);
+    };
+    this._cookLoop = setTimeout(tick, 2200);
   }
 
   renderVals() {
@@ -2615,6 +2824,7 @@ class Component extends DCLogic {
         el.addEventListener('click', (e) => this.jumpToStory(e));
       },
       skyClick: (e) => {
+        if (this.reducedMotion()) return;
         this.magicShots.push({ x: e.clientX * devicePixelRatio, y: e.clientY * devicePixelRatio, tx: 0, ty: 0, life: 0 });
         if (this.magicShots.length > 6) this.magicShots.shift();
       },
@@ -2712,18 +2922,7 @@ class Component extends DCLogic {
       cookFrame1Ref: this.ref('cookFrame1'),
       cookFrameRef: (el) => {
         this.refs2.cookFrame = el;
-        if (!el || this._cookLoop) return;
-        let on = false;
-        const tick = () => {
-          const img = this.refs2.cookFrame;
-          if (!img) return;
-          on = !on;
-          img.style.opacity = on ? '1' : '0';
-          const a = this.refs2.cookFrame1;
-          if (a) a.style.opacity = on ? '0' : '1';
-          this._cookLoop = setTimeout(tick, on ? 800 : 2200);
-        };
-        this._cookLoop = setTimeout(tick, 2200);
+        if (el) this.startCookLoop();
       },
       meowBubbleRef: this.ref('meowBubble')
     };
