@@ -739,6 +739,12 @@ window.__csSoundOn = true;
     .cs-invite .cs-moregate-hint { font-size: 17px !important; }
     .cs-topbtn { width: 58px; }
     .cs-story { height: 480vh !important; }
+    .cs-forest-pattern {
+      height: calc(100vw * 335 / 1500) !important;
+      background-size: 100% auto !important;
+      background-repeat: no-repeat !important;
+      background-position: center bottom !important;
+    }
     .cs-story-main { line-height: var(--cs-lead, 1.4) !important; }
     .cs-story-eyebrow { font-size: 13px !important; letter-spacing: 3px !important; }
     .cs-story-sub { font-size: 13px !important; }
@@ -866,7 +872,7 @@ window.__csSoundOn = true;
     <div style="width: 180px; height: 3px; background: rgba(154,163,209,.25); border-radius: 2px; overflow: hidden;">
       <div ref="{{ loaderBarRef }}" style="width: 0%; height: 100%; background: #f0b95c; transition: width .3s ease;"></div>
     </div>
-    <div style="position: absolute; right: max(16px, env(safe-area-inset-right)); bottom: max(14px, env(safe-area-inset-bottom)); font-family: 'Gowun Dodum', sans-serif; font-size: 11px; letter-spacing: 0.5px; color: #fff; pointer-events: none;">ver 0.66</div>
+    <div style="position: absolute; right: max(16px, env(safe-area-inset-right)); bottom: max(14px, env(safe-area-inset-bottom)); font-family: 'Gowun Dodum', sans-serif; font-size: 11px; letter-spacing: 0.5px; color: #fff; pointer-events: none;">ver 0.67</div>
   </div>
 
   <!-- fixed backgrounds -->
@@ -1026,7 +1032,7 @@ window.__csSoundOn = true;
 
       <!-- beat visuals -->
       
-      <div ref="{{ cloudsRef }}" style="position: absolute; bottom: 0; left: 0; right: 0; height: 335px; opacity: 0; pointer-events: none; will-change: opacity, transform; background: url('assets/forrest_pattern_s.webp?v=085') repeat-x center bottom / auto 335px;"></div>
+      <div ref="{{ cloudsRef }}" class="cs-forest-pattern" style="position: absolute; bottom: 0; left: 0; right: 0; height: 335px; opacity: 0; pointer-events: none; will-change: opacity, transform; background: url('assets/forrest_pattern_s.webp?v=085') repeat-x center bottom / auto 335px;"></div>
 
       <!-- falling cat -->
       <div ref="{{ catFallRef }}" style="position: absolute; left: 50%; top: 0; will-change: transform; z-index: 6;">
@@ -2394,10 +2400,11 @@ class Component extends DCLogic {
         const raw = Math.max(0, Math.min(1, (p - 0.66) / 0.24));
         const fadeIn = raw * raw * (3 - 2 * raw);
         const exit = Math.max(0, Math.min(1, (p - 0.9) / 0.1));
-        const fadeOut = 1 - exit * exit * (3 - 2 * exit);
+        const exitEase = exit * exit * (3 - 2 * exit);
+        const fadeOut = 1 - exitEase;
         const o = fadeIn * fadeOut;
         this.refs2.clouds.style.opacity = String(o * 0.95);
-        this.refs2.clouds.style.transform = 'translateY(' + ((1 - fadeIn) * 10) + 'vh)';
+        this.refs2.clouds.style.transform = 'translateY(' + (((1 - fadeIn) * 10) - exitEase * 18) + 'vh)';
       }
     }
     // gentle fade-up reveals, driven from live rects on scroll only
