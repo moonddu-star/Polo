@@ -2,26 +2,27 @@ const assert = require('node:assert/strict');
 const { method } = require('./component-source');
 
 const VH = 844;
-const DOC = 9795;
+const DOC = 9828;
 const MAX = DOC - VH;
-const REACH = VH * 0.5;
+const REACH = VH * 0.55;
 
-// story stretch: 2052 -> its beats read centred at 10/46/79% of the pinned travel
-const STORY_TOP = 2052;
+// story stretch: 2024 -> its beats read centred at 10/46/79% of the pinned travel
+const STORY_TOP = 2024;
 const STORY_H = 2701;
 const STORY_TRAVEL = STORY_H - VH;
 const STORY_END = STORY_TOP + STORY_TRAVEL;
-// one screen-tall section per stop, plus a short one that must not become a stop
+// one screen-tall section per stop, plus two short ones at the bottom that must
+// not become stops of their own
 const SECTIONS = [
-  { label: 'landing', top: 0, height: VH, cls: ['cs-landing'] },
-  { label: 'prologue', top: 1208, height: VH, cls: ['cs-tall'] },
-  { label: 'forest', top: 4753, height: VH, cls: ['cs-scene3'] },
-  { label: 'cook', top: 5597, height: VH, cls: ['cs-interlude'] },
-  { label: 'cats', top: 6441, height: VH, cls: ['cs-cats'] },
-  { label: 'deepnight', top: 7285, height: VH, cls: ['cs-tall'] },
-  { label: 'guitar', top: 8129, height: VH, cls: ['cs-tall'] },
-  { label: 'trailer', top: 8797, height: VH, cls: ['cs-trailer'] },
-  { label: 'stores', top: 9465, height: 229, cls: ['cs-bottom-download'] }
+  { label: 'landing', top: 0, height: 1180, cls: ['cs-landing'] },
+  { label: 'prologue', top: 1180, height: VH, cls: ['cs-tall'] },
+  { label: 'forest', top: 4724, height: VH, cls: ['cs-scene3'] },
+  { label: 'cook', top: 5568, height: VH, cls: ['cs-interlude'] },
+  { label: 'cats', top: 6412, height: VH, cls: ['cs-cats'] },
+  { label: 'deepnight', top: 7256, height: VH, cls: ['cs-tall'] },
+  { label: 'guitar', top: 8100, height: VH, cls: ['cs-tall'] },
+  { label: 'trailer', top: 8944, height: 572, cls: ['cs-tall', 'cs-trailer'] },
+  { label: 'stores', top: 9516, height: 229, cls: ['cs-bottom-download'] }
 ];
 
 const timers = new Map();
@@ -104,17 +105,27 @@ for (const f of [0.10, 0.46, 0.79]) {
   const beat = Math.round(STORY_TOP + f * STORY_TRAVEL);
   assert.ok(targets.includes(beat), `story beat at ${f} is not a resting point (${beat})`);
 }
-assert.ok(targets.includes(1208), 'screen-tall section is not a resting point');
+assert.ok(targets.includes(1180), 'screen-tall section is not a resting point');
 assert.ok(targets.includes(MAX), 'page end is not a resting point');
 assert.ok(!targets.includes(0), 'hero must not be a resting point');
 assert.ok(
   targets.every((t) => t >= 0 && t <= MAX),
   'a resting point sits outside the scrollable range'
 );
-// short sections would steal the stop from the screen they belong to
-assert.ok(
-  !targets.includes(9465 + 229 / 2 - VH / 2),
-  'sub-screen section became a resting point'
+// short sections would steal the stop from the screen they belong to, so every
+// stop has to trace back to a story beat, a screen-tall section or the page end.
+// The bottom stores strip centres past the end of the scroll range, where the
+// clamp hides it, so its own gate is covered by the page-end filter below.
+const allowed = new Set([MAX]);
+for (const f of [0.10, 0.46, 0.79]) allowed.add(Math.round(STORY_TOP + f * STORY_TRAVEL));
+for (const s of SECTIONS) {
+  if (s.cls.includes('cs-landing') || s.height < VH * 0.4) continue;
+  allowed.add(Math.round(s.top + s.height / 2 - VH / 2));
+}
+assert.deepEqual(
+  targets.filter((t) => !allowed.has(t)),
+  [],
+  'a resting point came from something other than a beat, a full screen or the end'
 );
 // the last screen shows trailer, buttons and footer at once; a second stop
 // just above the end would make the two fight over every small scroll
@@ -138,7 +149,7 @@ at(5000);
 app.settleScroll();
 assert.ok(frame, 'nearby stop did not start a glide');
 const path = runGlide();
-assert.equal(global.window.scrollY, 4753, 'glide did not land exactly on the stop');
+assert.equal(global.window.scrollY, 4724, 'glide did not land exactly on the stop');
 assert.equal(app._settling, false, 'glide left the settling flag raised');
 assert.ok(path.length > 12, `glide finished in ${path.length} frames, too abrupt to read as natural`);
 // smootherstep: leaves from rest and arrives at rest, so the ends creep and
@@ -152,7 +163,7 @@ at(MAX);
 app.settleScroll();
 assert.equal(frame, null, 'reaching the bottom dragged the reader back up');
 
-at(1208);
+at(1180);
 app.settleScroll();
 assert.equal(frame, null, 'already-centred screen was nudged again');
 
@@ -162,9 +173,9 @@ assert.equal(frame, null, 'hero got pulled down');
 
 // midway through the story's tail every stop is out of reach, and the page
 // stays put rather than hauling the reader across
-const tail = Math.round((3519 + 4753) / 2);
+const tail = Math.round((3491 + 4724) / 2);
 assert.ok(
-  Math.min(tail - 3519, 4753 - tail) > REACH,
+  Math.min(tail - 3491, 4724 - tail) > REACH,
   'fixture no longer has an out-of-reach spot to check'
 );
 at(tail);

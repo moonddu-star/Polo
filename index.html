@@ -799,6 +799,8 @@ window.__csSoundOn = true;
       gap: 24px !important;
     }
     .cs-trailer { padding-bottom: 16px !important; }
+    .cs-trailer-title { font-size: 22px !important; line-height: 1.6 !important; }
+    .cs-trailer-copy { margin-bottom: 20px !important; }
     .cs-download { min-height: auto !important; padding: 12vh 20px 6vh !important; }
     .cs-download-copy { min-height: 0 !important; }
     .cs-hero { padding: 82px 20px 28px !important; }
@@ -817,7 +819,8 @@ window.__csSoundOn = true;
       left: calc(50% - 30px) !important;
       top: 27% !important;
     }
-    .cs-audience { width: min(360px, 90vw) !important; }
+    .cs-cat-other { width: min(130px, 29vw) !important; }
+    .cs-audience { width: min(315px, 78vw) !important; }
     .cs-spark { width: min(260px, 62vw) !important; }
     .cs-soup { width: min(208px, 52.8vw) !important; }
     .cs-catback { width: min(83px, 19.2vw) !important; }
@@ -879,7 +882,7 @@ window.__csSoundOn = true;
     <div style="width: 180px; height: 3px; background: rgba(154,163,209,.25); border-radius: 2px; overflow: hidden;">
       <div ref="{{ loaderBarRef }}" style="width: 0%; height: 100%; background: #f0b95c; transition: width .3s ease;"></div>
     </div>
-    <div style="position: absolute; right: max(16px, env(safe-area-inset-right)); bottom: max(14px, env(safe-area-inset-bottom)); font-family: 'Gowun Dodum', sans-serif; font-size: 11px; letter-spacing: 0.5px; color: #fff; pointer-events: none;">ver 0.72</div>
+    <div style="position: absolute; right: max(16px, env(safe-area-inset-right)); bottom: max(14px, env(safe-area-inset-bottom)); font-family: 'Gowun Dodum', sans-serif; font-size: 11px; letter-spacing: 0.5px; color: #fff; pointer-events: none;">ver 0.73</div>
   </div>
 
   <!-- fixed backgrounds -->
@@ -1163,6 +1166,9 @@ window.__csSoundOn = true;
 
   <!-- SCENE 4.7 : game trailer -->
   <section ref="{{ trailerSectionRef }}" class="cs-tall cs-trailer" data-screen-label="4.7 게임 영상" style="position: relative; z-index: 3; min-height: 110vh; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 12vh 24px 16vh;">
+    <div class="cs-reveal cs-trailer-copy" style="text-align: center; max-width: 640px; margin-bottom: 44px; will-change: opacity, transform;">
+      <p class="cs-trailer-title" style="font-family: var(--cs-cjk, 'Gowun Batang'), 'Gowun Batang', serif; letter-spacing: var(--cs-track, 0px); font-weight: 700; font-size: 26px; line-height: 1.7; margin: 0; word-break: var(--cs-wb, keep-all); overflow-wrap: break-word; white-space: pre-line;">{{ t.trailerMain }}</p>
+    </div>
     <div class="cs-reveal" ref="{{ trailerBoxRef }}" onClick="{{ trailerPlay }}" style="position: relative; width: min(960px, 92vw); aspect-ratio: 16/9; border-radius: 20px; overflow: hidden; border: 1px solid rgba(154,163,209,.35); background: #0b0f22; box-shadow: 0 24px 60px rgba(0,0,0,.4); cursor: pointer; will-change: opacity, transform;">
       <!-- facade poster (YouTube thumbnail) -->
       <div ref="{{ trailerPosterRef }}" style="position: absolute; inset: 0; display: flex; align-items: center; justify-content: center;">
@@ -1733,10 +1739,10 @@ class Component extends DCLogic {
       if (best === null || Math.abs(targets[i] - y) < Math.abs(best - y)) best = targets[i];
     }
     if (best === null) return;
-    // half a screen: far enough that the screen-spaced scenes always centre,
-    // close enough that it never feels like the page grabbed the reader
+    // just over half a screen: enough to cover the widest gap between two
+    // neighbouring scenes, short enough that it never feels like a grab
     const delta = Math.abs(best - y);
-    if (delta < 6 || delta > h * 0.5) return;
+    if (delta < 6 || delta > h * 0.55) return;
     this.glideTo(best);
   }
 
@@ -2943,7 +2949,7 @@ class Component extends DCLogic {
         eventLine1: '\'고양이와 스프\'와 함께하는',
         eventLine2: '제2회 제주 폴로연맹 회장배 폴로대회',
         aboutTitle: '고양이와 스프는?',
-        aboutP1: '고양이와 스프는,\n전세계 8000만 유저에게 사랑받고 있는\n힐링 방치형 모바일 게임입니다.',
+        aboutP1: '전세계 8000만 유저에게 사랑받고 있는\n힐링 방치형 모바일 게임입니다.',
         aboutP2: '보글보글 스프를 요리하는 귀여운 고양이들의\n숲 속 일상을 지금 확인해보세요!',
         moreStory: '더 많은 이야기가 궁금하신가요?',
         moreHint: '아래로 스크롤 해보세요.',
@@ -2965,6 +2971,7 @@ class Component extends DCLogic {
         tapHint: '카드를 눌러 고양이를 만나 보세요',
         guitarMain: '어디선가 한 고양이는 기타를 치고\n노래를 부르기 시작해요.\n사랑의 노래를.',
         inter2: '밤이 깊도록 스프는 보글보글 끓고,\n고양이들은 모닥불 곁에서\n그르렁 그르렁...\n숲은 어느새 작은 마을이 되었어요.',
+        trailerMain: '별빛 숲의 하루를 영상으로 만나 보세요.',
         lblBreed: '품종', lblBirthday: '생일', lblFood: '좋아하는 음식',
         navStory: '이야기', navUpdate: '업데이트', navCoupon: '쿠폰 코드', navRecipe: '마법 레시피', navSocial: '소셜', navCats: '고양이들', navDownload: '다운로드', navMenu: '메뉴', navClose: '닫기',
         btnGoogle: 'Google Play에서 받기', btnApple: 'App Store에서 받기', btnCoupon: '쿠폰 코드 입력',
