@@ -879,7 +879,7 @@ window.__csSoundOn = true;
     <div style="width: 180px; height: 3px; background: rgba(154,163,209,.25); border-radius: 2px; overflow: hidden;">
       <div ref="{{ loaderBarRef }}" style="width: 0%; height: 100%; background: #f0b95c; transition: width .3s ease;"></div>
     </div>
-    <div style="position: absolute; right: max(16px, env(safe-area-inset-right)); bottom: max(14px, env(safe-area-inset-bottom)); font-family: 'Gowun Dodum', sans-serif; font-size: 11px; letter-spacing: 0.5px; color: #fff; pointer-events: none;">ver 0.71</div>
+    <div style="position: absolute; right: max(16px, env(safe-area-inset-right)); bottom: max(14px, env(safe-area-inset-bottom)); font-family: 'Gowun Dodum', sans-serif; font-size: 11px; letter-spacing: 0.5px; color: #fff; pointer-events: none;">ver 0.72</div>
   </div>
 
   <!-- fixed backgrounds -->
@@ -1714,13 +1714,16 @@ class Component extends DCLogic {
     // the very end is a resting place too, or the glide drags the reader
     // back up off the footer every time they reach the bottom
     push(max);
-    return out;
+    // the last screen already holds the trailer, the buttons and the footer.
+    // a second stop just short of the end only makes the two fight over
+    // every small scroll down there.
+    return out.filter((y) => y === max || max - y > h * 0.5);
   }
 
   settleScroll() {
     const h = window.innerHeight;
     const y = window.scrollY;
-    if (this._touching) return;
+    if (this._touching || this._settling) return;
     if (!this.compactUi() || !this._loaderGone || this._menuOpen) return;
     // leave the hero alone so the TOP button never gets pulled back down
     if (y < h * 0.6) return;
@@ -1730,22 +1733,47 @@ class Component extends DCLogic {
       if (best === null || Math.abs(targets[i] - y) < Math.abs(best - y)) best = targets[i];
     }
     if (best === null) return;
-    // wide enough to reach across the longest gap between two moments,
-    // so a flick always lands on one instead of stopping half way
+    // half a screen: far enough that the screen-spaced scenes always centre,
+    // close enough that it never feels like the page grabbed the reader
     const delta = Math.abs(best - y);
-    if (delta < 6 || delta > h * 0.75) return;
+    if (delta < 6 || delta > h * 0.5) return;
+    this.glideTo(best);
+  }
+
+  // A hand-rolled glide, because the browser's smooth scroll covers a few
+  // hundred pixels fast enough to read as a yank. This leaves from rest and
+  // arrives at rest, and any touch or wheel abandons it mid-way.
+  glideTo(to) {
+    const from = window.scrollY;
+    const dist = Math.abs(to - from);
+    if (dist < 6) return;
+    const ms = Math.min(900, 320 + dist * 1.1);
+    const start = performance.now();
     this._settling = true;
-    window.scrollTo({ top: best, behavior: 'smooth' });
-    clearTimeout(this._settleClear);
-    this._settleClear = setTimeout(() => { this._settling = false; }, 700);
+    cancelAnimationFrame(this._settleRaf);
+    const step = (now) => {
+      if (!this._settling) return;
+      const t = Math.min(1, (now - start) / ms);
+      // smootherstep: no kick at the start, no thud at the end
+      const e = t * t * t * (t * (t * 6 - 15) + 10);
+      window.scrollTo(0, from + (to - from) * e);
+      if (t < 1) this._settleRaf = requestAnimationFrame(step);
+      else this._settling = false;
+    };
+    this._settleRaf = requestAnimationFrame(step);
+  }
+
+  cancelSettle() {
+    this._settling = false;
+    cancelAnimationFrame(this._settleRaf);
+    clearTimeout(this._settleTimer);
   }
 
   scheduleSettle() {
     clearTimeout(this._settleTimer);
     if (this._touching) return;
-    // while a glide is running its own scroll events must not cancel the
-    // next check outright, or a stop mid-glide never settles at all
-    this._settleTimer = setTimeout(() => this.settleScroll(), this._settling ? 780 : 140);
+    // a glide in flight drives its own scroll events; look again once it lands
+    this._settleTimer = setTimeout(() => this.settleScroll(), this._settling ? 260 : 140);
   }
 
   componentDidUpdate() { this.applyCjkFont(); }
@@ -2228,13 +2256,13 @@ class Component extends DCLogic {
     // a finger on the glass always wins over the settle glide
     this.onTouchStart = () => {
       this._touching = true;
-      this._settling = false;
-      clearTimeout(this._settleTimer);
+      this.cancelSettle();
     };
     this.onTouchEnd = () => {
       this._touching = false;
       this.scheduleSettle();
     };
+    this.onWheel = () => this.cancelSettle();
     this.onMove = (e) => { this.mx = e.clientX; this.my = e.clientY; };
     this.onResize = () => {
       this._balloonEl = null;
@@ -2247,6 +2275,7 @@ class Component extends DCLogic {
     window.addEventListener('touchstart', this.onTouchStart, { passive: true });
     window.addEventListener('touchend', this.onTouchEnd, { passive: true });
     window.addEventListener('touchcancel', this.onTouchEnd, { passive: true });
+    window.addEventListener('wheel', this.onWheel, { passive: true });
     window.addEventListener('mousemove', this.onMove, { passive: true });
     window.addEventListener('resize', this.onResize);
     this.sizeCanvas();
@@ -2365,12 +2394,13 @@ class Component extends DCLogic {
     clearInterval(this.steamTimer);
     clearInterval(this.shootTimer);
     clearTimeout(this._cookLoop);
-    clearTimeout(this._settleTimer);
+    this.cancelSettle();
     clearTimeout(this._settleClear);
     window.removeEventListener('scroll', this.onScroll, { capture: true });
     window.removeEventListener('touchstart', this.onTouchStart);
     window.removeEventListener('touchend', this.onTouchEnd);
     window.removeEventListener('touchcancel', this.onTouchEnd);
+    window.removeEventListener('wheel', this.onWheel);
     if (this._startBgm) {
       window.removeEventListener('pointerdown', this._startBgm);
       window.removeEventListener('keydown', this._startBgm);
@@ -2509,7 +2539,9 @@ class Component extends DCLogic {
       }
 
       if (this.refs2.clouds) {
-        const raw = Math.max(0, Math.min(1, (p - 0.66) / 0.24));
+        // the forest has to be waiting below before Kiki arrives, so it rises
+        // ahead of beat3 (0.66) and is fully there by where the reader settles
+        const raw = Math.max(0, Math.min(1, (p - 0.54) / 0.20));
         const fadeIn = raw * raw * (3 - 2 * raw);
         const exit = Math.max(0, Math.min(1, (p - 0.9) / 0.1));
         const exitEase = exit * exit * (3 - 2 * exit);
