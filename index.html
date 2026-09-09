@@ -892,7 +892,7 @@ window.__csSoundOn = true;
     <div style="width: 180px; height: 3px; background: rgba(154,163,209,.25); border-radius: 2px; overflow: hidden;">
       <div ref="{{ loaderBarRef }}" style="width: 0%; height: 100%; background: #f0b95c; transition: width .3s ease;"></div>
     </div>
-    <div style="position: absolute; right: max(16px, env(safe-area-inset-right)); bottom: max(14px, env(safe-area-inset-bottom)); font-family: 'Gowun Dodum', sans-serif; font-size: 11px; letter-spacing: 0.5px; color: #fff; pointer-events: none;">ver 0.80</div>
+    <div style="position: absolute; right: max(16px, env(safe-area-inset-right)); bottom: max(14px, env(safe-area-inset-bottom)); font-family: 'Gowun Dodum', sans-serif; font-size: 11px; letter-spacing: 0.5px; color: #fff; pointer-events: none;">ver 0.81</div>
   </div>
 
   <!-- fixed backgrounds -->
@@ -2280,7 +2280,20 @@ class Component extends DCLogic {
       // events, so ignore those or the settle reads its own move as intent.
       const y = window.scrollY;
       if (!this._settling && this._lastY != null && y !== this._lastY) {
-        this._scrollDir = y > this._lastY ? 1 : -1;
+        const d = y - this._lastY;
+        const dir = d > 0 ? 1 : -1;
+        if (dir === this._scrollDir) this._dirRun = 0;
+        else {
+          // Glancing back is not a decision to go back. Turning on the first
+          // event that points the other way let a 25px look-up haul the reader
+          // a hundred pixels onto the screen behind them, so the reversal has
+          // to be committed to before the settle starts aiming that way.
+          this._dirRun = (this._dirRun || 0) + Math.abs(d);
+          if (this._dirRun >= 60) {
+            this._scrollDir = dir;
+            this._dirRun = 0;
+          }
+        }
       }
       this._lastY = y;
       this.scheduleSettle();

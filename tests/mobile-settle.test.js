@@ -1,5 +1,5 @@
 const assert = require('node:assert/strict');
-const { method } = require('./component-source');
+const { method, handler } = require('./component-source');
 
 const VH = 844;
 const DOC = 9828;
@@ -74,6 +74,7 @@ const app = {
   },
   _loaderGone: true,
   compactUi: () => true,
+  updateScroll: () => {},
   settleTargets: method('settleTargets'),
   settleScroll: method('settleScroll'),
   scheduleSettle: method('scheduleSettle'),
@@ -285,6 +286,46 @@ assert.ok(
   walked >= GUITAR + 8 * 45,
   `eight small scrolls moved ${walked - GUITAR}px instead of ${8 * 45}px`
 );
+
+// --- which way the reader is going ----------------------------------------
+// Glancing back is not a decision to go back. While the direction turned on
+// the first event pointing the other way, a 25px look-up just below a scene
+// aimed the settle uphill and hauled the reader a hundred pixels onto it.
+const onScroll = handler('onScroll')(app);
+function drive(from, steps) {
+  global.window.scrollY = from;
+  app._lastY = from;
+  app._scrollDir = 1;
+  app._dirRun = 0;
+  app._settling = false;
+  app._scrollRaf = 0;
+  for (const d of steps) {
+    global.window.scrollY += d;
+    onScroll();
+  }
+  frame = null;
+  clock = 0;
+  scrolls.length = 0;
+  return app._scrollDir;
+}
+
+const GLANCE = [-12, -13];
+const COMMITTED = [-25, -25, -25, -25];
+assert.equal(drive(8300, GLANCE), 1, 'a 25px glance back flipped the reading direction');
+assert.equal(drive(8300, COMMITTED), -1, 'a committed 100px scroll up never took hold');
+assert.equal(drive(8300, [40, 40]), 1, 'reading onward somehow changed direction');
+
+// the payoff: a glance just under a scene leaves the page where the reader put it
+drive(GUITAR + 80, GLANCE);
+app.settleScroll();
+assert.equal(frame, null, 'a glance back below a scene was pulled uphill');
+
+// while a deliberate scroll up still gets the scene centred
+drive(GUITAR + 200, COMMITTED);
+app.settleScroll();
+assert.ok(frame, 'a committed scroll up got no help');
+runGlide();
+assert.equal(global.window.scrollY, GUITAR, 'reading up did not land on the scene');
 
 // the final screen carries the trailer and the store badges, so no scroll
 // anywhere inside it may be taken over, in either direction

@@ -4,12 +4,8 @@ const path = require('node:path');
 
 const html = fs.readFileSync(path.join(__dirname, '..', 'index.html'), 'utf8');
 
-// Lift one method body out of the inline Component class so the tests run the
-// code that actually ships, not a copy of it.
-function methodSource(name) {
-  const start = html.indexOf(`\n  ${name}(`);
-  assert.notEqual(start, -1, `missing Component.${name}`);
-  const body = html.indexOf('{', start);
+// Walk from an opening brace to its match, skipping strings and comments.
+function endOfBlock(body) {
   let depth = 0;
   let quote = null;
   let lineComment = false;
@@ -34,13 +30,38 @@ function methodSource(name) {
     if (c === '/' && n === '*') { blockComment = true; i++; continue; }
     if (c === "'" || c === '"' || c === '`') { quote = c; continue; }
     if (c === '{') depth++;
-    if (c === '}' && --depth === 0) return html.slice(start + 3, i + 1);
+    if (c === '}' && --depth === 0) return i;
   }
-  throw new Error(`unterminated Component.${name}`);
+  throw new Error('unterminated block');
+}
+
+// Lift one method body out of the inline Component class so the tests run the
+// code that actually ships, not a copy of it.
+function methodSource(name) {
+  const start = html.indexOf(`\n  ${name}(`);
+  assert.notEqual(start, -1, `missing Component.${name}`);
+  return html.slice(start + 3, endOfBlock(html.indexOf('{', start)) + 1);
+}
+
+// Same, for the handlers wired onto the instance at init (this.name = () => {}),
+// which are not class methods and so cannot be reached by name.
+function arrowSource(name) {
+  const decl = `this.${name} = () => {`;
+  const start = html.indexOf(decl);
+  assert.notEqual(start, -1, `missing this.${name} handler`);
+  const open = start + decl.length - 1;
+  return `() => ${html.slice(open, endOfBlock(open) + 1)}`;
 }
 
 function method(name) {
   return Function(`"use strict"; return ({${methodSource(name)}}).${name};`)();
 }
 
-module.exports = { html, methodSource, method };
+// An arrow takes its `this` from where it is created, so build it inside a
+// plain function called on the instance under test.
+function handler(name) {
+  const make = Function(`"use strict"; return function () { return ${arrowSource(name)}; };`)();
+  return (ctx) => make.call(ctx);
+}
+
+module.exports = { html, methodSource, method, arrowSource, handler };
