@@ -64,4 +64,18 @@ function handler(name) {
   return (ctx) => make.call(ctx);
 }
 
-module.exports = { html, methodSource, method, arrowSource, handler };
+// Source of the arrow function that follows a marker, for callbacks passed
+// straight into another call (timers, listeners) and so unreachable by name.
+function callbackAfter(marker) {
+  const start = html.indexOf(marker);
+  assert.notEqual(start, -1, `missing ${marker}`);
+  const open = html.indexOf('{', start + marker.length);
+  return `() => ${html.slice(open, endOfBlock(open) + 1)}`;
+}
+
+function callback(marker) {
+  const make = Function(`"use strict"; return function () { return ${callbackAfter(marker)}; };`)();
+  return (ctx) => make.call(ctx);
+}
+
+module.exports = { html, methodSource, method, arrowSource, handler, callbackAfter, callback };
