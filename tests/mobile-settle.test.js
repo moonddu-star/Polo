@@ -4,7 +4,11 @@ const { method } = require('./component-source');
 const VH = 844;
 const DOC = 9828;
 const MAX = DOC - VH;
-const REACH = VH * 0.55;
+// how far in front of a stop the settle offers to finish the job
+const REACH = VH * 0.32;
+// the last screen holds trailer, buttons and footer at once, so no rival stop
+// is allowed within this of the page end
+const END_GUARD = VH * 0.5;
 
 // story stretch: 2024 -> its beats read centred at 10/46/79% of the pinned travel
 const STORY_TOP = 2024;
@@ -132,22 +136,26 @@ assert.deepEqual(
 // the last screen shows trailer, buttons and footer at once; a second stop
 // just above the end would make the two fight over every small scroll
 assert.deepEqual(
-  targets.filter((t) => t !== MAX && MAX - t <= REACH),
+  targets.filter((t) => t !== MAX && MAX - t <= END_GUARD),
   [],
   'a rival stop survives right below the page end'
 );
 
-// every scene after the story sits one screen from the next, so the glide
-// must reach across all of them
+// Looking only forward means REACH no longer has to span half the distance
+// between two scenes; it is the run-up in front of each stop, and a reader who
+// pauses before it simply stays put. So the shape to hold is a band: wide
+// enough that every scene really does offer to centre itself, narrow enough
+// that the offer never becomes a haul across a third of the screen.
 const sorted = targets.slice().sort((a, b) => a - b);
 for (let i = 1; i < sorted.length; i++) {
   if (sorted[i - 1] < STORY_END) continue;
   const gap = sorted[i] - sorted[i - 1];
-  assert.ok(gap / 2 <= REACH, `scenes ${gap}px apart sit outside the glide's reach`);
+  assert.ok(REACH >= gap * 0.25, `only ${Math.round(REACH / gap * 100)}% of a ${gap}px gap gets any help`);
+  assert.ok(REACH <= gap * 0.45, `a ${gap}px gap starts pulling from ${REACH}px out, close enough to a grab`);
 }
 
 // --- the glide ------------------------------------------------------------
-at(5000, -1);
+at(4900, -1);
 app.settleScroll();
 assert.ok(frame, 'nearby stop did not start a glide');
 const path = runGlide();
@@ -160,6 +168,27 @@ const stepAt = (i) => Math.abs(path[i] - path[i - 1]);
 const mid = Math.floor(path.length / 2);
 assert.ok(stepAt(1) < stepAt(mid), 'glide starts at full speed instead of easing in');
 assert.ok(stepAt(path.length - 1) < stepAt(mid), 'glide stops dead instead of easing out');
+
+// --- how hard it pulls ----------------------------------------------------
+// The longest pull the settle can make is what the reader feels as tension, so
+// pin the distance and the fastest frame, not just the shape of the curve.
+const FOREST = 4724;
+const LONGEST = Math.floor(REACH);
+at(FOREST - LONGEST, 1);
+app.settleScroll();
+assert.ok(frame, 'a pause at the far edge of the run-up got no help');
+const pull = runGlide();
+assert.equal(global.window.scrollY, FOREST, 'the longest pull did not land on the stop');
+assert.ok(LONGEST <= VH * 0.35, `the settle can move the page ${LONGEST}px the reader never asked for`);
+let fastest = 0;
+for (let i = 1; i < pull.length; i++) {
+  fastest = Math.max(fastest, Math.abs(pull[i] - pull[i - 1]) / 16 * 1000);
+}
+fastest = Math.round(fastest);
+assert.ok(fastest <= 700, `the glide peaks at ${fastest}px/s, fast enough to read as a yank`);
+assert.ok(fastest >= 380, `the glide peaks at ${fastest}px/s, so slow it drifts`);
+const span = pull.length * 16;
+assert.ok(span >= 600 && span <= 1000, `the longest glide runs ${span}ms, out of the readable band`);
 
 at(MAX);
 app.settleScroll();
@@ -182,10 +211,10 @@ assert.ok(
 );
 at(tail);
 app.settleScroll();
-assert.equal(frame, null, 'a stop further than half a screen still yanked the page');
+assert.equal(frame, null, 'a stop beyond the run-up still yanked the page');
 
 // a touch mid-glide abandons it where it is
-at(5000, -1);
+at(4900, -1);
 app.settleScroll();
 runGlide(3);
 const abandoned = global.window.scrollY;
@@ -226,12 +255,21 @@ const GUITAR = 8100;
 assert.ok(targets.includes(DEEPNIGHT) && targets.includes(GUITAR), 'fixture lost the bottom stops');
 at(DEEPNIGHT + 400, 1);
 app.settleScroll();
-assert.ok(frame, 'a pause between the last two screens got no help at all');
+if (frame) runGlide();
+assert.ok(
+  global.window.scrollY >= DEEPNIGHT + 400,
+  `a pause on the way to the trailer was dragged back to ${global.window.scrollY}`
+);
+
+// once inside the run-up the offer still stands and lands on the scene
+at(GUITAR - 200, 1);
+app.settleScroll();
+assert.ok(frame, 'a pause inside the run-up got no help at all');
 runGlide();
 assert.equal(
   global.window.scrollY,
   GUITAR,
-  'a pause on the way to the trailer did not carry on to the next screen'
+  'the run-up did not carry on to the next screen'
 );
 
 // walking down in small steps has to actually go somewhere
@@ -250,7 +288,7 @@ assert.ok(
 
 // --- the gates ------------------------------------------------------------
 const gated = (patch, why) => {
-  at(5000, -1);
+  at(4900, -1);
   const restore = {};
   for (const k of Object.keys(patch)) { restore[k] = app[k]; app[k] = patch[k]; }
   app.settleScroll();
@@ -268,14 +306,18 @@ at(5000);
 app._touching = false;
 timers.clear();
 app.scheduleSettle();
-assert.equal([...timers.values()][0].ms, 140, 'idle settle check is not prompt');
+assert.equal(
+  [...timers.values()][0].ms,
+  240,
+  'the settle jumps in before the reader has really stopped'
+);
 
 timers.clear();
 app._settling = true;
 app.scheduleSettle();
 assert.equal(
   [...timers.values()][0].ms,
-  260,
+  320,
   'a running glide must defer the next check, not cancel it'
 );
 
