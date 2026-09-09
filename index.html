@@ -769,7 +769,10 @@ window.__csSoundOn = true;
     .cs-potrow { flex-direction: column !important; align-items: center !important; gap: 40px !important; }
     .cs-pot { transform: scale(.82); transform-origin: 50% 100%; }
     .cs-shot { width: min(300px, 78vw) !important; }
-    .cs-storebadge { height: 44px !important; }
+    .cs-storebadge { height: 35px !important; }
+    /* the badge reads smaller, but a download is the whole point of the page:
+       pad the link back out so the finger still gets a 44px target */
+    .cs-storebadge-link { padding: 5px 0; }
     .cs-coupon { font-size: 18px !important; }
     .cs-footer {
       flex-direction: column !important;
@@ -889,7 +892,7 @@ window.__csSoundOn = true;
     <div style="width: 180px; height: 3px; background: rgba(154,163,209,.25); border-radius: 2px; overflow: hidden;">
       <div ref="{{ loaderBarRef }}" style="width: 0%; height: 100%; background: #f0b95c; transition: width .3s ease;"></div>
     </div>
-    <div style="position: absolute; right: max(16px, env(safe-area-inset-right)); bottom: max(14px, env(safe-area-inset-bottom)); font-family: 'Gowun Dodum', sans-serif; font-size: 11px; letter-spacing: 0.5px; color: #fff; pointer-events: none;">ver 0.77</div>
+    <div style="position: absolute; right: max(16px, env(safe-area-inset-right)); bottom: max(14px, env(safe-area-inset-bottom)); font-family: 'Gowun Dodum', sans-serif; font-size: 11px; letter-spacing: 0.5px; color: #fff; pointer-events: none;">ver 0.78</div>
   </div>
 
   <!-- fixed backgrounds -->
