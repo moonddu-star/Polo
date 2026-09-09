@@ -229,6 +229,12 @@ window.__csSoundOn = true;
   .cs-origin-note {
     font-size: 24px !important;
   }
+  .cs-about-icon {
+    width: 84px;
+    height: auto;
+    display: block;
+    margin: 0 auto 20px;
+  }
   .cs-about-title {
     font-family: var(--cs-cjk, 'Gowun Batang'), 'Gowun Batang', serif;
     font-weight: 700;
@@ -723,6 +729,7 @@ window.__csSoundOn = true;
     .cs-event-copy, .cs-about { width: 100%; box-sizing: border-box; padding: 0 20px; }
     .cs-about { margin-top: 102px; }
     .cs-about-title, .cs-story-main, .cs-invite .cs-moregate-title { font-size: 26px !important; }
+    .cs-about-icon { width: 58px; margin-bottom: 14px; }
     .cs-about-title { margin-bottom: 20px; }
     .cs-about p { font-size: 17px; line-height: 1.68; }
     .cs-landing-stores { margin-top: 46px; }
@@ -882,7 +889,7 @@ window.__csSoundOn = true;
     <div style="width: 180px; height: 3px; background: rgba(154,163,209,.25); border-radius: 2px; overflow: hidden;">
       <div ref="{{ loaderBarRef }}" style="width: 0%; height: 100%; background: #f0b95c; transition: width .3s ease;"></div>
     </div>
-    <div style="position: absolute; right: max(16px, env(safe-area-inset-right)); bottom: max(14px, env(safe-area-inset-bottom)); font-family: 'Gowun Dodum', sans-serif; font-size: 11px; letter-spacing: 0.5px; color: #fff; pointer-events: none;">ver 0.76</div>
+    <div style="position: absolute; right: max(16px, env(safe-area-inset-right)); bottom: max(14px, env(safe-area-inset-bottom)); font-family: 'Gowun Dodum', sans-serif; font-size: 11px; letter-spacing: 0.5px; color: #fff; pointer-events: none;">ver 0.77</div>
   </div>
 
   <!-- fixed backgrounds -->
@@ -1014,6 +1021,7 @@ window.__csSoundOn = true;
       </div>
     </div>
     <div class="cs-about">
+      <img class="cs-about-icon" src="assets/apple-touch-icon.webp" alt="" aria-hidden="true" width="180" height="180">
       <h1 class="cs-about-title">{{ t.aboutTitle }}</h1>
       <p>{{ t.aboutP1 }}</p>
       <p>{{ t.aboutP2 }}</p>
