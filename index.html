@@ -149,6 +149,29 @@ window.__csSoundOn = true;
     padding: 0;
     min-width: 0;
   }
+  .cs-hero-cat-wrap {
+    position: relative;
+    max-width: 100%;
+    min-width: 0;
+    line-height: 0;
+  }
+  /* the glints mark the mallet heads and the ball, so they are placed against the
+     artwork box rather than the full-width row the image is centred in */
+  .cs-polo-glint {
+    position: absolute;
+    width: 22px;
+    height: 22px;
+    transform: translate(-50%, -50%);
+    background: #fffaea;
+    clip-path: polygon(50% 0%, 60% 40%, 100% 50%, 60% 60%, 50% 100%, 40% 60%, 0% 50%, 40% 40%);
+    filter: drop-shadow(0 0 7px rgba(255, 222, 140, .95));
+    opacity: .3;
+    pointer-events: none;
+    animation: csTwinkle 2.6s ease-in-out infinite;
+  }
+  .cs-polo-glint-1 { left: 4.5%; top: 10.9%; }
+  .cs-polo-glint-2 { left: 53.5%; top: 90.5%; animation-duration: 3.4s; animation-delay: .9s; }
+  .cs-polo-glint-3 { left: 94.5%; top: 51.5%; width: 17px; height: 17px; animation-duration: 3s; animation-delay: 1.8s; }
   .cs-hero-cat {
     width: 726.4px !important;
     height: auto !important;
@@ -659,7 +682,6 @@ window.__csSoundOn = true;
     width: 19px;
     height: 19px;
   }
-  html.cs-hamburger .cs-nav > a:last-of-type { border-bottom: 0; }
   html.cs-hamburger .cs-social-wrap {
     position: static;
     display: flex;
@@ -667,7 +689,11 @@ window.__csSoundOn = true;
     align-items: center;
     width: 100%;
   }
-  html.cs-hamburger .cs-nav-social { display: none !important; }
+  /* the label heads the icon row, so the divider above it is separation enough */
+  html.cs-hamburger .cs-nav .cs-nav-social {
+    border-bottom: 0 !important;
+    padding-bottom: 12px !important;
+  }
   html.cs-hamburger .cs-social-wrap .cs-socials,
   html.cs-hamburger .cs-social-wrap.is-open .cs-socials {
     display: flex !important;
@@ -677,8 +703,8 @@ window.__csSoundOn = true;
     top: auto;
     left: auto;
     gap: 18px;
-    margin-top: 8px;
-    padding: 16px 12px 8px;
+    margin-top: 0;
+    padding: 6px 12px 8px;
     border: 0;
   }
   html.cs-hamburger .cs-nav .cs-social {
@@ -722,6 +748,8 @@ window.__csSoundOn = true;
     .cs-hero-cats { width: calc(100vw - 24px) !important; max-width: calc(100vw - 24px) !important; }
     .cs-polo-hero { padding-top: 26px; }
     .cs-hero-cat { width: 65.6vw !important; max-width: 368px !important; }
+    .cs-polo-glint { width: 15px; height: 15px; }
+    .cs-polo-glint-3 { width: 12px; height: 12px; }
     .cs-hero-brand { width: 45.144vw !important; max-width: 487.2px; }
     .cs-event-copy { width: 100%; box-sizing: border-box; margin-top: 20px; }
     .cs-event-line1 { font-size: clamp(18px, 5.04vw, 21.6px); margin-bottom: 8px; }
@@ -892,7 +920,7 @@ window.__csSoundOn = true;
     <div style="width: 180px; height: 3px; background: rgba(154,163,209,.25); border-radius: 2px; overflow: hidden;">
       <div ref="{{ loaderBarRef }}" style="width: 0%; height: 100%; background: #f0b95c; transition: width .3s ease;"></div>
     </div>
-    <div style="position: absolute; right: max(16px, env(safe-area-inset-right)); bottom: max(14px, env(safe-area-inset-bottom)); font-family: 'Gowun Dodum', sans-serif; font-size: 11px; letter-spacing: 0.5px; color: #fff; pointer-events: none;">ver 0.81</div>
+    <div style="position: absolute; right: max(16px, env(safe-area-inset-right)); bottom: max(14px, env(safe-area-inset-bottom)); font-family: 'Gowun Dodum', sans-serif; font-size: 11px; letter-spacing: 0.5px; color: #fff; pointer-events: none;">ver 0.82</div>
   </div>
 
   <!-- fixed backgrounds -->
@@ -1006,7 +1034,12 @@ window.__csSoundOn = true;
     <div class="cs-polo-hero">
       <div class="cs-hero-stage">
         <div class="cs-hero-cats">
-          <img class="cs-hero-cat" src="assets/cats_polo.webp" alt="폴로를 즐기는 고양이들" width="908" height="527">
+          <div class="cs-hero-cat-wrap">
+            <img class="cs-hero-cat" src="assets/cats_polo.webp" alt="폴로를 즐기는 고양이들" width="908" height="527">
+            <span class="cs-polo-glint cs-polo-glint-1" aria-hidden="true"></span>
+            <span class="cs-polo-glint cs-polo-glint-2" aria-hidden="true"></span>
+            <span class="cs-polo-glint cs-polo-glint-3" aria-hidden="true"></span>
+          </div>
         </div>
         <div class="cs-hero-brand">
           <img class="cs-hero-logo" src="assets/logo_kr_trim.webp" alt="고양이와 스프" width="554" height="157">
@@ -1299,6 +1332,8 @@ class Component extends DCLogic {
         if (this._guitar.loop) return;
         this._guitarDone = true;
         this.stopTrack(this._guitar);
+        // zoning only runs on scroll, so bring the BGM back without waiting for one
+        if (this._loaderGone && this.soundEnabled()) this.updateAudioZones(window.innerHeight);
       });
     }
     return this._guitar;
@@ -1341,8 +1376,9 @@ class Component extends DCLogic {
     return true;
   }
 
-  // Must only be called from a user-activation path. The mixer is global because
-  // MediaElementSourceNodes can only be created once for each singleton element.
+  // The mixer is global because MediaElementSourceNodes can only be created once
+  // for each singleton element. Safe to retry from any input handler: routing is
+  // only taken over once the context is actually running.
   ensureMediaMixer() {
     const Ctx = window.AudioContext || window.webkitAudioContext;
     const bgm = this.getAudio();
@@ -1374,7 +1410,7 @@ class Component extends DCLogic {
         reconnect(guitar, 'guitar');
       } catch (e) {}
       if (mixer.bgm && mixer.guitar) {
-        try { bgm.volume = 1; guitar.volume = 1; } catch (e) {}
+        this.adoptMixerLevels();
         return mixer;
       }
       return null;
@@ -1384,7 +1420,20 @@ class Component extends DCLogic {
     // dependable GainNode path whenever Web Audio is available.
     if (!Ctx) return null;
     try {
-      const ctx = new Ctx();
+      const ctx = window.__csAudioCtx || (window.__csAudioCtx = new Ctx());
+      // A MediaElementSource silences its element while the context is
+      // suspended, so wait for a running context before taking over routing.
+      if (ctx.state !== 'running') {
+        if (ctx.resume && !this._ctxResuming) {
+          this._ctxResuming = true;
+          const retry = () => {
+            this._ctxResuming = false;
+            if (ctx.state === 'running') this.ensureMediaMixer();
+          };
+          ctx.resume().then(retry, retry);
+        }
+        return null;
+      }
       const mixer = { ctx: ctx, bgm: null, guitar: null };
       window.__csMediaMixer = mixer;
       const connect = (el, name) => {
@@ -1404,14 +1453,30 @@ class Component extends DCLogic {
       };
       mixer.bgm = connect(bgm, 'bgm');
       mixer.guitar = connect(guitar, 'guitar');
-      // GainNodes own level from here on; media elements stay at unity.
-      try { bgm.volume = 1; guitar.volume = 1; } catch (e) {}
+      this.adoptMixerLevels();
       return mixer;
     } catch (e) {
       // Keep any successfully-created nodes global so remounts never duplicate them.
       return window.__csMediaMixer && window.__csMediaMixer.bgm && window.__csMediaMixer.guitar
         ? window.__csMediaMixer
         : null;
+    }
+  }
+
+  // GainNodes own level from here on, so media elements stay at unity. A
+  // volume-property fade still in flight would multiply against the gain;
+  // retire it and let the next zoning pass re-ramp through the mixer.
+  adoptMixerLevels() {
+    const mixer = window.__csMediaMixer;
+    if (!mixer || mixer._adopted) return;
+    mixer._adopted = true;
+    clearInterval(this._bRamp); clearTimeout(this._bRamp); this._bRamp = null;
+    clearInterval(this._gRamp); clearTimeout(this._gRamp); this._gRamp = null;
+    this._t_bRamp = undefined;
+    this._t_gRamp = undefined;
+    for (const el of [window.__csBgm, window.__csGuitar]) {
+      if (!el) continue;
+      try { el.volume = 1; } catch (e) {}
     }
   }
 
@@ -1549,11 +1614,14 @@ class Component extends DCLogic {
   }
 
   unlockAudio() {
+    // A touch that pans the page never counts as activation, so a reader who only
+    // scrolls would never reach the mixer — and the mixer is the sole fade path on
+    // platforms that ignore volume. Try for it before the activation gate.
+    const mixer = this.ensureMediaMixer();
+    if (mixer && mixer.ctx.resume) mixer.ctx.resume().catch(() => {});
     // iOS: play+pause inside the tap so later scroll can start each track.
     // Do not interrupt a track which autoplay has already made audible.
     if (navigator.userActivation && !navigator.userActivation.isActive) return false;
-    const mixer = this.ensureMediaMixer();
-    if (mixer && mixer.ctx.resume) mixer.ctx.resume().catch(() => {});
     for (const el of [this.getAudio(), this.getGuitar()]) {
       if (!el.paused) continue;
       el.muted = true;
@@ -1878,7 +1946,10 @@ class Component extends DCLogic {
       : (this._guitarPageY != null ? this._guitarPageY - window.scrollY : Infinity);
     if (guitarTop < h * 0.45) this._guitarReached = true;
     const wantGuitar = this._guitarReached ? guitarTop < h * 0.55 : guitarTop < h * 0.45;
-    const active = wantGuitar ? g : b;
+    // The guitar is a one-shot per visit. Once it has run its course this is just
+    // another BGM scene; muting both tracks would leave the reader in dead air.
+    const guitarActive = wantGuitar && !this._guitarDone;
+    const active = guitarActive ? g : b;
 
     const now = Date.now();
     if (!this._wdAt || now - this._wdAt > 1200) {
@@ -1894,8 +1965,12 @@ class Component extends DCLogic {
           // Let the outgoing track start and finish its ramp before the watchdog pauses it.
           // This also covers the first frame of a crossfade, before ramp() has created
           // the interval and marked the track as fading out.
-          const crossfadeOutgoing = (wantGuitar && a === b) || (!wantGuitar && a === g);
-          if ((fadingOut || crossfadeOutgoing) && !this.hardAudioCut()) continue;
+          const crossfadeOutgoing = (guitarActive && a === b) || (!guitarActive && a === g);
+          const tr = this.audioMixerTrack(a);
+          // Protection lasts only while the fade is still audible; once it lands
+          // the stop is free to run again as a safety net.
+          const audible = !a.paused && (tr ? this.trackLevel(tr) : a.volume) > 0.0005;
+          if ((fadingOut || crossfadeOutgoing) && audible && !this.hardAudioCut()) continue;
           this.stopTrack(a);
           continue;
         }
@@ -1911,7 +1986,8 @@ class Component extends DCLogic {
 
     const ramp = (audio, target) => {
       const key = audio === g ? '_gRamp' : '_bRamp';
-      const duration = 1.35;
+      // long enough that the handover reads as a dissolve rather than a swap
+      const duration = 1.8;
       const track = this.audioMixerTrack(audio);
       if (target > 0 && this._restoreSoundLevel) {
         this._restoreSoundLevel = false;
@@ -2015,13 +2091,9 @@ class Component extends DCLogic {
       }, 50);
     };
 
-    if (wantGuitar) {
+    if (guitarActive) {
       ramp(b, 0);
       g.loop = false;
-      if (this._guitarDone) {
-        this.stopTrack(g);
-        return;
-      }
       if (!this._guitarPlayed) {
         this._guitarPlayed = true;
         this._guitarDone = false;
@@ -2342,21 +2414,31 @@ class Component extends DCLogic {
     this.loadAssets();
     // BGM starts on; browsers block autoplay, so retry on first interaction
     const startBgm = (e) => {
-      if (!this._audioUnlocked && e && e.isTrusted) {
-        this._audioUnlocked = this.unlockAudio();
+      if (e && e.isTrusted) {
+        // The mixer is the only fade path where volume is ignored, and a
+        // suspended context can need more than one attempt before it runs.
+        if (this._loaderGone) this.ensureMediaMixer();
+        // Scrolling never grants activation, so do not spend play probes on it.
+        if (!this._audioUnlocked && e.type !== 'scroll') this._audioUnlocked = this.unlockAudio();
       }
       // stay silent until the loader has finished and the hero is showing
       if (!this._loaderGone || this._pendingBgm) return;
       if (!this.soundEnabled()) return;
       this.updateAudioZones(window.innerHeight);
+      // Keep listening until the mixer exists: it is the only fade path that
+      // works where HTMLMediaElement.volume is ignored.
+      if (!this.audioMixerTrack(window.__csBgm)) return;
       window.removeEventListener('pointerdown', startBgm);
+      window.removeEventListener('touchstart', startBgm);
       window.removeEventListener('keydown', startBgm);
       window.removeEventListener('scroll', startBgm, { capture: true });
     };
     this._startBgm = startBgm;
     startBgm();
     window.addEventListener('pointerdown', startBgm);
+    window.addEventListener('touchstart', startBgm, { passive: true });
     window.addEventListener('keydown', startBgm);
+    window.addEventListener('scroll', startBgm, { passive: true, capture: true });
     let last = 0;
     const loop = (t) => {
       if (document.hidden || this.reducedMotion()) { this.rafId = 0; return; }
@@ -2454,6 +2536,7 @@ class Component extends DCLogic {
     window.removeEventListener('wheel', this.onWheel);
     if (this._startBgm) {
       window.removeEventListener('pointerdown', this._startBgm);
+      window.removeEventListener('touchstart', this._startBgm);
       window.removeEventListener('keydown', this._startBgm);
       window.removeEventListener('scroll', this._startBgm, { capture: true });
     }
