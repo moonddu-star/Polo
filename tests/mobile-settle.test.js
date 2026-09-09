@@ -112,17 +112,16 @@ for (const f of [0.10, 0.46, 0.79]) {
   assert.ok(targets.includes(beat), `story beat at ${f} is not a resting point (${beat})`);
 }
 assert.ok(targets.includes(1180), 'screen-tall section is not a resting point');
-assert.ok(targets.includes(MAX), 'page end is not a resting point');
 assert.ok(!targets.includes(0), 'hero must not be a resting point');
 assert.ok(
   targets.every((t) => t >= 0 && t <= MAX),
   'a resting point sits outside the scrollable range'
 );
 // short sections would steal the stop from the screen they belong to, so every
-// stop has to trace back to a story beat, a screen-tall section or the page end.
-// The bottom stores strip centres past the end of the scroll range, where the
-// clamp hides it, so its own gate is covered by the page-end filter below.
-const allowed = new Set([MAX]);
+// stop has to trace back to a story beat or a screen-tall section. The bottom
+// stores strip centres past the end of the scroll range, where the clamp hides
+// it, so its own gate is covered by the last-screen filter below.
+const allowed = new Set();
 for (const f of [0.10, 0.46, 0.79]) allowed.add(Math.round(STORY_TOP + f * STORY_TRAVEL));
 for (const s of SECTIONS) {
   if (s.cls.includes('cs-landing') || s.height < VH * 0.4) continue;
@@ -131,14 +130,15 @@ for (const s of SECTIONS) {
 assert.deepEqual(
   targets.filter((t) => !allowed.has(t)),
   [],
-  'a resting point came from something other than a beat, a full screen or the end'
+  'a resting point came from something other than a beat or a full screen'
 );
-// the last screen shows trailer, buttons and footer at once; a second stop
-// just above the end would make the two fight over every small scroll
+// the last screen shows the trailer, the store buttons and the footer at once.
+// there is nothing to centre there, and settling would fight a reader reaching
+// for a badge or scrubbing the video, so the whole screen stays unassisted
 assert.deepEqual(
-  targets.filter((t) => t !== MAX && MAX - t <= END_GUARD),
+  targets.filter((t) => MAX - t <= END_GUARD),
   [],
-  'a rival stop survives right below the page end'
+  'a stop survives inside the final trailer and download screen'
 );
 
 // Looking only forward means REACH no longer has to span half the distance
@@ -285,6 +285,20 @@ assert.ok(
   walked >= GUITAR + 8 * 45,
   `eight small scrolls moved ${walked - GUITAR}px instead of ${8 * 45}px`
 );
+
+// the final screen carries the trailer and the store badges, so no scroll
+// anywhere inside it may be taken over, in either direction
+for (let y = MAX - Math.round(END_GUARD); y <= MAX; y += 20) {
+  for (const dir of [1, -1]) {
+    at(y, dir);
+    app.settleScroll();
+    assert.equal(
+      frame,
+      null,
+      `scrolling ${dir > 0 ? 'down' : 'up'} at ${y} was settled inside the trailer screen`
+    );
+  }
+}
 
 // --- the gates ------------------------------------------------------------
 const gated = (patch, why) => {

@@ -892,7 +892,7 @@ window.__csSoundOn = true;
     <div style="width: 180px; height: 3px; background: rgba(154,163,209,.25); border-radius: 2px; overflow: hidden;">
       <div ref="{{ loaderBarRef }}" style="width: 0%; height: 100%; background: #f0b95c; transition: width .3s ease;"></div>
     </div>
-    <div style="position: absolute; right: max(16px, env(safe-area-inset-right)); bottom: max(14px, env(safe-area-inset-bottom)); font-family: 'Gowun Dodum', sans-serif; font-size: 11px; letter-spacing: 0.5px; color: #fff; pointer-events: none;">ver 0.79</div>
+    <div style="position: absolute; right: max(16px, env(safe-area-inset-right)); bottom: max(14px, env(safe-area-inset-bottom)); font-family: 'Gowun Dodum', sans-serif; font-size: 11px; letter-spacing: 0.5px; color: #fff; pointer-events: none;">ver 0.80</div>
   </div>
 
   <!-- fixed backgrounds -->
@@ -1728,13 +1728,11 @@ class Component extends DCLogic {
       if (r.height < h * 0.4) continue;
       push(window.scrollY + r.top + r.height / 2 - h / 2);
     }
-    // the very end is a resting place too, or the glide drags the reader
-    // back up off the footer every time they reach the bottom
-    push(max);
-    // the last screen already holds the trailer, the buttons and the footer.
-    // a second stop just short of the end only makes the two fight over
-    // every small scroll down there.
-    return out.filter((y) => y === max || max - y > h * 0.5);
+    // The last screen holds the trailer, the store buttons and the footer at
+    // once. There is nothing to centre down there, and settling only fights
+    // the reader who is reaching for a badge or scrubbing the video, so the
+    // whole final screen is left unassisted.
+    return out.filter((y) => max - y > h * 0.5);
   }
 
   settleScroll() {
