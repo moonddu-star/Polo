@@ -5,7 +5,7 @@ const VH = 844;
 const DOC = 9828;
 const MAX = DOC - VH;
 // how far in front of a stop the settle offers to finish the job
-const REACH = VH * 0.32;
+const REACH = VH * 0.16;
 // the last screen holds trailer, buttons and footer at once, so no rival stop
 // is allowed within this of the page end
 const END_GUARD = VH * 0.5;
@@ -150,12 +150,12 @@ const sorted = targets.slice().sort((a, b) => a - b);
 for (let i = 1; i < sorted.length; i++) {
   if (sorted[i - 1] < STORY_END) continue;
   const gap = sorted[i] - sorted[i - 1];
-  assert.ok(REACH >= gap * 0.25, `only ${Math.round(REACH / gap * 100)}% of a ${gap}px gap gets any help`);
-  assert.ok(REACH <= gap * 0.45, `a ${gap}px gap starts pulling from ${REACH}px out, close enough to a grab`);
+  assert.ok(REACH >= gap * 0.12, `only ${Math.round(REACH / gap * 100)}% of a ${gap}px gap gets any help`);
+  assert.ok(REACH <= gap * 0.25, `a ${gap}px gap starts pulling from ${REACH}px out, close enough to a grab`);
 }
 
 // --- the glide ------------------------------------------------------------
-at(4900, -1);
+at(4820, -1);
 app.settleScroll();
 assert.ok(frame, 'nearby stop did not start a glide');
 const path = runGlide();
@@ -179,14 +179,14 @@ app.settleScroll();
 assert.ok(frame, 'a pause at the far edge of the run-up got no help');
 const pull = runGlide();
 assert.equal(global.window.scrollY, FOREST, 'the longest pull did not land on the stop');
-assert.ok(LONGEST <= VH * 0.35, `the settle can move the page ${LONGEST}px the reader never asked for`);
+assert.ok(LONGEST <= VH * 0.2, `the settle can move the page ${LONGEST}px the reader never asked for`);
 let fastest = 0;
 for (let i = 1; i < pull.length; i++) {
   fastest = Math.max(fastest, Math.abs(pull[i] - pull[i - 1]) / 16 * 1000);
 }
 fastest = Math.round(fastest);
-assert.ok(fastest <= 700, `the glide peaks at ${fastest}px/s, fast enough to read as a yank`);
-assert.ok(fastest >= 380, `the glide peaks at ${fastest}px/s, so slow it drifts`);
+assert.ok(fastest <= 500, `the glide peaks at ${fastest}px/s, fast enough to read as a yank`);
+assert.ok(fastest >= 280, `the glide peaks at ${fastest}px/s, so slow it drifts`);
 const span = pull.length * 16;
 assert.ok(span >= 600 && span <= 1000, `the longest glide runs ${span}ms, out of the readable band`);
 
@@ -262,7 +262,7 @@ assert.ok(
 );
 
 // once inside the run-up the offer still stands and lands on the scene
-at(GUITAR - 200, 1);
+at(GUITAR - 100, 1);
 app.settleScroll();
 assert.ok(frame, 'a pause inside the run-up got no help at all');
 runGlide();

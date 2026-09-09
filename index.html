@@ -892,7 +892,7 @@ window.__csSoundOn = true;
     <div style="width: 180px; height: 3px; background: rgba(154,163,209,.25); border-radius: 2px; overflow: hidden;">
       <div ref="{{ loaderBarRef }}" style="width: 0%; height: 100%; background: #f0b95c; transition: width .3s ease;"></div>
     </div>
-    <div style="position: absolute; right: max(16px, env(safe-area-inset-right)); bottom: max(14px, env(safe-area-inset-bottom)); font-family: 'Gowun Dodum', sans-serif; font-size: 11px; letter-spacing: 0.5px; color: #fff; pointer-events: none;">ver 0.78</div>
+    <div style="position: absolute; right: max(16px, env(safe-area-inset-right)); bottom: max(14px, env(safe-area-inset-bottom)); font-family: 'Gowun Dodum', sans-serif; font-size: 11px; letter-spacing: 0.5px; color: #fff; pointer-events: none;">ver 0.79</div>
   </div>
 
   <!-- fixed backgrounds -->
@@ -1763,7 +1763,7 @@ class Component extends DCLogic {
     // further back than this is left exactly where the reader put it, because
     // hauling them a third of a screen is what reads as the page grabbing them.
     const delta = Math.abs(best - y);
-    if (delta < 6 || delta > h * 0.32) return;
+    if (delta < 6 || delta > h * 0.16) return;
     this.glideTo(best);
   }
 
