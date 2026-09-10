@@ -156,7 +156,6 @@ window.__csSoundOn = true;
     height: auto !important;
     max-width: 100% !important;
     margin-inline: auto;
-    pointer-events: none;
     filter: drop-shadow(0 6px 10px rgba(0,0,0,.32));
     display: block;
   }
@@ -415,7 +414,9 @@ window.__csSoundOn = true;
   .cs-hero { min-height: 100vh !important; min-height: 100dvh !important; }
   .cs-story-pin { height: 100vh !important; height: 100dvh !important; }
   .cs-story-beat { transition: none; }
-  .cs-meowcat { cursor: pointer; touch-action: manipulation; }
+  /* A cat can be sitting under a rule that made it decorative, and then the tap
+     lands on the container instead and the meow never fires. */
+  .cs-meowcat { cursor: pointer; touch-action: manipulation; pointer-events: auto; }
   .cs-sound {
     display: inline-flex;
     align-items: center;
@@ -898,7 +899,7 @@ window.__csSoundOn = true;
     <div style="width: 180px; height: 3px; background: rgba(154,163,209,.25); border-radius: 2px; overflow: hidden;">
       <div data-ref="loaderBar" style="width: 0%; height: 100%; background: #f0b95c; transition: width .3s ease;"></div>
     </div>
-    <div style="position: absolute; right: max(16px, env(safe-area-inset-right)); bottom: max(14px, env(safe-area-inset-bottom)); font-family: 'Gowun Dodum', sans-serif; font-size: 11px; letter-spacing: 0.5px; color: #fff; pointer-events: none;">ver 1.00</div>
+    <div style="position: absolute; right: max(16px, env(safe-area-inset-right)); bottom: max(14px, env(safe-area-inset-bottom)); font-family: 'Gowun Dodum', sans-serif; font-size: 11px; letter-spacing: 0.5px; color: #fff; pointer-events: none;">ver 1.01</div>
   </div>
 
   <!-- fixed backgrounds -->
@@ -1012,7 +1013,7 @@ window.__csSoundOn = true;
     <div class="cs-polo-hero">
       <div class="cs-hero-stage">
         <div class="cs-hero-cats">
-          <img class="cs-hero-cat" src="assets/cats_polo.webp" alt="폴로를 즐기는 고양이들" width="908" height="527">
+          <img class="cs-hero-cat cs-meowcat" src="assets/cats_polo.webp" alt="폴로를 즐기는 고양이들" width="908" height="527">
         </div>
         <div class="cs-hero-brand">
           <img class="cs-hero-logo" src="assets/logo_kr_trim.webp" alt="고양이와 스프" width="554" height="157">

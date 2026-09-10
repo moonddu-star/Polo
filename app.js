@@ -1000,7 +1000,7 @@ class CatsSoupPage {
     document.documentElement.lang = 'ko';
     document.documentElement.style.setProperty('--cs-dir', 'ltr');
     document.documentElement.style.setProperty('--cs-weight', '700');
-    this._meowText = (this._T && this._T.meowText) || '?? ~';
+    this._meowText = (this._T && this._T.meowText) || '야옹 ~';
     this.ensureFont(picked);
     document.documentElement.style.setProperty('--cs-cjk', "'" + picked + "'");
     document.documentElement.style.setProperty('--cs-nav-size', '20px');
