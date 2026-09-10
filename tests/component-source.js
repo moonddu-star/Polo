@@ -2,7 +2,10 @@ const assert = require('node:assert/strict');
 const fs = require('node:fs');
 const path = require('node:path');
 
+// The page is plain html + css + js: markup in index.html, behaviour in app.js.
+// Markup assertions read `html`; everything that lifts running code reads `js`.
 const html = fs.readFileSync(path.join(__dirname, '..', 'index.html'), 'utf8');
+const js = fs.readFileSync(path.join(__dirname, '..', 'app.js'), 'utf8');
 
 // Walk from an opening brace to its match, skipping strings and comments.
 function endOfBlock(body) {
@@ -10,9 +13,9 @@ function endOfBlock(body) {
   let quote = null;
   let lineComment = false;
   let blockComment = false;
-  for (let i = body; i < html.length; i++) {
-    const c = html[i];
-    const n = html[i + 1];
+  for (let i = body; i < js.length; i++) {
+    const c = js[i];
+    const n = js[i + 1];
     if (lineComment) {
       if (c === '\n') lineComment = false;
       continue;
@@ -35,22 +38,22 @@ function endOfBlock(body) {
   throw new Error('unterminated block');
 }
 
-// Lift one method body out of the inline Component class so the tests run the
-// code that actually ships, not a copy of it.
+// Lift one method body out of the CatsSoupPage class so the tests run the code
+// that actually ships, not a copy of it.
 function methodSource(name) {
-  const start = html.indexOf(`\n  ${name}(`);
-  assert.notEqual(start, -1, `missing Component.${name}`);
-  return html.slice(start + 3, endOfBlock(html.indexOf('{', start)) + 1);
+  const start = js.indexOf(`\n  ${name}(`);
+  assert.notEqual(start, -1, `missing CatsSoupPage.${name}`);
+  return js.slice(start + 3, endOfBlock(js.indexOf('{', start)) + 1);
 }
 
 // Same, for the handlers wired onto the instance at init (this.name = () => {}),
 // which are not class methods and so cannot be reached by name.
 function arrowSource(name) {
   const decl = `this.${name} = () => {`;
-  const start = html.indexOf(decl);
+  const start = js.indexOf(decl);
   assert.notEqual(start, -1, `missing this.${name} handler`);
   const open = start + decl.length - 1;
-  return `() => ${html.slice(open, endOfBlock(open) + 1)}`;
+  return `() => ${js.slice(open, endOfBlock(open) + 1)}`;
 }
 
 function method(name) {
@@ -67,10 +70,10 @@ function handler(name) {
 // Source of the arrow function that follows a marker, for callbacks passed
 // straight into another call (timers, listeners) and so unreachable by name.
 function callbackAfter(marker) {
-  const start = html.indexOf(marker);
+  const start = js.indexOf(marker);
   assert.notEqual(start, -1, `missing ${marker}`);
-  const open = html.indexOf('{', start + marker.length);
-  return `() => ${html.slice(open, endOfBlock(open) + 1)}`;
+  const open = js.indexOf('{', start + marker.length);
+  return `() => ${js.slice(open, endOfBlock(open) + 1)}`;
 }
 
 function callback(marker) {
@@ -78,16 +81,16 @@ function callback(marker) {
   return (ctx) => make.call(ctx);
 }
 
-// Source of a `name: (arg) => { ... }` entry of the object renderVals returns.
+// Source of a `name: (arg) => { ... }` entry of the object refCallbacks returns.
 // Unlike callbackAfter this keeps the parameter list, so a test can hand the
 // ref callback an element.
 function entrySource(name) {
-  const start = html.indexOf(`\n      ${name}: (`);
-  assert.notEqual(start, -1, `missing renderVals.${name}`);
-  const argsOpen = html.indexOf('(', start);
-  const argsClose = html.indexOf(')', argsOpen);
-  const open = html.indexOf('{', argsClose);
-  return `${html.slice(argsOpen, argsClose + 1)} => ${html.slice(open, endOfBlock(open) + 1)}`;
+  const start = js.indexOf(`\n      ${name}: (`);
+  assert.notEqual(start, -1, `missing refCallbacks.${name}`);
+  const argsOpen = js.indexOf('(', start);
+  const argsClose = js.indexOf(')', argsOpen);
+  const open = js.indexOf('{', argsClose);
+  return `${js.slice(argsOpen, argsClose + 1)} => ${js.slice(open, endOfBlock(open) + 1)}`;
 }
 
 function entry(name) {
@@ -95,4 +98,4 @@ function entry(name) {
   return (ctx) => make.call(ctx);
 }
 
-module.exports = { html, methodSource, method, arrowSource, handler, callbackAfter, callback, entrySource, entry };
+module.exports = { html, js, methodSource, method, arrowSource, handler, callbackAfter, callback, entrySource, entry };

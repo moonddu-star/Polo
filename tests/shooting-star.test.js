@@ -1,12 +1,12 @@
 const assert = require('node:assert/strict');
 const test = require('node:test');
-const { html, callback } = require('./component-source.js');
+const { js, callback } = require('./component-source.js');
 
 // The cadence has been retuned several times: quieter for CPU, then busier, then
 // busier again. Two numbers decide it and they live far apart in the file, so
 // they are read back out of the shipped source rather than restated here.
-const TICK = Number(/this\.shootTimer = setInterval\([\s\S]*?\}, (\d+)\);/.exec(html)[1]);
-const LIFE = Number(/sh\.life \+= step \/ ([\d.]+);/.exec(html)[1]);
+const TICK = Number(/this\.shootTimer = setInterval\([\s\S]*?\}, (\d+)\);/.exec(js)[1]);
+const LIFE = Number(/sh\.life \+= step \/ ([\d.]+);/.exec(js)[1]);
 const PREVIOUS_TICK = 3000;
 
 const spawn = callback('this.shootTimer = setInterval(');
