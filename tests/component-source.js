@@ -78,4 +78,21 @@ function callback(marker) {
   return (ctx) => make.call(ctx);
 }
 
-module.exports = { html, methodSource, method, arrowSource, handler, callbackAfter, callback };
+// Source of a `name: (arg) => { ... }` entry of the object renderVals returns.
+// Unlike callbackAfter this keeps the parameter list, so a test can hand the
+// ref callback an element.
+function entrySource(name) {
+  const start = html.indexOf(`\n      ${name}: (`);
+  assert.notEqual(start, -1, `missing renderVals.${name}`);
+  const argsOpen = html.indexOf('(', start);
+  const argsClose = html.indexOf(')', argsOpen);
+  const open = html.indexOf('{', argsClose);
+  return `${html.slice(argsOpen, argsClose + 1)} => ${html.slice(open, endOfBlock(open) + 1)}`;
+}
+
+function entry(name) {
+  const make = Function(`"use strict"; return function () { return ${entrySource(name)}; };`)();
+  return (ctx) => make.call(ctx);
+}
+
+module.exports = { html, methodSource, method, arrowSource, handler, callbackAfter, callback, entrySource, entry };
