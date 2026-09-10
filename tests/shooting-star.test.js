@@ -2,16 +2,23 @@ const assert = require('node:assert/strict');
 const test = require('node:test');
 const { js, callback } = require('./component-source.js');
 
-// The cadence has been retuned several times: quieter for CPU, then busier, then
-// busier again. Two numbers decide it and they live far apart in the file, so
-// they are read back out of the shipped source rather than restated here.
+// The effect was taken wholesale from the Cats & Soup homepage so both sites
+// read as one sky. Its four numbers are restated here rather than read out of
+// that repo, which is not checked out beside this one. Retune it there first,
+// then move these.
+const SOURCE = { tick: 1900, odds: 0.6, step: 0.04, maxLife: 1.25 };
+
+// Read back out of the shipped source: the cadence lives hundreds of lines away
+// from the flight, and the two have drifted apart before.
 const TICK = Number(/this\.shootTimer = setInterval\([\s\S]*?\}, (\d+)\);/.exec(js)[1]);
-const LIFE = Number(/sh\.life \+= step \/ ([\d.]+);/.exec(js)[1]);
-const PREVIOUS_TICK = 3000;
+const ODDS = Number(/if \(Math\.random\(\) < ([\d.]+)\) \{\s*this\.shooters\.push/.exec(js)[1]);
+const STEP = Number(/sh\.life \+= ([\d.]+);/.exec(js)[1]);
+const MAX_LIFE = Number(/const maxLife = ([\d.]+);/.exec(js)[1]);
+const TIMER = /this\.shootTimer = setInterval\(([\s\S]*?)\}, \d+\);/.exec(js)[1];
 
 const spawn = callback('this.shootTimer = setInterval(');
 
-// Deterministic stand-in for Math.random so the two cadences see the same rolls.
+// Deterministic stand-in for Math.random so a rerun counts the same launches.
 function seeded(seed) {
   let s = seed;
   return () => {
@@ -20,82 +27,72 @@ function seeded(seed) {
   };
 }
 
-// Run one cadence over a fixed stretch of night and report what it produced.
-function run(tick, minutes) {
+// Tick one stretch of night through and report how much fell.
+function run(minutes) {
   const shooters = [];
-  const ctx = {
-    shooters,
-    dayAlpha: 0,
-    reducedMotion: () => false
-  };
-  const fire = spawn(ctx);
-  const random = seeded(7);
+  const fire = spawn({ shooters, reducedMotion: () => false });
   const realRandom = Math.random;
-  Math.random = random;
+  Math.random = seeded(7);
   global.document = { hidden: false };
-  let spawns = 0;
-  let mostAtOnce = 0;
   try {
     const span = minutes * 60 * 1000;
-    for (let t = 0; t < span; t += tick) {
-      // whatever was launched more than a lifetime ago has finished crossing
-      while (shooters.length && t - shooters[0].bornAt >= LIFE * 1000) shooters.shift();
-      const before = shooters.length;
-      fire();
-      if (shooters.length > before) {
-        shooters[shooters.length - 1].bornAt = t;
-        spawns++;
-      }
-      mostAtOnce = Math.max(mostAtOnce, shooters.length);
-    }
+    for (let t = 0; t < span; t += TICK) fire();
   } finally {
     Math.random = realRandom;
     delete global.document;
   }
-  return { spawns, mostAtOnce, perMinute: spawns / minutes };
+  return shooters.length / minutes;
 }
 
-test('shooting stars fall twice as often, still one at a time', () => {
-  const MINUTES = 60;
-  const now = run(TICK, MINUTES);
-  const before = run(PREVIOUS_TICK, MINUTES);
+test('the sky matches the Cats & Soup one it was taken from', () => {
+  assert.equal(TICK, SOURCE.tick, 'launch cadence drifted from the original');
+  assert.equal(ODDS, SOURCE.odds, 'launch odds drifted from the original');
+  assert.equal(STEP, SOURCE.step, 'flight speed drifted from the original');
+  assert.equal(MAX_LIFE, SOURCE.maxLife, 'flight length drifted from the original');
 
-  // the whole point of the change
-  const gain = now.spawns / before.spawns;
-  assert.ok(gain > 1.9 && gain < 2.1, `firing rate should double, got ${gain.toFixed(3)}x`);
+  // The original launches on a timer alone. Both gates this page used to add are
+  // gone on purpose: nothing caps how many are aloft, which is what lets a slow
+  // device show an overlap instead of dropping the second launch on the floor.
+  assert.doesNotMatch(TIMER, /shooters\.length/, 'the one-at-a-time cap came back');
+  assert.doesNotMatch(TIMER, /dayAlpha/, 'the daylight gate came back');
+});
 
-  // a tick is skipped while one is still crossing the sky, so a cadence faster
-  // than a shooter's lifetime would quietly cap out instead of doubling
-  assert.ok(TICK > LIFE * 1000, `tick ${TICK}ms must outlast a shooter (${LIFE * 1000}ms)`);
-  assert.equal(now.mostAtOnce, 1, 'never more than one shooter in flight');
+test('a shooter crosses fast enough to stay a glimpse', () => {
+  // The original advances a fixed amount per frame, so this is the 60Hz figure.
+  const seconds = MAX_LIFE / STEP / 60;
+  assert.ok(seconds > 0.45 && seconds < 0.6, `expected about half a second, got ${seconds.toFixed(2)}s`);
 
-  // a sanity floor on the absolute cadence: often enough to notice while
-  // waiting on one screen, not so often the sky turns into rain
+  // Far enough inside the gap between launches that the sky still reads calm.
+  assert.ok(seconds * 1000 < TICK, `a ${seconds.toFixed(2)}s flight must fit inside the ${TICK}ms gap`);
+});
+
+test('shooting stars fall often enough to catch, not often enough to rain', () => {
+  const perMinute = run(60);
+  const expected = (60000 / TICK) * ODDS;
   assert.ok(
-    now.perMinute > 20 && now.perMinute < 40,
-    `expected 20-40 shooters a minute, got ${now.perMinute.toFixed(1)}`
+    Math.abs(perMinute - expected) < 3,
+    `expected about ${expected.toFixed(1)} a minute, got ${perMinute.toFixed(1)}`
   );
 });
 
-test('no shooters while the tab is hidden or the sky is bright', () => {
+test('no shooters while the tab is hidden or motion is turned down', () => {
   const shooters = [];
-  const ctx = { shooters, dayAlpha: 0, reducedMotion: () => false };
+  const ctx = { shooters, reducedMotion: () => true };
   const fire = spawn(ctx);
   const realRandom = Math.random;
-  Math.random = () => 0; // always inside the 0.75 chance
+  Math.random = () => 0; // always inside the launch odds
   try {
     global.document = { hidden: true };
     for (let i = 0; i < 50; i++) fire();
     assert.equal(shooters.length, 0, 'hidden tab must not accumulate shooters');
 
     global.document = { hidden: false };
-    ctx.dayAlpha = 0.9; // daylight
     for (let i = 0; i < 50; i++) fire();
-    assert.equal(shooters.length, 0, 'no shooters in a bright sky');
+    assert.equal(shooters.length, 0, 'reduced motion must not accumulate shooters');
 
-    ctx.dayAlpha = 0;
+    ctx.reducedMotion = () => false;
     fire();
-    assert.equal(shooters.length, 1, 'night sky should launch one');
+    assert.equal(shooters.length, 1, 'a visible night sky should launch one');
   } finally {
     Math.random = realRandom;
     delete global.document;

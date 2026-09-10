@@ -1325,9 +1325,13 @@ class CatsSoupPage {
         }, 900);
       }
       if (!this.shootTimer) {
+        // Cadence, odds and flight all carried over from the Cats & Soup
+        // homepage so the two sites read as the same sky. Nothing caps how many
+        // are aloft: a shooter crosses in about half a second, well inside the
+        // gap between launches, and the overlap when it does happen is the look.
         this.shootTimer = setInterval(() => {
-          if (document.hidden || this.reducedMotion() || this.shooters.length) return;
-          if (this.dayAlpha < 0.6 && Math.random() < 0.75) {
+          if (document.hidden || this.reducedMotion()) return;
+          if (Math.random() < 0.6) {
             this.shooters.push({
               x: Math.random() * 0.8 + 0.1,
               y: Math.random() * 0.35,
@@ -1336,8 +1340,7 @@ class CatsSoupPage {
               dy: 0.12 + Math.random() * 0.08
             });
           }
-          // a shooter lives 1.4s, so ticking every 1.5s keeps them one at a time
-        }, 1500);
+        }, 1900);
       }
     };
     if (!this.reducedMotion()) {
@@ -1678,47 +1681,42 @@ class CatsSoupPage {
       }
       for (let i = this.shooters.length - 1; i >= 0; i--) {
         const sh = this.shooters[i];
-        if (sh.lastT == null) sh.lastT = t;
-        const step = Math.min(0.1, Math.max(0, t - sh.lastT));
-        sh.lastT = t;
-        sh.life += step / 1.4;
-        if (sh.life > 1) { this.shooters.splice(i, 1); continue; }
+        const maxLife = 1.25;
+        sh.life += 0.04;
+        if (sh.life > maxLife) { this.shooters.splice(i, 1); continue; }
         const x = (sh.x + sh.dx * sh.life) * w, y = (sh.y + sh.dy * sh.life) * h;
+        // A tapered white trail follows the flight direction at every aspect ratio.
         const vx = sh.dx * w, vy = sh.dy * h;
-        const vl = Math.max(1, Math.hypot(vx, vy));
-        const ux = vx / vl, uy = vy / vl;
-        const tail = Math.min(130 * dpr, vl * 0.38);
-        const tx = x - vx / vl * tail, ty = y - vy / vl * tail;
-        const alpha = night * Math.sin(sh.life * Math.PI);
-
+        const speed = Math.max(1, Math.hypot(vx, vy));
+        const ux = vx / speed, uy = vy / speed;
+        const tail = (this.compactUi() ? 144 : 220) * dpr;
+        const tx = x - ux * tail, ty = y - uy * tail;
+        const halfWidth = 2.2 * dpr;
         ctx.save();
-        ctx.lineCap = 'round';
-        ctx.strokeStyle = '#ffffff';
-        ctx.globalAlpha = alpha * 0.18;
-        ctx.lineWidth = 0.55 * dpr;
+        ctx.globalAlpha = night * Math.sin((sh.life / maxLife) * Math.PI);
+        const trail = ctx.createLinearGradient(tx, ty, x, y);
+        trail.addColorStop(0, 'rgba(255,255,255,0)');
+        trail.addColorStop(0.35, 'rgba(255,255,255,0.08)');
+        trail.addColorStop(0.8, 'rgba(255,255,255,0.5)');
+        trail.addColorStop(1, 'rgba(255,255,255,0.95)');
+        ctx.fillStyle = trail;
         ctx.beginPath();
         ctx.moveTo(tx, ty);
-        ctx.lineTo(x - ux * tail * 0.48, y - uy * tail * 0.48);
-        ctx.stroke();
-
-        ctx.globalAlpha = alpha * 0.42;
-        ctx.lineWidth = 0.82 * dpr;
+        ctx.lineTo(x - uy * halfWidth, y + ux * halfWidth);
+        ctx.lineTo(x + uy * halfWidth, y - ux * halfWidth);
+        ctx.closePath();
+        ctx.fill();
+        const glow = ctx.createRadialGradient(x, y, 0, x, y, 12 * dpr);
+        glow.addColorStop(0, 'rgba(255,255,255,0.95)');
+        glow.addColorStop(0.22, 'rgba(255,255,255,0.5)');
+        glow.addColorStop(1, 'rgba(255,255,255,0)');
+        ctx.fillStyle = glow;
         ctx.beginPath();
-        ctx.moveTo(x - ux * tail * 0.52, y - uy * tail * 0.52);
-        ctx.lineTo(x - ux * tail * 0.18, y - uy * tail * 0.18);
-        ctx.stroke();
-
-        ctx.globalAlpha = alpha * 0.82;
-        ctx.lineWidth = 1.05 * dpr;
-        ctx.beginPath();
-        ctx.moveTo(x - ux * tail * 0.2, y - uy * tail * 0.2);
-        ctx.lineTo(x, y);
-        ctx.stroke();
-
+        ctx.arc(x, y, 12 * dpr, 0, Math.PI * 2);
+        ctx.fill();
         ctx.fillStyle = '#ffffff';
-        ctx.globalAlpha = alpha * 0.9;
         ctx.beginPath();
-        ctx.arc(x, y, 1.55 * dpr, 0, Math.PI * 2);
+        ctx.arc(x, y, 2.4 * dpr, 0, Math.PI * 2);
         ctx.fill();
         ctx.restore();
       }
