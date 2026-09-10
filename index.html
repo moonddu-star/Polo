@@ -899,7 +899,7 @@ window.__csSoundOn = true;
     <div style="width: 180px; height: 3px; background: rgba(154,163,209,.25); border-radius: 2px; overflow: hidden;">
       <div ref="{{ loaderBarRef }}" style="width: 0%; height: 100%; background: #f0b95c; transition: width .3s ease;"></div>
     </div>
-    <div style="position: absolute; right: max(16px, env(safe-area-inset-right)); bottom: max(14px, env(safe-area-inset-bottom)); font-family: 'Gowun Dodum', sans-serif; font-size: 11px; letter-spacing: 0.5px; color: #fff; pointer-events: none;">ver 0.92</div>
+    <div style="position: absolute; right: max(16px, env(safe-area-inset-right)); bottom: max(14px, env(safe-area-inset-bottom)); font-family: 'Gowun Dodum', sans-serif; font-size: 11px; letter-spacing: 0.5px; color: #fff; pointer-events: none;">ver 0.93</div>
   </div>
 
   <!-- fixed backgrounds -->
@@ -1229,7 +1229,7 @@ window.__csSoundOn = true;
   </footer>
 </div>
 </div></x-dc>
-<script type="text/x-dc" data-dc-script data-props="{&quot;particleDensity&quot;:{&quot;editor&quot;:&quot;range&quot;,&quot;default&quot;:2,&quot;min&quot;:0,&quot;max&quot;:2,&quot;step&quot;:0.25,&quot;tsType&quot;:&quot;number&quot;,&quot;section&quot;:&quot;분위기&quot;},&quot;fontKr&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;default&quot;:&quot;Gowun Batang&quot;,&quot;options&quot;:[&quot;Gowun Batang&quot;,&quot;Gowun Dodum&quot;,&quot;Nanum Myeongjo&quot;,&quot;Hi Melody&quot;,&quot;Poor Story&quot;,&quot;Gaegu&quot;,&quot;Dongle&quot;],&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;한글 폰트&quot;},&quot;trackKr&quot;:{&quot;editor&quot;:&quot;range&quot;,&quot;default&quot;:-1,&quot;min&quot;:-3,&quot;max&quot;:6,&quot;step&quot;:0.5,&quot;unit&quot;:&quot;px&quot;,&quot;tsType&quot;:&quot;number&quot;,&quot;section&quot;:&quot;한글 자간&quot;},&quot;leadingKr&quot;:{&quot;editor&quot;:&quot;range&quot;,&quot;default&quot;:1.4,&quot;min&quot;:1.2,&quot;max&quot;:2.6,&quot;step&quot;:0.05,&quot;tsType&quot;:&quot;number&quot;,&quot;section&quot;:&quot;한글 행간&quot;}}">
+<script data-dc-script data-props="{&quot;particleDensity&quot;:{&quot;editor&quot;:&quot;range&quot;,&quot;default&quot;:2,&quot;min&quot;:0,&quot;max&quot;:2,&quot;step&quot;:0.25,&quot;tsType&quot;:&quot;number&quot;,&quot;section&quot;:&quot;분위기&quot;},&quot;fontKr&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;default&quot;:&quot;Gowun Batang&quot;,&quot;options&quot;:[&quot;Gowun Batang&quot;,&quot;Gowun Dodum&quot;,&quot;Nanum Myeongjo&quot;,&quot;Hi Melody&quot;,&quot;Poor Story&quot;,&quot;Gaegu&quot;,&quot;Dongle&quot;],&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;한글 폰트&quot;},&quot;trackKr&quot;:{&quot;editor&quot;:&quot;range&quot;,&quot;default&quot;:-1,&quot;min&quot;:-3,&quot;max&quot;:6,&quot;step&quot;:0.5,&quot;unit&quot;:&quot;px&quot;,&quot;tsType&quot;:&quot;number&quot;,&quot;section&quot;:&quot;한글 자간&quot;},&quot;leadingKr&quot;:{&quot;editor&quot;:&quot;range&quot;,&quot;default&quot;:1.4,&quot;min&quot;:1.2,&quot;max&quot;:2.6,&quot;step&quot;:0.05,&quot;tsType&quot;:&quot;number&quot;,&quot;section&quot;:&quot;한글 행간&quot;}}">
 class Component extends DCLogic {
   state = { sound: this.readSoundPreference(), flipped: {} };
 
@@ -3322,6 +3322,12 @@ class Component extends DCLogic {
     };
   }
 }
+
+// This block used to be inert text that the runtime compiled with
+// new Function. Hosts that serve the page under a CSP without 'unsafe-eval'
+// refuse that, so the browser runs it as an ordinary script and the class is
+// handed to the runtime directly.
+window.__dcComponent = Component;
 </script>
 </body>
 </html>

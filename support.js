@@ -779,6 +779,12 @@
     );
     return fn(StreamableLogic, StreamableLogic, getReact());
   }
+  // A host serving this page under a CSP without 'unsafe-eval' cannot run
+  // evalDcLogic at all. Such a page declares its class in an ordinary <script>
+  // and hands it over through window.__dcComponent instead, so the names the
+  // eval path used to inject as arguments have to be reachable as globals.
+  window.DCLogic = StreamableLogic;
+  window.StreamableLogic = StreamableLogic;
 
   // src/component.ts
   function shallowEqual(a, b) {
@@ -1559,7 +1565,7 @@
       const r = registry.get(name);
       const seq = r.jsSeq = (r.jsSeq || 0) + 1;
       try {
-        const Cls = evalDcLogic(src);
+        const Cls = typeof window.__dcComponent === "function" ? window.__dcComponent : evalDcLogic(src);
         if (r.jsSeq !== seq) return;
         if (typeof Cls !== "function") {
           r.logicError = name + ".dc.html: <script data-dc-script> must define `class Component extends DCLogic`";
