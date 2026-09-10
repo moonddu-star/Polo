@@ -552,11 +552,12 @@ class CatsSoupPage {
   jumpToStory(e) {
     if (e && e.preventDefault) e.preventDefault();
     this.closeMenu();
-    const stops = this.storyStops();
-    if (!stops.length) return;
-    // the first beat's own resting point, so the jump ends where a scroll
-    // would have settled rather than a little short of it
-    window.scrollTo(0, Math.round(stops[0]));
+    // The prologue that opens the story, a screen above the first beat. The
+    // menu promises the start of the story, and the first night is already
+    // one scene into it.
+    const start = document.getElementById('story-start');
+    if (!start) return;
+    window.scrollTo(0, this.clampStop(this.centreOf(start)));
     this.updateScroll();
   }
 
@@ -608,6 +609,19 @@ class CatsSoupPage {
     });
   }
 
+  // Where a full-height section reads centred, and the rounding every stop
+  // goes through. The menu jump borrows both so it can only ever land on a
+  // position the settle would also have chosen.
+  centreOf(el) {
+    const r = el.getBoundingClientRect();
+    return window.scrollY + r.top + r.height / 2 - window.innerHeight / 2;
+  }
+
+  clampStop(y) {
+    const max = Math.max(0, document.documentElement.scrollHeight - window.innerHeight);
+    return Math.round(Math.max(0, Math.min(max, y)));
+  }
+
   // Each beat reads centred in its own slice of the pinned travel. The settle
   // and the menu jump both aim at these, so they are worked out in one place
   // and cannot drift apart.
@@ -627,7 +641,7 @@ class CatsSoupPage {
     const max = Math.max(0, document.documentElement.scrollHeight - h);
     const out = [];
     const push = (y) => {
-      const v = Math.round(Math.max(0, Math.min(max, y)));
+      const v = this.clampStop(y);
       if (out.indexOf(v) < 0) out.push(v);
     };
     const story = this.refs2.scene2 || document.getElementById('story');
@@ -638,7 +652,7 @@ class CatsSoupPage {
       if (sec === story || sec.classList.contains('cs-landing')) continue;
       const r = sec.getBoundingClientRect();
       if (r.height < h * 0.4) continue;
-      push(window.scrollY + r.top + r.height / 2 - h / 2);
+      push(this.centreOf(sec));
     }
     // The last screen holds the trailer, the store buttons and the footer at
     // once. There is nothing to centre down there, and settling only fights

@@ -893,7 +893,7 @@ window.__csSoundOn = true;
     <div style="width: 180px; height: 3px; background: rgba(154,163,209,.25); border-radius: 2px; overflow: hidden;">
       <div data-ref="loaderBar" style="width: 0%; height: 100%; background: #f0b95c; transition: width .3s ease;"></div>
     </div>
-    <div style="position: absolute; right: max(16px, env(safe-area-inset-right)); bottom: max(14px, env(safe-area-inset-bottom)); font-family: 'Gowun Dodum', sans-serif; font-size: 11px; letter-spacing: 0.5px; color: #fff; pointer-events: none;">ver 0.96</div>
+    <div style="position: absolute; right: max(16px, env(safe-area-inset-right)); bottom: max(14px, env(safe-area-inset-bottom)); font-family: 'Gowun Dodum', sans-serif; font-size: 11px; letter-spacing: 0.5px; color: #fff; pointer-events: none;">ver 0.97</div>
   </div>
 
   <!-- fixed backgrounds -->
@@ -976,7 +976,7 @@ window.__csSoundOn = true;
     </div>
     <div class="cs-menu-scrim" data-ref="menuScrim" aria-hidden="true"></div>
     <div class="cs-nav" id="cs-nav" data-ref="nav" style="display: flex; align-items: center; gap: var(--cs-nav-gap, 18px); font-size: var(--cs-nav-size, 20px); font-family: var(--cs-cjk, 'Gowun Batang'), 'Gowun Batang', serif; letter-spacing: var(--cs-track, 0px); font-weight: var(--cs-weight, 700); white-space: nowrap; word-break: var(--cs-wb, keep-all); overflow-wrap: break-word; flex-wrap: wrap; justify-content: flex-end;">
-      <a href="#story" data-ref="storyNav" style="text-shadow: 0 1px 6px rgba(0,0,0,.4); white-space: nowrap;" data-i18n="navStory"></a>
+      <a href="#story-start" data-ref="storyNav" style="text-shadow: 0 1px 6px rgba(0,0,0,.4); white-space: nowrap;" data-i18n="navStory"></a>
       <a href="https://www.youtube.com/c/kittypawpaw" target="_blank" rel="noopener" style="text-shadow: 0 1px 6px rgba(0,0,0,.4); white-space: nowrap;" data-i18n-first="navUpdate"><span class="cs-extlink" aria-hidden="true"></span></a>
       <a href="https://redeem.catsnsoup.com/" target="_blank" rel="noopener" style="text-shadow: 0 1px 6px rgba(0,0,0,.4); white-space: nowrap;" data-i18n-first="navCoupon"><span class="cs-extlink" aria-hidden="true"></span></a>
       <a href="https://apps.apple.com/us/app/cats-soup-magic-recipe/id6446347021" target="_blank" rel="noopener" style="text-shadow: 0 1px 6px rgba(0,0,0,.4); white-space: nowrap;" data-i18n-first="navRecipe"><span class="cs-extlink" aria-hidden="true"></span></a>
@@ -1038,7 +1038,7 @@ window.__csSoundOn = true;
   </section>
 
   <!-- PROLOGUE : where the story came from -->
-  <section class="cs-tall" data-screen-label="1.9 이야기의 시작" style="position: relative; z-index: 3; min-height: 110vh; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 10vh 24px;">
+  <section id="story-start" class="cs-tall" data-screen-label="1.9 이야기의 시작" style="position: relative; z-index: 3; min-height: 110vh; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 10vh 24px;">
     <div class="cs-reveal" style="max-width: 660px; margin: 0 auto; text-align: center; will-change: opacity, transform;">
       <div class="cs-story-eyebrow" style="font-size: 18px; letter-spacing: 5px; color: #9aa3d1; margin-bottom: 18px;" data-i18n="originEyebrow"></div>
       <p class="cs-origin-quote" style="font-family: var(--cs-cjk, 'Gowun Batang'), 'Gowun Batang', serif; letter-spacing: var(--cs-track, 0px); direction: var(--cs-dir, ltr); font-weight: var(--cs-weight, 700); font-size: 46px; line-height: var(--cs-lead, 1.85); color: #f3efe2; margin: 0 0 26px; word-break: var(--cs-wb, keep-all); overflow-wrap: break-word; white-space: pre-line;" data-i18n="originQuote"></p>

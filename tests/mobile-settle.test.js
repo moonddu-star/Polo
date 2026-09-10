@@ -56,9 +56,16 @@ global.window = {
   scrollY: 0,
   scrollTo: (x, y) => { global.window.scrollY = y; scrolls.push(y); }
 };
+// the prologue the menu points at, one screen above the first beat
+const PROLOGUE = SECTIONS.find((s) => s.label === 'prologue');
+const storyStart = {
+  classList: { contains: (c) => PROLOGUE.cls.includes(c) },
+  getBoundingClientRect: () => rect(PROLOGUE.top, PROLOGUE.height)
+};
+
 global.document = {
   documentElement: { scrollHeight: DOC },
-  getElementById: () => null,
+  getElementById: (id) => (id === 'story-start' ? storyStart : null),
   querySelectorAll: () => SECTIONS.map((s) => ({
     classList: { contains: (c) => s.cls.includes(c) },
     getBoundingClientRect: () => rect(s.top, s.height)
@@ -76,6 +83,8 @@ const app = {
   compactUi: () => true,
   updateScroll: () => {},
   closeMenu: () => {},
+  centreOf: method('centreOf'),
+  clampStop: method('clampStop'),
   storyStops: method('storyStops'),
   jumpToStory: method('jumpToStory'),
   settleTargets: method('settleTargets'),
@@ -138,16 +147,20 @@ assert.deepEqual(
 );
 
 // --- the menu jump --------------------------------------------------------
-// Tapping the story entry has to finish exactly where a scroll would have come
-// to rest. Landing a little short leaves the first beat off centre and hands
-// the reader a nudge from the settle the moment they touch the screen.
+// The entry promises the start of the story, which is the prologue, not the
+// first night a screen below it. It also has to finish exactly where a scroll
+// would have come to rest, or the settle nudges the reader on first touch.
 at(0);
 app.jumpToStory();
 const landed = global.window.scrollY;
 assert.equal(
   landed,
-  Math.round(STORY_TOP + 0.10 * STORY_TRAVEL),
-  'the menu jump missed the first beat resting point'
+  Math.round(PROLOGUE.top + PROLOGUE.height / 2 - VH / 2),
+  'the menu jump did not land on the prologue'
+);
+assert.ok(
+  landed < STORY_TOP,
+  'the menu jump overshot into the story beats instead of opening at the prologue'
 );
 assert.ok(app.settleTargets().includes(landed), 'the menu jump did not land on a resting point');
 at(landed);
