@@ -75,6 +75,9 @@ const app = {
   _loaderGone: true,
   compactUi: () => true,
   updateScroll: () => {},
+  closeMenu: () => {},
+  storyStops: method('storyStops'),
+  jumpToStory: method('jumpToStory'),
   settleTargets: method('settleTargets'),
   settleScroll: method('settleScroll'),
   scheduleSettle: method('scheduleSettle'),
@@ -133,6 +136,23 @@ assert.deepEqual(
   [],
   'a resting point came from something other than a beat or a full screen'
 );
+
+// --- the menu jump --------------------------------------------------------
+// Tapping the story entry has to finish exactly where a scroll would have come
+// to rest. Landing a little short leaves the first beat off centre and hands
+// the reader a nudge from the settle the moment they touch the screen.
+at(0);
+app.jumpToStory();
+const landed = global.window.scrollY;
+assert.equal(
+  landed,
+  Math.round(STORY_TOP + 0.10 * STORY_TRAVEL),
+  'the menu jump missed the first beat resting point'
+);
+assert.ok(app.settleTargets().includes(landed), 'the menu jump did not land on a resting point');
+at(landed);
+app.settleScroll();
+assert.equal(scrolls.length, 0, 'the settle tugged the page after the menu jump');
 // the last screen shows the trailer, the store buttons and the footer at once.
 // there is nothing to centre there, and settling would fight a reader reaching
 // for a badge or scrubbing the video, so the whole screen stays unassisted

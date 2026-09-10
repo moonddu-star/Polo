@@ -552,14 +552,11 @@ class CatsSoupPage {
   jumpToStory(e) {
     if (e && e.preventDefault) e.preventDefault();
     this.closeMenu();
-    const s2 = this.refs2.scene2 || document.getElementById('story');
-    if (!s2) return;
-    const h = window.innerHeight;
-    const travel = Math.max(1, s2.offsetHeight - h);
-    // beat1 is still fading in at the section top (p=0 ≈ 10% opacity).
-    // land past the fade so the first night is fully visible and lifted.
-    const y = window.scrollY + s2.getBoundingClientRect().top + 0.15 * travel;
-    window.scrollTo(0, y);
+    const stops = this.storyStops();
+    if (!stops.length) return;
+    // the first beat's own resting point, so the jump ends where a scroll
+    // would have settled rather than a little short of it
+    window.scrollTo(0, Math.round(stops[0]));
     this.updateScroll();
   }
 
@@ -611,6 +608,17 @@ class CatsSoupPage {
     });
   }
 
+  // Each beat reads centred in its own slice of the pinned travel. The settle
+  // and the menu jump both aim at these, so they are worked out in one place
+  // and cannot drift apart.
+  storyStops() {
+    const story = this.refs2.scene2 || document.getElementById('story');
+    if (!story) return [];
+    const top = window.scrollY + story.getBoundingClientRect().top;
+    const travel = Math.max(1, story.offsetHeight - window.innerHeight);
+    return [0.10, 0.46, 0.79].map((p) => top + p * travel);
+  }
+
   // Scroll positions where a moment reads centred on a phone screen.
   // CSS scroll-snap cannot do this: it fights the sticky story scrubbing and
   // leaves the 2700px story stretch with no stops at all.
@@ -623,14 +631,7 @@ class CatsSoupPage {
       if (out.indexOf(v) < 0) out.push(v);
     };
     const story = this.refs2.scene2 || document.getElementById('story');
-    if (story) {
-      const top = window.scrollY + story.getBoundingClientRect().top;
-      const travel = Math.max(1, story.offsetHeight - h);
-      // each beat sits centred at the middle of its own scroll window
-      push(top + 0.10 * travel);
-      push(top + 0.46 * travel);
-      push(top + 0.79 * travel);
-    }
+    this.storyStops().forEach(push);
     const secs = document.querySelectorAll('section[data-screen-label]');
     for (let i = 0; i < secs.length; i++) {
       const sec = secs[i];
