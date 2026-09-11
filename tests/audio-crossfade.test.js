@@ -69,7 +69,7 @@ function makeCtx(state) {
 
 // A fresh page: audio elements, an AudioContext and a component wired to the
 // real methods lifted out of index.html.
-function makeWorld({ volumeWorks = true, ctxState = 'running', bgmPlaying = true } = {}) {
+function makeWorld({ volumeWorks = true, ctxState = 'running', bgmPlaying = true, origin = 'https://example.test' } = {}) {
   timers = new Map();
   const ctx = makeCtx(ctxState);
   const bgm = audio('cs-bgm', { volumeWorks, paused: !bgmPlaying });
@@ -81,6 +81,7 @@ function makeWorld({ volumeWorks = true, ctxState = 'running', bgmPlaying = true
     __csGuitar: guitar,
     __csAllAudio: [],
     __csAudioCtx: null,
+    origin,
     AudioContext: function AudioContext() { return ctx; },
     scrollY: 0,
     innerHeight: 1000
@@ -300,6 +301,32 @@ function makeWorld({ volumeWorks = true, ctxState = 'running', bgmPlaying = true
   w.advance(RAMP / 2 + 0.05);
   assert.equal(w.heard(w.bgm), 0);
   assert.equal(w.heard(w.guitar), 0.5);
+}
+
+// --- an opaque origin must not reach for the mixer ---------------------------
+{
+  // Served under a CSP sandbox without allow-same-origin, the page is foreign
+  // to its own mp3s. A MediaElementSource built there is tainted: the element
+  // keeps playing and the graph emits nothing, so the site goes quiet with no
+  // error to show for it. The element's own volume is unaffected.
+  const w = makeWorld({ origin: 'null' });
+  assert.equal(w.component.ensureMediaMixer(), null, 'an opaque origin still built a mixer');
+  assert.equal(w.ctx.sourceCount, 0, 'a tainted media source was created anyway');
+  assert.equal(window.__csMediaMixer, undefined, 'a silent mixer was published globally');
+
+  // And the fade still has to happen, now through the element.
+  w.zone('out');
+  w.advance(RAMP + 0.05);
+  assert.equal(w.heard(w.bgm), 0.25, 'BGM never reached its level without the mixer');
+
+  w.zone('in');
+  w.advance(RAMP / 2);
+  const mid = w.heard(w.bgm);
+  assert.ok(mid > 0.1 && mid < 0.15, 'BGM did not fade through volume, heard ' + mid);
+
+  w.advance(RAMP / 2 + 0.05);
+  assert.equal(w.heard(w.bgm), 0);
+  assert.equal(w.heard(w.guitar), 0.5, 'the guitar never came up without a mixer');
 }
 
 console.log('audio crossfade, guitar one-shot and volume-deaf fade paths passed');

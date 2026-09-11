@@ -175,6 +175,12 @@ class CatsSoupPage {
   // for each singleton element. Safe to retry from any input handler: routing is
   // only taken over once the context is actually running.
   ensureMediaMixer() {
+    // A page on an opaque origin is foreign to its own files, so a
+    // MediaElementSource built from one is tainted and feeds the graph
+    // silence: the track keeps playing and nothing is heard. Stay on the
+    // element's own volume, which is unaffected. One host serves this page
+    // under a CSP sandbox that omits allow-same-origin and lands here.
+    if (window.origin === 'null') return null;
     const Ctx = window.AudioContext || window.webkitAudioContext;
     const bgm = this.getAudio();
     const guitar = this.getGuitar();
