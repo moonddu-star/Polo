@@ -45,7 +45,7 @@ const T = {
   inter2: '밤이 깊도록 스프는 보글보글 끓고,\n고양이들은 모닥불 곁에서\n그르렁 그르렁...\n숲은 어느새 작은 마을이 되었어요.',
   trailerMain: '별빛 숲의 하루를 영상으로 만나 보세요.',
   lblBreed: '품종', lblBirthday: '생일', lblFood: '좋아하는 음식',
-  navStory: '이야기', navUpdate: '업데이트', navCoupon: '쿠폰 코드', navRecipe: '마법의 레시피', navSocial: '소셜', navCats: '고양이들', navDownload: '다운로드', navMenu: '메뉴', navClose: '닫기',
+  navStory: '이야기', navUpdate: '업데이트', navCoupon: '쿠폰 코드', navRecipe: '고양이와 스프 : 마법의 레시피', navSocial: '소셜', navCats: '고양이들', navDownload: '다운로드', navMenu: '메뉴', navClose: '닫기',
   btnGoogle: 'Google Play에서 받기', btnApple: 'App Store에서 받기', btnCoupon: '쿠폰 코드 입력',
   bgmOn: '배경음 켜기', bgmOff: '배경음 끄기'
 };
