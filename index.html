@@ -443,29 +443,15 @@ window.__csSoundOn = true;
   html.cs-sound-off .cs-sound-icon-off { display: block; }
   .cs-sound:hover { opacity: .82; }
   .cs-lang-btn, .cs-sound, .cs-nav a, .cs-menubtn, .cs-ytlink, .cs-coupon, .cs-footlink, .cs-social { touch-action: manipulation; }
+  /* Drawn inline rather than masked from a file. A host can serve this page
+     under a CSP sandbox without allow-same-origin, which makes even its own
+     assets cross-origin; a mask image then fails CORS and the icon renders as
+     nothing. Inline paths are never fetched. */
   .cs-social-icon {
     width: 22px;
     height: 22px;
     display: block;
-    background: currentColor;
-    -webkit-mask: center / contain no-repeat;
-    mask: center / contain no-repeat;
-  }
-  .cs-social-icon.is-ig {
-    -webkit-mask-image: url('assets/instagram.svg');
-    mask-image: url('assets/instagram.svg');
-  }
-  .cs-social-icon.is-yt {
-    -webkit-mask-image: url('assets/youtube.svg');
-    mask-image: url('assets/youtube.svg');
-  }
-  .cs-social-icon.is-tt {
-    -webkit-mask-image: url('assets/tik-tok.svg');
-    mask-image: url('assets/tik-tok.svg');
-  }
-  .cs-social-icon.is-pin {
-    -webkit-mask-image: url('assets/pinterest.svg');
-    mask-image: url('assets/pinterest.svg');
+    fill: currentColor;
   }
   .cs-social-wrap {
     position: relative;
@@ -512,15 +498,18 @@ window.__csSoundOn = true;
     letter-spacing: inherit;
     font-weight: inherit;
   }
+  /* Inline for the same reason as the social icons above. */
   .cs-extlink {
     width: 16px;
     height: 16px;
     display: block;
     flex-shrink: 0;
     pointer-events: none;
-    background: currentColor;
-    -webkit-mask: url('assets/icon_link.webp') center / contain no-repeat;
-    mask: url('assets/icon_link.webp') center / contain no-repeat;
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 2;
+    stroke-linecap: round;
+    stroke-linejoin: round;
     filter: drop-shadow(0 1px 6px rgba(0,0,0,.4));
   }
   .cs-ytlink,
@@ -897,7 +886,7 @@ window.__csSoundOn = true;
     <div style="width: 180px; height: 3px; background: rgba(154,163,209,.25); border-radius: 2px; overflow: hidden;">
       <div data-ref="loaderBar" style="width: 0%; height: 100%; background: #f0b95c; transition: width .3s ease;"></div>
     </div>
-    <div style="position: absolute; right: max(16px, env(safe-area-inset-right)); bottom: max(14px, env(safe-area-inset-bottom)); font-family: 'Gowun Dodum', sans-serif; font-size: 11px; letter-spacing: 0.5px; color: #fff; pointer-events: none;">ver 1.02</div>
+    <div style="position: absolute; right: max(16px, env(safe-area-inset-right)); bottom: max(14px, env(safe-area-inset-bottom)); font-family: 'Gowun Dodum', sans-serif; font-size: 11px; letter-spacing: 0.5px; color: #fff; pointer-events: none;">ver 1.03</div>
   </div>
 
   <!-- fixed backgrounds -->
@@ -981,16 +970,16 @@ window.__csSoundOn = true;
     <div class="cs-menu-scrim" data-ref="menuScrim" aria-hidden="true"></div>
     <div class="cs-nav" id="cs-nav" data-ref="nav" style="display: flex; align-items: center; gap: var(--cs-nav-gap, 18px); font-size: var(--cs-nav-size, 20px); font-family: var(--cs-cjk, 'Gowun Batang'), 'Gowun Batang', serif; letter-spacing: var(--cs-track, 0px); font-weight: var(--cs-weight, 700); white-space: nowrap; word-break: var(--cs-wb, keep-all); overflow-wrap: break-word; flex-wrap: wrap; justify-content: flex-end;">
       <a href="#story-start" data-ref="storyNav" style="text-shadow: 0 1px 6px rgba(0,0,0,.4); white-space: nowrap;" data-i18n="navStory"></a>
-      <a href="https://www.youtube.com/c/kittypawpaw" target="_blank" rel="noopener" style="text-shadow: 0 1px 6px rgba(0,0,0,.4); white-space: nowrap;" data-i18n-first="navUpdate"><span class="cs-extlink" aria-hidden="true"></span></a>
-      <a href="https://redeem.catsnsoup.com/" target="_blank" rel="noopener" style="text-shadow: 0 1px 6px rgba(0,0,0,.4); white-space: nowrap;" data-i18n-first="navCoupon"><span class="cs-extlink" aria-hidden="true"></span></a>
-      <a href="https://apps.apple.com/us/app/cats-soup-magic-recipe/id6446347021" target="_blank" rel="noopener" style="text-shadow: 0 1px 6px rgba(0,0,0,.4); white-space: nowrap;" data-i18n-first="navRecipe"><span class="cs-extlink" aria-hidden="true"></span></a>
+      <a href="https://www.youtube.com/c/kittypawpaw" target="_blank" rel="noopener" style="text-shadow: 0 1px 6px rgba(0,0,0,.4); white-space: nowrap;" data-i18n-first="navUpdate"><svg class="cs-extlink" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M14 4h6v6"></path><path d="M20 4l-9 9"></path><path d="M19 14v5a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V6a1 1 0 0 1 1-1h5"></path></svg></a>
+      <a href="https://redeem.catsnsoup.com/" target="_blank" rel="noopener" style="text-shadow: 0 1px 6px rgba(0,0,0,.4); white-space: nowrap;" data-i18n-first="navCoupon"><svg class="cs-extlink" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M14 4h6v6"></path><path d="M20 4l-9 9"></path><path d="M19 14v5a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V6a1 1 0 0 1 1-1h5"></path></svg></a>
+      <a href="https://apps.apple.com/us/app/cats-soup-magic-recipe/id6446347021" target="_blank" rel="noopener" style="text-shadow: 0 1px 6px rgba(0,0,0,.4); white-space: nowrap;" data-i18n-first="navRecipe"><svg class="cs-extlink" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M14 4h6v6"></path><path d="M20 4l-9 9"></path><path d="M19 14v5a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V6a1 1 0 0 1 1-1h5"></path></svg></a>
       <div class="cs-social-wrap" data-ref="socialWrap">
         <a class="cs-nav-social" href="#social" data-ref="socialNav" aria-haspopup="true" aria-expanded="false" aria-controls="cs-socials" style="text-shadow: 0 1px 6px rgba(0,0,0,.4); white-space: nowrap;" data-i18n="navSocial"></a>
         <div class="cs-socials" id="cs-socials" role="group" data-i18n-aria="navSocial">
-          <a class="cs-social" href="https://www.instagram.com/catsnsoup.official/" target="_blank" rel="noopener" title="Instagram" aria-label="Instagram"><span class="cs-social-icon is-ig" aria-hidden="true"></span></a>
-          <a class="cs-social" href="https://www.youtube.com/c/kittypawpaw" target="_blank" rel="noopener" title="YouTube" aria-label="YouTube"><span class="cs-social-icon is-yt" aria-hidden="true"></span></a>
-          <a class="cs-social" href="https://www.tiktok.com/@catsnsoup.official" target="_blank" rel="noopener" title="TikTok" aria-label="TikTok"><span class="cs-social-icon is-tt" aria-hidden="true"></span></a>
-          <a class="cs-social" href="https://kr.pinterest.com/catsnsoup_official/" target="_blank" rel="noopener" title="Pinterest" aria-label="Pinterest"><span class="cs-social-icon is-pin" aria-hidden="true"></span></a>
+          <a class="cs-social" href="https://www.instagram.com/catsnsoup.official/" target="_blank" rel="noopener" title="Instagram" aria-label="Instagram"><svg class="cs-social-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12,2.162c3.204,0,3.584,0.012,4.849,0.07c1.308,0.06,2.655,0.358,3.608,1.311c0.962,0.962,1.251,2.296,1.311,3.608c0.058,1.265,0.07,1.645,0.07,4.849c0,3.204-0.012,3.584-0.07,4.849c-0.059,1.301-0.364,2.661-1.311,3.608c-0.962,0.962-2.295,1.251-3.608,1.311c-1.265,0.058-1.645,0.07-4.849,0.07s-3.584-0.012-4.849-0.07c-1.291-0.059-2.669-0.371-3.608-1.311c-0.957-0.957-1.251-2.304-1.311-3.608c-0.058-1.265-0.07-1.645-0.07-4.849c0-3.204,0.012-3.584,0.07-4.849c0.059-1.296,0.367-2.664,1.311-3.608c0.96-0.96,2.299-1.251,3.608-1.311C8.416,2.174,8.796,2.162,12,2.162 M12,0C8.741,0,8.332,0.014,7.052,0.072C5.197,0.157,3.355,0.673,2.014,2.014C0.668,3.36,0.157,5.198,0.072,7.052C0.014,8.332,0,8.741,0,12c0,3.259,0.014,3.668,0.072,4.948c0.085,1.853,0.603,3.7,1.942,5.038c1.345,1.345,3.186,1.857,5.038,1.942C8.332,23.986,8.741,24,12,24c3.259,0,3.668-0.014,4.948-0.072c1.854-0.085,3.698-0.602,5.038-1.942c1.347-1.347,1.857-3.184,1.942-5.038C23.986,15.668,24,15.259,24,12c0-3.259-0.014-3.668-0.072-4.948c-0.085-1.855-0.602-3.698-1.942-5.038c-1.343-1.343-3.189-1.858-5.038-1.942C15.668,0.014,15.259,0,12,0z"></path><path d="M12,5.838c-3.403,0-6.162,2.759-6.162,6.162c0,3.403,2.759,6.162,6.162,6.162s6.162-2.759,6.162-6.162C18.162,8.597,15.403,5.838,12,5.838z M12,16c-2.209,0-4-1.791-4-4s1.791-4,4-4s4,1.791,4,4S14.209,16,12,16z"></path><circle cx="18.406" cy="5.594" r="1.44"></circle></svg></a>
+          <a class="cs-social" href="https://www.youtube.com/c/kittypawpaw" target="_blank" rel="noopener" title="YouTube" aria-label="YouTube"><svg class="cs-social-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M23.498,6.186c-0.276-1.039-1.089-1.858-2.122-2.136C19.505,3.546,12,3.546,12,3.546s-7.505,0-9.377,0.504C1.591,4.328,0.778,5.146,0.502,6.186C0,8.07,0,12,0,12s0,3.93,0.502,5.814c0.276,1.039,1.089,1.858,2.122,2.136C4.495,20.454,12,20.454,12,20.454s7.505,0,9.377-0.504c1.032-0.278,1.845-1.096,2.122-2.136C24,15.93,24,12,24,12S24,8.07,23.498,6.186z M9.546,15.569V8.431L15.818,12L9.546,15.569z"></path></svg></a>
+          <a class="cs-social" href="https://www.tiktok.com/@catsnsoup.official" target="_blank" rel="noopener" title="TikTok" aria-label="TikTok"><svg class="cs-social-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M22.465,9.866c-2.139,0-4.122-0.684-5.74-1.846v8.385c0,4.188-3.407,7.594-7.594,7.594c-1.618,0-3.119-0.51-4.352-1.376c-1.958-1.375-3.242-3.649-3.242-6.218c0-4.188,3.407-7.595,7.595-7.595c0.348,0,0.688,0.029,1.023,0.074v0.977v3.235c-0.324-0.101-0.666-0.16-1.023-0.16c-1.912,0-3.468,1.556-3.468,3.469c0,1.332,0.756,2.489,1.86,3.07c0.481,0.253,1.028,0.398,1.609,0.398c1.868,0,3.392-1.486,3.462-3.338L12.598,0h4.126c0,0.358,0.035,0.707,0.097,1.047c0.291,1.572,1.224,2.921,2.517,3.764c0.9,0.587,1.974,0.93,3.126,0.93V9.866z"></path></svg></a>
+          <a class="cs-social" href="https://kr.pinterest.com/catsnsoup_official/" target="_blank" rel="noopener" title="Pinterest" aria-label="Pinterest"><svg class="cs-social-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12.01,0C5.388,0,0.02,5.368,0.02,11.99c0,5.082,3.158,9.424,7.618,11.171c-0.109-0.947-0.197-2.408,0.039-3.444c0.217-0.938,1.401-5.961,1.401-5.961s-0.355-0.72-0.355-1.776c0-1.668,0.967-2.911,2.171-2.911c1.026,0,1.52,0.77,1.52,1.688c0,1.026-0.651,2.566-0.997,3.997c-0.286,1.194,0.602,2.171,1.776,2.171c2.132,0,3.77-2.25,3.77-5.487c0-2.872-2.062-4.875-5.013-4.875c-3.414,0-5.418,2.556-5.418,5.201c0,1.026,0.395,2.132,0.888,2.734C7.52,14.615,7.53,14.724,7.5,14.842c-0.089,0.375-0.296,1.194-0.336,1.362c-0.049,0.217-0.178,0.266-0.405,0.158c-1.5-0.701-2.438-2.882-2.438-4.648c0-3.78,2.743-7.253,7.924-7.253c4.155,0,7.391,2.961,7.391,6.928c0,4.135-2.605,7.461-6.217,7.461c-1.214,0-2.359-0.632-2.743-1.382c0,0-0.602,2.289-0.75,2.852c-0.266,1.046-0.997,2.349-1.49,3.148C9.562,23.812,10.747,24,11.99,24c6.622,0,11.99-5.368,11.99-11.99C24,5.368,18.632,0,12.01,0z"></path></svg></a>
         </div>
       </div>
     </div>
