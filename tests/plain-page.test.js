@@ -9,7 +9,22 @@ const { html, js } = require('./component-source.js');
 
 test('the page loads no framework, runtime or third-party script', () => {
   const srcs = [...html.matchAll(/<script[^>]*\ssrc="([^"]+)"/g)].map((m) => m[1]);
-  assert.deepEqual(srcs, ['./app.js'], 'the only script the page may load is its own');
+  assert.deepEqual(
+    srcs.map((s) => s.replace(/\?v=[\d.]+$/, '')),
+    ['./app.js'],
+    'the only script the page may load is its own'
+  );
+});
+
+test('the release moves the script URL, so no reader keeps the old one', () => {
+  // The host sends no Cache-Control. A cached app.js under fresh markup is what
+  // makes a shipped copy change look like it never went out.
+  const stamped = /<script src="\.\/app\.js\?v=([\d.]+)">/.exec(html);
+  assert.notEqual(stamped, null, 'app.js lost the version that busts the cache');
+
+  const footer = />ver ([\d.]+)<\/div>/.exec(html);
+  assert.notEqual(footer, null, 'the footer lost its version stamp');
+  assert.equal(stamped[1], footer[1], 'the script version drifted from the release version');
 
   for (const trace of ['x-dc', 'data-dc-script', 'DCLogic', '__dcComponent', 'support.js', 'unpkg.com', 'react']) {
     assert.ok(!html.includes(trace), `runtime trace left in the markup: ${trace}`);

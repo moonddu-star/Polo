@@ -6,6 +6,10 @@ import subprocess
 
 INDEX = Path(__file__).with_name("index.html")
 PATTERN = re.compile(r"(>ver )(\d+\.\d+)(</div>)")
+# The host sends no Cache-Control, so a browser holds app.js by URL for as long
+# as it likes. The release has to move the URL, or fresh markup pairs with the
+# previous script and the page shows the copy before last.
+SCRIPT = re.compile(r'(<script src="\./app\.js\?v=)(\d+\.\d+)(">)')
 
 
 def bump_version() -> None:
@@ -31,6 +35,13 @@ def bump_version() -> None:
     updated = PATTERN.sub(
         lambda item: f"{item.group(1)}{next_version}{item.group(3)}",
         source,
+        count=1,
+    )
+    if not SCRIPT.search(updated):
+        raise SystemExit("Could not find the versioned app.js script tag")
+    updated = SCRIPT.sub(
+        lambda item: f"{item.group(1)}{next_version}{item.group(3)}",
+        updated,
         count=1,
     )
     INDEX.write_text(updated, encoding="utf-8", newline="")
