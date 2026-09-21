@@ -32,7 +32,9 @@ const DESCS = [
 ];
 
 test('the share card names the same event as the page', () => {
-  const event = string('eventLine2');
+  // The hero breaks the name over two lines; a share card and a browser tab
+  // get one line, so compare them with the break flattened back to a space.
+  const event = string('eventLine2').replace(/\\n/g, ' ');
   assert.ok(event.length > 6, 'the hero lost its event name');
 
   for (const [where, value] of [...TITLES, ...DESCS]) {
@@ -54,6 +56,15 @@ test('the strings the script re-applies match the head it overwrites', () => {
   // stale string here would swap the name back in front of the reader.
   assert.equal(string('pageTitle'), TITLES[0][1], 'T.pageTitle would overwrite the title with something else');
   assert.equal(string('pageDesc'), DESCS[0][1], 'T.pageDesc would overwrite the description with something else');
+});
+
+test('the hero keeps the name on two lines', () => {
+  // The break is deliberate: "인비테이셔널 2026" sits under the rest rather
+  // than trailing off it. The head strings must stay unbroken.
+  assert.match(string('eventLine2'), /^[^\\]+\\n[^\\]+$/, 'the hero line lost its single break');
+  for (const [where, value] of [...TITLES, ...DESCS]) {
+    assert.ok(!value.includes('\n'), `${where} must stay on one line`);
+  }
 });
 
 test('no page text still calls it a 폴로대회', () => {
