@@ -4,8 +4,8 @@
 <meta charset="utf-8">
 <meta name="referrer" content="origin">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>고양이와 스프 · 제2회 제주폴로연맹회장배 폴로대회</title>
-<meta name="description" content="제2회 제주폴로연맹회장배 폴로대회와 함께하는 고양이와 스프. 전세계 8000만 유저에게 사랑받는 힐링 방치형 모바일 게임.">
+<title>고양이와 스프 · 제2회 제주폴로연맹 회장배 인비테이셔널 2026</title>
+<meta name="description" content="제2회 제주폴로연맹 회장배 인비테이셔널 2026과 함께하는 고양이와 스프. 전세계 8000만 유저에게 사랑받는 힐링 방치형 모바일 게임.">
 <meta name="theme-color" content="#131730">
 <link rel="canonical" href="./">
 <link rel="icon" href="assets/favicon.ico" sizes="any">
@@ -14,8 +14,8 @@
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="Cats &amp; Soup">
 <meta property="og:locale" content="ko_KR">
-<meta property="og:title" content="고양이와 스프 · 제2회 제주폴로연맹회장배 폴로대회">
-<meta property="og:description" content="제2회 제주폴로연맹회장배 폴로대회와 함께하는 고양이와 스프. 전세계 8000만 유저에게 사랑받는 힐링 방치형 모바일 게임.">
+<meta property="og:title" content="고양이와 스프 · 제2회 제주폴로연맹 회장배 인비테이셔널 2026">
+<meta property="og:description" content="제2회 제주폴로연맹 회장배 인비테이셔널 2026과 함께하는 고양이와 스프. 전세계 8000만 유저에게 사랑받는 힐링 방치형 모바일 게임.">
 <!-- DEPLOY_DOMAIN: kakao and facebook refuse a relative og:image, so this one
      value carries an absolute origin. Nothing else in the head names a domain:
      canonical is relative, and og:url and twitter:image are left out so
@@ -28,8 +28,8 @@
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="고양이와 스프 · 제2회 제주폴로연맹회장배 폴로대회">
-<meta name="twitter:description" content="제2회 제주폴로연맹회장배 폴로대회와 함께하는 고양이와 스프. 전세계 8000만 유저에게 사랑받는 힐링 방치형 모바일 게임.">
+<meta name="twitter:title" content="고양이와 스프 · 제2회 제주폴로연맹 회장배 인비테이셔널 2026">
+<meta name="twitter:description" content="제2회 제주폴로연맹 회장배 인비테이셔널 2026과 함께하는 고양이와 스프. 전세계 8000만 유저에게 사랑받는 힐링 방치형 모바일 게임.">
 <script>
 try {
   localStorage.removeItem('cs-sound');
@@ -184,7 +184,7 @@ window.__csSoundOn = true;
     margin: 20px auto 0;
   }
   .cs-event-copy {
-    width: min(720px, 92vw);
+    width: min(780px, 92vw);
     margin: 22px auto 0;
     text-align: center;
   }
@@ -207,7 +207,9 @@ window.__csSoundOn = true;
   .cs-event-line2 {
     font-family: var(--cs-cjk, 'Gowun Batang'), 'Gowun Batang', serif;
     font-weight: 700;
-    font-size: 40px;
+    /* The event name only just fits 780px at 40px, so narrow desktops shrink it
+       rather than break "인비테이셔널 2026" onto a line of its own. */
+    font-size: clamp(28px, 4.6vw, 40px);
     line-height: 1.2;
     margin: 0;
     word-break: keep-all;
@@ -890,7 +892,7 @@ window.__csSoundOn = true;
     <div style="width: 180px; height: 3px; background: rgba(154,163,209,.25); border-radius: 2px; overflow: hidden;">
       <div data-ref="loaderBar" style="width: 0%; height: 100%; background: #f0b95c; transition: width .3s ease;"></div>
     </div>
-    <div style="position: absolute; right: max(16px, env(safe-area-inset-right)); bottom: max(14px, env(safe-area-inset-bottom)); font-family: 'Gowun Dodum', sans-serif; font-size: 11px; letter-spacing: 0.5px; color: #fff; pointer-events: none;">ver 1.06</div>
+    <div style="position: absolute; right: max(16px, env(safe-area-inset-right)); bottom: max(14px, env(safe-area-inset-bottom)); font-family: 'Gowun Dodum', sans-serif; font-size: 11px; letter-spacing: 0.5px; color: #fff; pointer-events: none;">ver 1.07</div>
   </div>
 
   <!-- fixed backgrounds -->

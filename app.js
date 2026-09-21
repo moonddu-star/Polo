@@ -1,4 +1,4 @@
-/* 고양이와 스프 · 폴로대회 랜딩 — plain JS, no framework and no runtime.
+/* 고양이와 스프 · 폴로 인비테이셔널 랜딩 — plain JS, no framework and no runtime.
    Ported off dc-runtime because the host serves only html+css+js and its CSP
    forbids 'unsafe-eval', which the runtime needed to compile the template. */
 (function () {
@@ -19,15 +19,15 @@ const T = {
   heroTag: '별에서 온 고양이들의 아주 작은 스프 가게.',
   scrollHint: '아래로 스크롤해 이야기를 시작하세요',
   eventLine1: '\'고양이와 스프\'와 함께하는',
-  eventLine2: '제2회 제주 폴로연맹 회장배 폴로대회',
+  eventLine2: '제2회 제주폴로연맹 회장배 인비테이셔널 2026',
   aboutTitle: '고양이와 스프는?',
   aboutP1: '전세계 8000만 유저에게 사랑받고 있는\n힐링 방치형 모바일 게임입니다.',
   aboutP2: '보글보글 스프를 요리하는 귀여운 고양이들의\n숲 속 일상을 지금 확인해보세요!',
   moreStory: '더 많은 이야기가 궁금하신가요?',
   moreHint: '아래로 스크롤 해보세요.',
   btnTop: 'TOP',
-  pageTitle: '고양이와 스프 · 제2회 제주폴로연맹회장배 폴로대회',
-  pageDesc: '제2회 제주폴로연맹회장배 폴로대회와 함께하는 고양이와 스프. 전세계 8000만 유저에게 사랑받는 힐링 방치형 모바일 게임.',
+  pageTitle: '고양이와 스프 · 제2회 제주폴로연맹 회장배 인비테이셔널 2026',
+  pageDesc: '제2회 제주폴로연맹 회장배 인비테이셔널 2026과 함께하는 고양이와 스프. 전세계 8000만 유저에게 사랑받는 힐링 방치형 모바일 게임.',
   storyEyebrow: '첫 번째 밤,\n하늘로 오른 작은 불빛',
   beat1: '어느 밤, 낡은 천문대에서\n작은 불빛 여러 개를\n하늘로 쏘아 올렸어요.',
   beat2: '그 빛은 별들 사이를 지나\n고양이 별에 닿았어요.\n호기심 많은 별고양이 키키가 살고 있었죠.',
