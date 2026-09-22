@@ -15,7 +15,8 @@ test('the meow is delegated by class, not wired per cat', () => {
 });
 
 test('the polo cats meow like the rest of them', () => {
-  const hero = /<img[^>]*src="assets\/cats_polo\.webp"[^>]*>/.exec(html);
+  // The artwork carries a cache-busting query whenever it is redrawn.
+  const hero = /<img[^>]*src="assets\/cats_polo\.webp(\?[^"]*)?"[^>]*>/.exec(html);
   assert.ok(hero, 'the polo hero image is gone');
   assert.match(hero[0], /class="[^"]*\bcs-meowcat\b/, 'the polo cats do not meow');
 });
